@@ -21,3 +21,7 @@ jobs:
           version: '1.6.2'
     - uses: julia-actions/julia-buildpkg@master
     - run: julia --project system_pipelines/create_gugercin_models.jl
+    - uses: actions/upload-artifact@v2
+        with:
+          name: GugercinN100
+          path: GugercinN100.mat
