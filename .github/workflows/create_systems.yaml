@@ -25,3 +25,7 @@ jobs:
       with:
         name: GugercinN100
         path: GugercinN100.mat
+    - uses: actions/upload-artifact@v2
+      with:
+        name: AllModels
+        path: GugercinN*
