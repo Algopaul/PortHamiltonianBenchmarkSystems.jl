@@ -4,6 +4,8 @@ authors = ["Amanibus <paulschwerdtner@web.de>"]
 version = "0.1.0"
 
 [deps]
+H5Sparse = "d026d0c0-3790-4945-99de-4163f1ba8085"
 HDF5 = "f67ccb44-e63f-5c2f-98bd-6dc0ccc4ba2f"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+MAT = "23992714-dd62-5051-b70f-ba57cb901cac"
 SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
