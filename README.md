@@ -8,7 +8,8 @@ This is a collection of port-Hamiltonian benchmark systems that can be used to t
 
 In a ``julia`` instance, execute
 ```julia
-]add https://github.com/Amanibus/PortHamiltonianBenchmarkSystems/
+using Pkg
+Pkg.add(url="https://github.com/Amanibus/PortHamiltonianBenchmarkSystems/")
 ```
 to install **PortHamiltoninaBenchmarkSystems** and gain access to all BenchmarkExamples directly within julia. To load the one of the benchmark systems simply type
 ```julia
