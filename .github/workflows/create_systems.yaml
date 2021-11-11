@@ -23,17 +23,33 @@ jobs:
     - run: julia --project system_pipelines/create_gugercin_models.jl
     - uses: actions/upload-artifact@v2
       with:
-        name: GugercinN100
+        name: GugercinN100Mat
         path: GugercinN100.mat
     - uses: actions/upload-artifact@v2
       with:
-        name: GugercinN1000
+        name: GugercinN1000Mat
         path: GugercinN1000.mat
     - uses: actions/upload-artifact@v2
       with:
-        name: GugercinN20000
+        name: GugercinN20000Mat
         path: GugercinN20000.mat
     - uses: actions/upload-artifact@v2
       with:
-        name: AllModels
-        path: GugercinN*
+        name: AllModelsMat
+        path: GugercinN*.mat
+    - uses: actions/upload-artifact@v2
+      with:
+        name: GugercinN100H5
+        path: GugercinN100.h5
+    - uses: actions/upload-artifact@v2
+      with:
+        name: GugercinN1000H5
+        path: GugercinN1000.h5
+    - uses: actions/upload-artifact@v2
+      with:
+        name: GugercinN20000H5
+        path: GugercinN20000.h5
+    - uses: actions/upload-artifact@v2
+      with:
+        name: AllModelsH5
+        path: GugercinN*.h5
