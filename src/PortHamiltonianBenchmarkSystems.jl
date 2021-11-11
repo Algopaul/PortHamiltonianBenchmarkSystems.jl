@@ -46,4 +46,6 @@ function gugercin_pH_msd_chain(;
   return J, R, Q, B
 end
 
+export gugercin_pH_msd_chain
+
 end # module
