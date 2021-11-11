@@ -1,6 +1,9 @@
 module PortHamiltonianBenchmarkSystems
 
-using LinearAlgebra, SparseArrays, HDF5
+using LinearAlgebra, SparseArrays
+
+include("IOFormats.jl")
+
 """
 ``gugercin_pH_msd_chain(; n_cells=50::Int, m=2::Int, c_i=1.0, m_i=4.0, k_i=4.0)``
 
