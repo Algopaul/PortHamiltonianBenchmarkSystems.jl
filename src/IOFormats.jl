@@ -1,9 +1,17 @@
 using HDF5, H5Sparse, MAT
 
 function writeHDF5(filename::String, data::Tuple{String, AbstractMatrix}...)
-  fid = h5open(filename, "cw")
+  fid = h5open(filename, "w")
   for mat in data
     m_write_hdf5(filename, mat[1], mat[2])
+  end
+  close(fid)
+end
+
+function writeHDF5(filename::String; kwargs...)
+  fid = h5open(filename, "w")
+  for (k, v) in pairs(kwargs)
+    m_write_hdf5(filename, String(k), v)
   end
   close(fid)
 end
@@ -32,6 +40,14 @@ function writeMAT(filename::String, data::Tuple{String, AbstractMatrix}...)
   d = Dict()
   for mat in data
     d[mat[1]] = mat[2]
+  end
+  matwrite(filename, d)
+end
+
+function writeMAT(filename::String; kwargs...)
+  d = Dict()
+  for (k, v) in pairs(kwargs)
+    d[String(k)] = v
   end
   matwrite(filename, d)
 end
