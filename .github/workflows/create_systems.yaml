@@ -35,8 +35,8 @@ jobs:
         path: GugercinN20000.mat
     - uses: actions/upload-artifact@v2
       with:
-        name: AllModels
-        path: GugercinN*
+        name: AllModelsMat
+        path: GugercinN*.mat
     - uses: actions/upload-artifact@v2
       with:
         name: GugercinN100H5
@@ -49,3 +49,7 @@ jobs:
       with:
         name: GugercinN20000H5
         path: GugercinN20000.h5
+    - uses: actions/upload-artifact@v2
+      with:
+        name: AllModelsH5
+        path: GugercinN*.h5
