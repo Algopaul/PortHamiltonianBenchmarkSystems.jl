@@ -54,7 +54,6 @@ function random_pH_test_system()
   if !isfile(filepath)
     println("Downloading dataset...")
     download("https://zenodo.org/record/5680015/files/mytest.mat?download=1", filepath)
-    mv(tmppath, filepath; force=true)
   end
   dd = loadMAT(filepath)
   return dd["J"], dd["R"], dd["Q"], dd["B"]
