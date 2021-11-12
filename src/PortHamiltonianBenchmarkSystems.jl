@@ -49,10 +49,12 @@ end
 
 function random_pH_test_system()
   path = @__DIR__
-  path *= "/data/"
+  path *= "/../data/"
   filepath = path*"random_system.mat"
   if !isfile(filepath)
-    download_dataset("https://zenodo.org/record/5680015/files/mytest.mat?download=1", filepath)
+    println("Downloading dataset...")
+    download("https://zenodo.org/record/5680015/files/mytest.mat?download=1", filepath)
+    mv(tmppath, filepath; force=true)
   end
   dd = loadMAT(filepath)
   return dd["J"], dd["R"], dd["Q"], dd["B"]
