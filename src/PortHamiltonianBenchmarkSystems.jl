@@ -47,15 +47,16 @@ function gugercin_pH_msd_chain(;
   return J, R, Q, B
 end
 
-function random_pH_test_system()
-  path = @__DIR__
-  path *= "/../data/"
-  filepath = path*"random_system.mat"
-  if !isfile(filepath)
-    println("Downloading dataset...")
-    download("https://zenodo.org/record/5680015/files/mytest.mat?download=1", filepath)
-  end
-  dd = loadMAT(filepath)
+
+function random_pH_test_system(; force_download = false)
+  filename = "random_system.mat"
+  download_system_data_if_required(
+    filename,
+    "https://zenodo.org/record/5680015/files/mytest.mat?download=1",
+    hex(0x7dea405fe667ce6db9fa793b7ac4f89d),
+    force_download = force_download
+  )
+  dd = loadMAT(get_filepath(filename))
   return dd["J"], dd["R"], dd["Q"], dd["B"]
 end
 
