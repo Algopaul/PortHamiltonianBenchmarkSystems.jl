@@ -3,6 +3,7 @@ module PortHamiltonianBenchmarkSystems
 using LinearAlgebra, SparseArrays
 
 include("IOFormats.jl")
+include("Downloads.jl")
 
 """
 ``gugercin_pH_msd_chain(; n_cells=50::Int, m=2::Int, c_i=1.0, m_i=4.0, k_i=4.0)``
@@ -44,6 +45,10 @@ function gugercin_pH_msd_chain(;
   [Q[i,i+2]=-k_i for i in 1:2:(n-2)]
   [Q[i+2,i]=-k_i for i in 1:2:(n-2)]
   return J, R, Q, B
+end
+
+function rlc_200()
+  download_dataset()
 end
 
 export gugercin_pH_msd_chain
