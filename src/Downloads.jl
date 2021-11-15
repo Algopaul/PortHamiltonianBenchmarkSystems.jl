@@ -16,7 +16,7 @@ function download_dataset(url, path, hash=nothing)
       msg  = "Hash Mismatch!\n"
       msg *= "  Expected md5: $hash\n"
       msg *= "  Calculated md5: $hash_download\n"
-      error(msg)
+      @warn msg
     end
     mv(tmppath, path; force = true)
   else
