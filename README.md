@@ -9,14 +9,14 @@ This is a collection of port-Hamiltonian benchmark systems that can be used to t
 In a ``julia`` instance, execute
 ```julia
 using Pkg
-Pkg.add(url="https://github.com/Amanibus/PortHamiltonianBenchmarkSystems/")
+Pkg.add(url="https://github.com/Algopaul/PortHamiltonianBenchmarkSystems/")
 ```
 to install **PortHamiltoninaBenchmarkSystems** and gain access to all BenchmarkExamples directly within julia. To load the one of the benchmark systems simply type
 ```julia
 using PortHamiltonianBenchmarkSystems
 J, R, Q, B = gugercin_pH_msd_chain()
 ```
-to load the model used in [Gugercin2012](https://github.com/Amanibus/PortHamiltonianBenchmarkSystems/blob/7c7e588f9bd67ba4a5c67ac37768c9c43021e6e6/bibliography.tex#L9-L17) to test the effectiveness of PH-IRKA. To learn about tunable options for the example, simply execute
+to load the model used in [Gugercin2012](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems/blob/7c7e588f9bd67ba4a5c67ac37768c9c43021e6e6/bibliography.tex#L9-L17) to test the effectiveness of PH-IRKA. To learn about tunable options for the example, simply execute
 ```julia
 ?gugercin_pH_msd_chain
 ```
