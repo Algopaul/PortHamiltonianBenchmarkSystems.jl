@@ -1,0 +1,35 @@
+name: Poro Model Build
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the main branch
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:    
+  
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - uses: julia-actions/setup-julia@v1
+      with:
+          version: '1.6.2'
+    - uses: julia-actions/julia-buildpkg@master
+    - run: julia --project system_pipelines/create_gugercin_models.jl
+    - uses: actions/upload-artifact@v2
+      with:
+        name: PoroModelN320
+        path: PoroModelN320.mat
+    - uses: actions/upload-artifact@v2
+      with:
+        name: PoroModelN980
+        path: PoroModelN980.mat
+    - uses: actions/upload-artifact@v2
+      with:
+        name: PoroModelN1805
+        path: PoroModelN1805.mat
