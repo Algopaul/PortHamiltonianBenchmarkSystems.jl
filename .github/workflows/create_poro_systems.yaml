@@ -23,13 +23,33 @@ jobs:
     - run: julia --project system_pipelines/create_poro_models.jl
     - uses: actions/upload-artifact@v2
       with:
-        name: PoroModelN320
+        name: PoroModelN320Mat
         path: PoroModelN320.mat
     - uses: actions/upload-artifact@v2
       with:
-        name: PoroModelN980
+        name: PoroModelN980Mat
         path: PoroModelN980.mat
     - uses: actions/upload-artifact@v2
       with:
-        name: PoroModelN1805
+        name: PoroModelN1805Mat
         path: PoroModelN1805.mat
+    - uses: actions/upload-artifact@v2
+      with:
+        name: PoroModelAllMat
+        path: PoroModelN*.mat
+    - uses: actions/upload-artifact@v2
+      with:
+        name: PoroModelN320H5
+        path: PoroModelN320.h5
+    - uses: actions/upload-artifact@v2
+      with:
+        name: PoroModelN980H5
+        path: PoroModelN980.h5
+    - uses: actions/upload-artifact@v2
+      with:
+        name: PoroModelN1805H5
+        path: PoroModelN1805.h5
+    - uses: actions/upload-artifact@v2
+      with:
+        name: PoroModelAllH5
+        path: PoroModelN*.h5
