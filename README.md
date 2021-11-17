@@ -1,3 +1,5 @@
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+
 # PortHamiltonianBenchmarkSystems
 
 This is a collection of port-Hamiltonian benchmark systems that can be used to test algorithms designed for simulation, control, or model-order reduction of port-Hamiltonian systems. We feature a wide spectrum of linear, nonlinear, ODE and DAE systems. The examples are described in a [WIKI](https://github.com/Amanibus/PortHamiltonianBenchmarkSystems/wiki).
