@@ -25,12 +25,3 @@ in the ``julia`` REPL.
 ## Contribution
 
 If you want to contribute your PH-model to the collection, ...
-
-## Citation
-If you use **PortHamiltonianBenchmarkSystems** in your work, please consider to cite
-```tex
-@article{Loh2021,
-  title={A collection of benchmark examples of port-Hamiltonian systems},
-  authors={...},
-}
-```
