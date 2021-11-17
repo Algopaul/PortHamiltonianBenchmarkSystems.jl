@@ -19,6 +19,8 @@ S. Gugercin et al.:
 - ``k_i``: The stiffness of the springs
 # Outputs
 Matrices: ``J, R, Q, B``. The resulting transfer function is ``H(s) = B'*Q*inv(sI-(J-R)*Q)*B``.
+
+For more information we refer to ``https://github.com/Algopaul/PortHamiltonianBenchmarkSystems/wiki/Port-Hamiltonian-Mass-Spring-Damper-Chains``
 """
 function gugercin_pH_msd_chain(;
     n_cells=50::Int,
@@ -71,6 +73,7 @@ bounded Lipschitz domain as described in
 - ``kappanu``: Quotient kappa/Nu, where kappa denotes the permeability and nu denotes the fluid viscosity. Default = 633.33.
 - ``eta``: artificial damping coefficient. Default = 1e-4.
 
+For more information we refer to ``https://github.com/Algopaul/PortHamiltonianBenchmarkSystems/wiki/Poroelastic-Network-Models``
 """
 function poro_elasticity_model(;
     n = 980,
