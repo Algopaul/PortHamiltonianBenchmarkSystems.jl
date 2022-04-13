@@ -6,19 +6,19 @@ include("IOFormats.jl")
 include("Downloads.jl")
 
 """
-``gugercin_pH_msd_chain(; n_cells=50::Int, m=2::Int, c_i=1.0, m_i=4.0, k_i=4.0)``
+   gugercin_pH_msd_chain(; n_cells=50::Int, m=2::Int, c_i=1.0, m_i=4.0, k_i=4.0)
 
 This function returns the port Hamiltonian mass-spring-damper system described in
 S. Gugercin et al.:
       Structure-preserving tangential interpolation for model reduction of
       port-Hamiltonian systems
 # Arguments
-- ``n_cells``: The number of masses. The system dimension is 2n_cells
-- ``c_i``: The amount of damping
-- ``m_i``: The weight of the masses
-- ``k_i``: The stiffness of the springs
+- `n_cells`: The number of masses. The system dimension is 2n_cells
+- `c_i`: The amount of damping
+- `m_i`: The weight of the masses
+- `k_i`: The stiffness of the springs
 # Outputs
-Matrices: ``J, R, Q, B``. The resulting transfer function is ``H(s) = B'*Q*inv(sI-(J-R)*Q)*B``.
+Matrices: `J, R, Q, B`. The resulting transfer function is ``H(s) = B'*Q*(sI-(J-R)*Q)^{-1}*B``.
 
 For more information we refer to ``https://github.com/Algopaul/PortHamiltonianBenchmarkSystems/wiki/Port-Hamiltonian-Mass-Spring-Damper-Chains``
 """
