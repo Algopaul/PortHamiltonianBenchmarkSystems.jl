@@ -86,18 +86,6 @@ J, R, Q, B = gugercin_pH_msd_chain(n_cells = 150, k_i = 10)
 H(s) = B'*((s*I-(J-R)*Q)\B)
 ```
 
-## Downloads
-
-[![Gugercin MSD Build](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems/actions/workflows/create_gugercin_msd_systems.yaml/badge.svg)](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems/actions/workflows/create_gugercin_msd_systems.yaml)
-
-| MAT                                                                                                                                                      | HDF5                                                                                                                                                    |
-| :------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------: |
-| [MSD Chain N100](https://nightly.link/Algopaul/PortHamiltonianBenchmarkSystems/workflows/create_gugercin_msd_systems.yaml/main/GugercinN100Mat.zip)      | [MSD Chain N100](https://nightly.link/Algopaul/PortHamiltonianBenchmarkSystems/workflows/create_gugercin_msd_systems.yaml/main/GugercinN100H5.zip)      |
-| [MSD Chain N1000](https://nightly.link/Algopaul/PortHamiltonianBenchmarkSystems/workflows/create_gugercin_msd_systems.yaml/main/GugercinN1000Mat.zip)  | [MSD Chain N1000](https://nightly.link/Algopaul/PortHamiltonianBenchmarkSystems/workflows/create_gugercin_msd_systems.yaml/main/GugercinN1000H5.zip) |
-| [MSD Chain N20000](https://nightly.link/Algopaul/PortHamiltonianBenchmarkSystems/workflows/create_gugercin_msd_systems.yaml/main/GugercinN20000Mat.zip)  | [MSD Chain N20000](https://nightly.link/Algopaul/PortHamiltonianBenchmarkSystems/workflows/create_gugercin_msd_systems.yaml/main/GugercinN20000H5.zip) |
-| [All MSD Chain Models](https://nightly.link/Algopaul/PortHamiltonianBenchmarkSystems/workflows/create_gugercin_msd_systems.yaml/main/AllModelsMat.zip)  | [All MSD Chain Models](https://nightly.link/Algopaul/PortHamiltonianBenchmarkSystems/workflows/create_gugercin_msd_systems.yaml/main/AllModelsH5.zip) |
-
-
 ## References
 ```LaTeX
 @article{Gugercin2012,
