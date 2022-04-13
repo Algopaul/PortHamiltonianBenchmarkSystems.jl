@@ -8,7 +8,7 @@
 p(t,\xi) \right) &amp;= \widehat{g}(t,\xi) \quad \text{in } (0,T] \times \Omega.
 \end{aligned}\]</p><p>Here, the displacement field <span>$u: \mathbb{T} \times \Omega \to \R$</span> and the  pressure field <span>$p: \mathbb{T} \times \Omega \to \R$</span> are searched solution  functions. Moreover, the stress-strain constitute relation</p><p class="math-container">\[\sigma(u(t,\xi)) = 2\mu\varepsilon(u(t,\xi)) + 
 \lambda(\nabla \cdot u(t,\xi)) \mathcal{I} \quad \text{with} \quad 
-\varepsilon(u(t,\xi)) = \frac{1}{2}\left( \nabla u(t,\xi) + (\nabla u(t,\xi))^T 
+\varepsilon(u(t,\xi)) = \frac{1}{2}\left( \nabla u(t,\xi) + (\nabla u(t,\xi))^\mathsf{T} 
 \right)\]</p><p>is satisfied, where</p><ul><li><span>$\mu$</span> and <span>$\lambda$</span> are the Lamé coefficients,</li><li><span>$\mathcal{I}$</span> denotes the identity tensor,</li><li><span>$\alpha$</span> is the Biot-Willes fluid solid coupling coefficient,</li><li><span>$M$</span> is the Biot modulus,</li><li><span>$\kappa$</span> is the permeability,</li><li><span>$\rho$</span> is the density,</li><li><span>$\mu$</span> is the fluid viscosity,</li><li><span>$\widehat{f}: (0,T] \times \Omega \to \R^d$</span> are the volume-distributed forces,</li><li><span>$\widehat{g}: (0,T] \times \Omega \to \R$</span> is the external injection.</li></ul><p>The PDE system is equipped with homogeneous Dirichlet boundary conditions</p><p class="math-container">\[ u(t,\xi) = 0, \quad p(t,\xi) = 0 \quad \text{on 
 } (0,T] \times \partial \Omega\]</p><p>as well initial conditions <span>$p(0,\cdot) = p^0 : \partial \Omega \to \R$</span>,  <span>$u(0,\cdot) = u^0 : \partial \Omega \to \R^d$</span>, and <span>$\frac{\partial}{\partial  t}u(0,\cdot) = \dot{u}^0 : \partial \Omega \to \R^d$</span>. Define the Hilbert spaces</p><p class="math-container">\[ \mathcal{V} := \left[H_0^1(\Omega)\right]^d,\quad \mathcal{H}_{\mathcal{V}} := 
 \left[L^2(\Omega)\right]^d, \quad \mathcal{Q} := H_0^1(\Omega),\quad 
@@ -62,12 +62,12 @@ pq\,\mathrm{d}\xi, \\
  \end{bmatrix}, \quad \mathcal{B} := \begin{bmatrix} 
 \operatorname{id} &amp; 0 \\ 0 &amp; 0 \\ 0 &amp; \operatorname{id} \end{bmatrix},\]</p><p>where <span>$\mathbf{x}(t) := \left[\begin{smallmatrix} w(t) \\ u(t) \\ p(t)  \end{smallmatrix}\right]$</span> and <span>$\mathbf{v}(t) := \left[\begin{smallmatrix} f(t)  \\ g(t) \end{smallmatrix}\right]$</span>. </p><p>Discretizing this system with standard <span>$\mathcal{P}_1$</span> Lagrange finite elements  results in the finite-dimensional port-Hamiltonian system </p><p class="math-container">\[\begin{aligned}
  E \dot{x}(t) &amp;= (J - R) x(t) + Bv(t), \\
-         y(t) &amp;= B^T x(t)
+         y(t) &amp;= B^\mathsf{T} x(t)
 \end{aligned}\]</p><p>with </p><p class="math-container">\[\begin{aligned}
  E &amp;:= \begin{bmatrix}
  \rho M_u &amp; 0 &amp; 0 \\ 0 &amp; K_u(\mu,\lambda) &amp; 0 \\ 0 &amp; 0 &amp; \frac{1}{M} M_p
  \end{bmatrix}, \quad J := \begin{bmatrix}
- 0 &amp; -K_u(\mu,\lambda) &amp; \alpha D^T \\ K_u(\mu,\lambda)^T &amp; 0 &amp; 0 \\ 
+ 0 &amp; -K_u(\mu,\lambda) &amp; \alpha D^\mathsf{T} \\ K_u(\mu,\lambda)^\mathsf{T} &amp; 0 &amp; 0 \\ 
 -\alpha D &amp; 0 &amp; 0
  \end{bmatrix}, \\ R &amp;:= \begin{bmatrix}
  0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 
@@ -84,4 +84,4 @@ H(s) = B&#39;*((s*E-(J-R))\B)</code></pre><p>Here <code>H</code> is the transfer
       eprint={2012.01949},
       archivePrefix={arXiv},
       primaryClass={math.DS}
-}</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../GugercinMSDChain/">« Gugercin MSD Chain</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.15 on <span class="colophon-date" title="Wednesday 13 April 2022 18:45">Wednesday 13 April 2022</span>. Using Julia version 1.6.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+}</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../GugercinMSDChain/">« Gugercin MSD Chain</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.15 on <span class="colophon-date" title="Wednesday 13 April 2022 18:57">Wednesday 13 April 2022</span>. Using Julia version 1.6.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
