@@ -3,7 +3,7 @@
 
 # PortHamiltonianBenchmarkSystems
 
-This is a collection of port-Hamiltonian benchmark systems that can be used to test algorithms designed for simulation, control, or model-order reduction of port-Hamiltonian systems. We feature a wide spectrum of linear, nonlinear, ODE and DAE systems. The examples are described in [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://algopaul.github.io/PortHamiltonianBenchmarkSystems/).
+This is a collection of port-Hamiltonian benchmark systems that can be used to test algorithms designed for simulation, control, or model-order reduction of port-Hamiltonian systems. We feature a wide spectrum of linear, nonlinear, ODE and DAE systems. The examples are described in the [docs](https://algopaul.github.io/PortHamiltonianBenchmarkSystems/).
 
 **PortHamiltonianBenchmarkSystems** is a ``julia``-Package that also supports ``MATLAB`` or ``Python`` users by providing download links to all benchmark examples. These can be found in the [WIKI](https://github.com/Amanibus/PortHamiltonianBenchmarkSystems/wiki). Data is created via a CI pipeline, so users from ``julia``, ``MATLAB``, and ``Python`` can be sure to work with the same systems.
 
