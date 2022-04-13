@@ -22,7 +22,7 @@ functions. Moreover, the stress-strain constitute relation
 ```math
 \sigma(u(t,\xi)) = 2\mu\varepsilon(u(t,\xi)) + 
 \lambda(\nabla \cdot u(t,\xi)) \mathcal{I} \quad \text{with} \quad 
-\varepsilon(u(t,\xi)) = \frac{1}{2}\left( \nabla u(t,\xi) + (\nabla u(t,\xi))^T 
+\varepsilon(u(t,\xi)) = \frac{1}{2}\left( \nabla u(t,\xi) + (\nabla u(t,\xi))^\mathsf{T} 
 \right)
 ```
 is satisfied, where
@@ -154,7 +154,7 @@ results in the finite-dimensional port-Hamiltonian system
 ```math
 \begin{aligned}
  E \dot{x}(t) &= (J - R) x(t) + Bv(t), \\
-         y(t) &= B^T x(t)
+         y(t) &= B^\mathsf{T} x(t)
 \end{aligned}
 ```
 with 
@@ -163,7 +163,7 @@ with
  E &:= \begin{bmatrix}
  \rho M_u & 0 & 0 \\ 0 & K_u(\mu,\lambda) & 0 \\ 0 & 0 & \frac{1}{M} M_p
  \end{bmatrix}, \quad J := \begin{bmatrix}
- 0 & -K_u(\mu,\lambda) & \alpha D^T \\ K_u(\mu,\lambda)^T & 0 & 0 \\ 
+ 0 & -K_u(\mu,\lambda) & \alpha D^\mathsf{T} \\ K_u(\mu,\lambda)^\mathsf{T} & 0 & 0 \\ 
 -\alpha D & 0 & 0
  \end{bmatrix}, \\ R &:= \begin{bmatrix}
  0 & 0 & 0 \\ 0 & 0 & 0 \\ 0 & 0 
