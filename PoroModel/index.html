@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Poroelastic Network Model · PortHamiltonianBenchmarkSystems Documentation</title><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.039/juliamono-regular.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.11/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">PortHamiltonianBenchmarkSystems Documentation</a></span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">PortHamiltonianBenchmarkSystems</a></li><li><a class="tocitem" href="../GugercinMSDChain/">Gugercin MSD Chain</a></li><li class="is-active"><a class="tocitem" href>Poroelastic Network Model</a><ul class="internal"><li><a class="tocitem" href="#Description"><span>Description</span></a></li><li><a class="tocitem" href="#Parameters"><span>Parameters</span></a></li><li><a class="tocitem" href="#Interface"><span>Interface</span></a></li><li><a class="tocitem" href="#References"><span>References</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Poroelastic Network Model</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Poroelastic Network Model</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/Algopaul/PortHamiltonianBenchmarkSystems/blob/master/docs/src/PoroModel.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Poroelastic-Network-Model"><a class="docs-heading-anchor" href="#Poroelastic-Network-Model">Poroelastic Network Model</a><a id="Poroelastic-Network-Model-1"></a><a class="docs-heading-anchor-permalink" href="#Poroelastic-Network-Model" title="Permalink"></a></h1><h2 id="Description"><a class="docs-heading-anchor" href="#Description">Description</a><a id="Description-1"></a><a class="docs-heading-anchor-permalink" href="#Description" title="Permalink"></a></h2><p>This benchmark is the poroelastic network model presented in  <a href="#References">Altmann2021</a>. The model is derived from Biot&#39;s consolidation model  for poroelastic elasticity. Let <span>$\Omega \subseteq \mathbb{R}^d$</span> be a Lipschitz  domain with <span>$d~\in~\{2,\,3\}$</span> and <span>$\mathbb{T} = [0,T]$</span> for <span>$T \in (0,\infty)$</span>. Consider the system of coupled partial differential equations</p><p class="math-container">\[\begin{aligned}
+ \rho \frac{\partial^2}{\partial t^2} u(t,\xi) - \nabla \sigma(u(t,\xi)) + 
+ \nabla (\alpha p(t,\xi)) &amp;= \widehat{f}(t,\xi) \quad \text{in } (0,T] \times 
+\Omega, \\ 
+ \frac{\partial}{\partial t} \left( \alpha \nabla\cdot u(t,\xi) + 
+ \frac{1}{M} p(t,\xi)\right) - \nabla \cdot \left( \frac{\kappa}{\nu}\nabla 
+p(t,\xi) \right) &amp;= \widehat{g}(t,\xi) \quad \text{in } (0,T] \times \Omega.
+\end{aligned}\]</p><p>Here, the displacement field <span>$u: \mathbb{T} \times \Omega \to \R$</span> and the  pressure field <span>$p: \mathbb{T} \times \Omega \to \R$</span> are searched solution  functions. Moreover, the stress-strain constitute relation</p><p class="math-container">\[\sigma(u(t,\xi)) = 2\mu\varepsilon(u(t,\xi)) + 
+\lambda(\nabla \cdot u(t,\xi)) \mathcal{I} \quad \text{with} \quad 
+\varepsilon(u(t,\xi)) = \frac{1}{2}\left( \nabla u(t,\xi) + (\nabla u(t,\xi))^T 
+\right)\]</p><p>is satisfied, where</p><ul><li><span>$\mu$</span> and <span>$\lambda$</span> are the Lamé coefficients,</li><li><span>$\mathcal{I}$</span> denotes the identity tensor,</li><li><span>$\alpha$</span> is the Biot-Willes fluid solid coupling coefficient,</li><li><span>$M$</span> is the Biot modulus,</li><li><span>$\kappa$</span> is the permeability,</li><li><span>$\rho$</span> is the density,</li><li><span>$\mu$</span> is the fluid viscosity,</li><li><span>$\widehat{f}: (0,T] \times \Omega \to \R^d$</span> are the volume-distributed forces,</li><li><span>$\widehat{g}: (0,T] \times \Omega \to \R$</span> is the external injection.</li></ul><p>The PDE system is equipped with homogeneous Dirichlet boundary conditions</p><p class="math-container">\[ u(t,\xi) = 0, \quad p(t,\xi) = 0 \quad \text{on 
+} (0,T] \times \partial \Omega\]</p><p>as well initial conditions <span>$p(0,\cdot) = p^0 : \partial \Omega \to \R$</span>,  <span>$u(0,\cdot) = u^0 : \partial \Omega \to \R^d$</span>, and <span>$\frac{\partial}{\partial  t}u(0,\cdot) = \dot{u}^0 : \partial \Omega \to \R^d$</span>. Define the Hilbert spaces</p><p class="math-container">\[ \mathcal{V} := \left[H_0^1(\Omega)\right]^d,\quad \mathcal{H}_{\mathcal{V}} := 
+\left[L^2(\Omega)\right]^d, \quad \mathcal{Q} := H_0^1(\Omega),\quad 
+\mathcal{H}_{\mathcal{Q}} := L^2(\Omega)\]</p><p>and the operators</p><p class="math-container">\[\begin{aligned}
+\mathcal{Y}: \mathcal{H}_{\mathcal{V}} \to \mathcal{H}_{\mathcal{V}}^*,&amp; \quad \left\langle \mathcal{Y}u,v \right\rangle := \int_\Omega \rho u 
+v\,\mathrm{d}\xi, \\
+\mathcal{M}: \mathcal{H}_{\mathcal{Q}} \to \mathcal{H}_{\mathcal{Q}}^*,&amp; 
+\quad \left\langle \mathcal{M}p,q \right\rangle := \int_\Omega \frac{1}{M} 
+pq\,\mathrm{d}\xi, \\
+\mathcal{A}: \mathcal{V} \to \mathcal{V}^*,&amp; 
+\quad \left\langle \mathcal{A}u,v \right\rangle := \int_\Omega 
+\sigma(u): \varepsilon(v)\,\mathrm{d}\xi, \\
+\mathcal{K}: \mathcal{Q} \to \mathcal{Q}^*,&amp; 
+\quad \left\langle \mathcal{K}p,q \right\rangle := \int_\Omega 
+\frac{\kappa}{\nu} \nabla p \cdot \nabla q\,\mathrm{d}\xi, \\
+\mathcal{D}: \mathcal{V} \to \mathcal{H}_\mathcal{Q}^*,&amp; 
+\quad \left\langle \mathcal{D}u,q \right\rangle := \int_\Omega \alpha(\nabla 
+\cdot u)q \,\mathrm{d}\xi.
+\end{aligned}\]</p><p>Note that <span>$\mathcal{Y}$</span>, <span>$\mathcal{M}$</span>, <span>$\mathcal{A}$</span>, and <span>$\mathcal{K}$</span> are  positive definite. To determine the weak form of the PDE, the first equation is  multiplied by a test function <span>$v \in \mathcal{V}$</span> while the second equation is  multiplied with <span>$q \in \mathcal{Q}$</span>. Further we introduce the linear forms</p><p class="math-container">\[ f(t) := \int_\Omega \widehat{f}(t) \cdot \,\mathrm{d} \xi \in 
+\mathcal{H}_{\mathcal{V}}^*, \quad 
+ g(t) := \int_\Omega \widehat{g}(t) \cdot \,\mathrm{d} \xi \in 
+\mathcal{H}_{\mathcal{Q}}^*.\]</p><p>Then for initial conditions <span>$p^0 \in \mathcal{H}_\mathcal{Q}$</span>, <span>$u^0 \in  \mathcal{V}$</span>, and <span>$\dot{u}^0 \in \mathcal{H}_{\mathcal{V}}$</span> and right-hand  sides <span>$f \in L^2(\mathbb{T},\mathcal{H}_\mathcal{V})$</span> and <span>$f \in  L^2(\mathbb{T},\mathcal{H}_\mathcal{Q})$</span> one aims to find <span>$u \in  L^2(\mathbb{T},\mathcal{V})$</span> and <span>$p \in  L^2(\mathbb{T},\mathcal{Q})$</span> with <span>$\dot{u} \in  L^2(\mathbb{T},\mathcal{H}_\mathcal{V})$</span>, <span>$\ddot{u} \in  L^2(\mathbb{T},\mathcal{V}^*)$</span>, and <span>$\dot{p} \in  L^2(\mathbb{T},\mathcal{Q}^*)$</span> such that</p><p class="math-container">\[\begin{aligned}
+ \mathcal{Y} \ddot{u}(t) + \mathcal{A} \dot{u}(t) - \mathcal{D}^* u(t) &amp;= f(t) 
+\quad \text{in }  \mathcal{V}^*, \\
+\mathcal{D} \dot{u}(t) + \mathcal{M} \dot{p}(t) + \mathcal{K} p(t) &amp;= g(t) 
+\quad \text{in } \mathcal{Q}^*
+\end{aligned}\]</p><p>for almost all <span>$t \in (0,T)$</span>, where <span>$\mathcal{D}^*$</span> denotes the dual operator  of <span>$\mathcal{D}$</span>. By introducing the auxiliary variable <span>$w := \dot{u}$</span>, this  operator equation can be written in first-order form as</p><p class="math-container">\[ \begin{bmatrix}
+ \mathcal{Y} &amp; 0 &amp; 0 \\ 0 &amp; \mathcal{A} &amp; 0 \\ 0 &amp; 0 &amp; \mathcal{M}
+ \end{bmatrix} \begin{pmatrix} \dot{w}(t) \\ \dot{u}(t) \\ \dot{p}(t) 
+\end{pmatrix} = 
+ \begin{bmatrix}
+ 0 &amp; -\mathcal{A} &amp; \mathcal{D}^* \\ \mathcal{A}^* &amp; 0 &amp; 0 \\ -\mathcal{D} &amp; 0 
+&amp; -\mathcal{K}
+ \end{bmatrix} \begin{pmatrix} w(t) \\ u(t) \\ p(t) \end{pmatrix} + 
+\begin{pmatrix} f(t) \\ 0 \\ g(t) \end{pmatrix}.\]</p><p>Writing the inhomogeneity as</p><p class="math-container">\[ \begin{pmatrix} f(t) \\ 0 \\ g(t) \end{pmatrix} = \begin{bmatrix} 
+\operatorname{id} &amp; 0 \\ 0 &amp; 0 \\ 0 &amp; \operatorname{id} \end{bmatrix} 
+\begin{pmatrix} f(t) \\ g(t) \end{pmatrix}\]</p><p>and defining the output</p><p class="math-container">\[ \mathbf{y}(t) := \begin{pmatrix} w(t) \\ p(t) \end{pmatrix} = \begin{bmatrix} 
+\operatorname{id} &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; \operatorname{id} \end{bmatrix} 
+\begin{pmatrix} w(t) \\ u(t) \\ p(t) \end{pmatrix},\]</p><p>we obtain the port-Hamiltonian system</p><p class="math-container">\[\begin{aligned}
+ \mathcal{E} \dot{\mathbf{x}}(t) &amp;= (\mathcal{J} - \mathcal{R}) \mathbf{x}(t) + 
+\mathcal{B}   \mathbf{v}(t), \\
+ \mathbf{y}(t) &amp;= \mathcal{B}^* \mathbf{x}(t)
+\end{aligned}\]</p><p>with </p><p class="math-container">\[ \mathcal{E} := \begin{bmatrix}
+ \mathcal{Y} &amp; 0 &amp; 0 \\ 0 &amp; \mathcal{A} &amp; 0 \\ 0 &amp; 0 &amp; \mathcal{M}
+ \end{bmatrix}, \quad \mathcal{J} := \begin{bmatrix}
+ 0 &amp; -\mathcal{A} &amp; \mathcal{D}^* \\ \mathcal{A}^* &amp; 0 &amp; 0 \\ -\mathcal{D} &amp; 0 
+&amp; 0
+ \end{bmatrix}, \quad \mathcal{R} := \begin{bmatrix}
+ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 
+&amp; \mathcal{K}
+ \end{bmatrix}, \quad \mathcal{B} := \begin{bmatrix} 
+\operatorname{id} &amp; 0 \\ 0 &amp; 0 \\ 0 &amp; \operatorname{id} \end{bmatrix},\]</p><p>where <span>$\mathbf{x}(t) := \left[\begin{smallmatrix} w(t) \\ u(t) \\ p(t)  \end{smallmatrix}\right]$</span> and <span>$\mathbf{v}(t) := \left[\begin{smallmatrix} f(t)  \\ g(t) \end{smallmatrix}\right]$</span>. </p><p>Discretizing this system with standard <span>$\mathcal{P}_1$</span> Lagrange finite elements  results in the finite-dimensional port-Hamiltonian system </p><p class="math-container">\[\begin{aligned}
+ E \dot{x}(t) &amp;= (J - R) x(t) + Bv(t), \\
+         y(t) &amp;= B^T x(t)
+\end{aligned}\]</p><p>with </p><p class="math-container">\[\begin{aligned}
+ E &amp;:= \begin{bmatrix}
+ \rho M_u &amp; 0 &amp; 0 \\ 0 &amp; K_u(\mu,\lambda) &amp; 0 \\ 0 &amp; 0 &amp; \frac{1}{M} M_p
+ \end{bmatrix}, \quad J := \begin{bmatrix}
+ 0 &amp; -K_u(\mu,\lambda) &amp; \alpha D^T \\ K_u(\mu,\lambda)^T &amp; 0 &amp; 0 \\ 
+-\alpha D &amp; 0 &amp; 0
+ \end{bmatrix}, \\ R &amp;:= \begin{bmatrix}
+ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 
+&amp; \frac{\kappa}{\nu} K_p
+ \end{bmatrix}, \quad \mathcal{B} := \begin{bmatrix} B_f &amp; 0 \\ 0 &amp; 0 \\ 0 &amp; 
+B_g \end{bmatrix}.
+\end{aligned}\]</p><h2 id="Parameters"><a class="docs-heading-anchor" href="#Parameters">Parameters</a><a id="Parameters-1"></a><a class="docs-heading-anchor-permalink" href="#Parameters" title="Permalink"></a></h2><p>For this benchmark, the domain <span>$\Omega = [0,1]^2$</span> with <span>$d=2$</span> has been chosen  and the volume-distributed forces <span>$\widehat{f}$</span> and injection <span>$\widehat{g}$</span> are  spatially independent resulting in two inputs, i.\,e., <span>$B \in \R^{n \times m}$</span>  with <span>$m = 2$</span>. Moreover, different discretization levels are available,   resulting in systems with state-space dimensions <span>$n=320$</span>, <span>$n = 980$</span>, and <span>$n =  1805$</span>. These discretizations have been obtained using the <code>python</code>  interface of <code>FEniCS</code>. The following fixed parameters have been chosen: \begin{itemize}  \item <span>$\lambda = 12$</span>,  \item <span>$\mu = 6$</span>. \end{itemize} The following parameters are variable with the default values</p><ul><li><span>$\rho = 10^{-3}$</span>,</li><li><span>$\alpha = 0.79$</span>,</li><li><span>$\frac{1}{M} = 7.80\cdot 10^3$</span>,</li><li><span>$\frac{\kappa}{\nu} = 633.33$</span>.</li></ul><h2 id="Interface"><a class="docs-heading-anchor" href="#Interface">Interface</a><a id="Interface-1"></a><a class="docs-heading-anchor-permalink" href="#Interface" title="Permalink"></a></h2><p>The system matrices <span>$E, J, R,$</span> and <span>$B$</span> can be generated by the following function call.</p><pre><code class="language-julia hljs">using PortHamiltonianBenchmarkSystems
+E, J, R, B = poro_elasticity_model()</code></pre><p>The free parameters are given as named arguments. Note that <span>$n \in \{ 320, 980, 1805 \}$</span>.</p><pre><code class="language-julia hljs">using PortHamiltonianBenchmarkSystems
+E, J, R, B = poro_elasticity_model(n = 320, eta = 1e-3)
+H(s) = B&#39;*((s*E-(J-R))\B)</code></pre><p>Here <code>H</code> is the transfer function.</p><h2 id="References"><a class="docs-heading-anchor" href="#References">References</a><a id="References-1"></a><a class="docs-heading-anchor-permalink" href="#References" title="Permalink"></a></h2><pre><code class="language-latex hljs">@misc{Altmann2021,
+      title={Port-Hamiltonian formulations of poroelastic network models}, 
+      author={R. Altmann and V. Mehrmann and B. Unger},
+      year={2021},
+      eprint={2012.01949},
+      archivePrefix={arXiv},
+      primaryClass={math.DS}
+}</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../GugercinMSDChain/">« Gugercin MSD Chain</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.15 on <span class="colophon-date" title="Wednesday 13 April 2022 15:31">Wednesday 13 April 2022</span>. Using Julia version 1.6.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
