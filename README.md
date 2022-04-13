@@ -24,7 +24,3 @@ to load the model used in [Gugercin2012](https://github.com/Algopaul/PortHamilto
 ?gugercin_pH_msd_chain
 ```
 in the ``julia`` REPL.
-
-## Contribution
-
-If you want to contribute your PH-model to the collection, ...
