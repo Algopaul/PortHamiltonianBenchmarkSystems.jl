@@ -1,11 +1,11 @@
 # Gugercin MSD Chain
 
-This benchmark is a model for the following mass-spring-damper chain. It is presented in [Gugercin2012](#References).
+## Description
+
+This benchmark is a model for a mass-spring-damper chain. It is presented in [Gugercin2012](#References).
 
 ![Mass-spring-damper chain system](assets/MSD_Chain.png)
 
-
-## Description
 The chain consists of ``N = \frac{n}{2}`` masses ``m_1,\,\ldots,\,m_{n/2}`` that are each connected with their neighboring masses by springs with spring constants ``k_1,\,\ldots,\,k_{n/2}``. The last mass ``m_{n/2}`` is connected to a wall via the spring ``k_{n/2}`` while at the first two masses ``m_1`` and ``m_2`` external forces ``u_1(\cdot)`` and ``u_2(\cdot)`` are applied. Moreover, each mass is connected with the ground with a damper with viscosities ``c_1,\,\ldots,\,c_{n/2}``. This configuration leads to a second-order system of the form
 ```math
 M\ddot{q}(t)+C\dot{q}(t)+Kq(t) = B_2u(t),
@@ -79,12 +79,24 @@ using PortHamiltonianBenchmarkSystems
 J, R, Q, B = gugercin_pH_msd_chain(n_cells = 150, k_i = 10)
 ```
 
-The transer function can be defined as follows.
+The transfer function can be defined as follows.
 ```julia
 using LinearAlgebra, PortHamiltonianBenchmarkSystems
 J, R, Q, B = gugercin_pH_msd_chain(n_cells = 150, k_i = 10)
 H(s) = B'*((s*I-(J-R)*Q)\B)
 ```
+
+## Downloads
+
+[![Gugercin MSD Build](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems/actions/workflows/create_gugercin_msd_systems.yaml/badge.svg)](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems/actions/workflows/create_gugercin_msd_systems.yaml)
+
+| MAT                                                                                                                                                      | HDF5                                                                                                                                                    |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------: |
+| [MSD Chain N100](https://nightly.link/Algopaul/PortHamiltonianBenchmarkSystems/workflows/create_gugercin_msd_systems.yaml/main/GugercinN100Mat.zip)      | [MSD Chain N100](https://nightly.link/Algopaul/PortHamiltonianBenchmarkSystems/workflows/create_gugercin_msd_systems.yaml/main/GugercinN100H5.zip)      |
+| [MSD Chain N1000](https://nightly.link/Algopaul/PortHamiltonianBenchmarkSystems/workflows/create_gugercin_msd_systems.yaml/main/GugercinN1000Mat.zip)  | [MSD Chain N1000](https://nightly.link/Algopaul/PortHamiltonianBenchmarkSystems/workflows/create_gugercin_msd_systems.yaml/main/GugercinN1000H5.zip) |
+| [MSD Chain N20000](https://nightly.link/Algopaul/PortHamiltonianBenchmarkSystems/workflows/create_gugercin_msd_systems.yaml/main/GugercinN20000Mat.zip)  | [MSD Chain N20000](https://nightly.link/Algopaul/PortHamiltonianBenchmarkSystems/workflows/create_gugercin_msd_systems.yaml/main/GugercinN20000H5.zip) |
+| [All MSD Chain Models](https://nightly.link/Algopaul/PortHamiltonianBenchmarkSystems/workflows/create_gugercin_msd_systems.yaml/main/AllModelsMat.zip)  | [All MSD Chain Models](https://nightly.link/Algopaul/PortHamiltonianBenchmarkSystems/workflows/create_gugercin_msd_systems.yaml/main/AllModelsH5.zip) |
+
 
 ## References
 ```LaTeX
