@@ -207,6 +207,10 @@ H(s) = B'*((s*E-(J-R))\B)
 ```
 Here `H` is the transfer function.
 
+```@docs
+poro_elasticity_model
+```
+
 ## References
 
 ```latex

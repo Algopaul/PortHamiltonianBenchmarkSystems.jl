@@ -6,21 +6,19 @@ include("IOFormats.jl")
 include("Downloads.jl")
 
 """
-   gugercin_pH_msd_chain(; n_cells=50::Int, m=2::Int, c_i=1.0, m_i=4.0, k_i=4.0)
+   `gugercin_pH_msd_chain(; n_cells=50, m=2, c_i=1.0, m_i=4.0, k_i=4.0)`
 
 This function returns the port Hamiltonian mass-spring-damper system described in
 S. Gugercin et al.:
       Structure-preserving tangential interpolation for model reduction of
       port-Hamiltonian systems
 # Arguments
-- `n_cells`: The number of masses. The system dimension is 2n_cells
+- `n_cells`: The number of masses. The system dimension is `2n_cells`
 - `c_i`: The amount of damping
 - `m_i`: The weight of the masses
 - `k_i`: The stiffness of the springs
 # Outputs
-Matrices: `J, R, Q, B`. The resulting transfer function is ``H(s) = B'*Q*(sI-(J-R)*Q)^{-1}*B``.
-
-For more information we refer to ``https://github.com/Algopaul/PortHamiltonianBenchmarkSystems/wiki/Port-Hamiltonian-Mass-Spring-Damper-Chains``
+Matrices: ``J, R, Q, B``. The resulting transfer function is ``H(s) = B' \\cdot Q \\cdot (sI-(J-R) \\cdot Q)^{-1} \\cdot B``.
 """
 function gugercin_pH_msd_chain(;
     n_cells=50::Int,
@@ -50,7 +48,7 @@ function gugercin_pH_msd_chain(;
 end
 
 """
-``poro_elasticity_model(;
+`poro_elasticity_model(;
     n = 980,
     rho = 1e-3,
     alpha = 0.79,
@@ -58,22 +56,19 @@ end
     kappanu = 633.33,
     eta = 1e-4,
     force_download = false
-  )
-``
+  )`
 
 This function returns a port-Hamiltonian model of linear poroelasticity in a
 bounded Lipschitz domain as described in
     Altmann, Mehrmann, Unger: Port-Hamiltonian Formulations of Poroelastic
     Network Models
 # Arguments
-- ``n``: System dimension (can only be either: 320, 980, or 1805). Default = 980.
-- ``rho``: density. Default = ``1e-3``.
-- ``alpha``: Biot-Willis fluid-solid coupling coefficient. Default = 0.79.
-- ``bm``: Biot-Modulus. Default = 1/7.8e3.
-- ``kappanu``: Quotient kappa/Nu, where kappa denotes the permeability and nu denotes the fluid viscosity. Default = 633.33.
-- ``eta``: artificial damping coefficient. Default = 1e-4.
-
-For more information we refer to ``https://github.com/Algopaul/PortHamiltonianBenchmarkSystems/wiki/Poroelastic-Network-Models``
+- `n`: System dimension (can only be either: 320, 980, or 1805). Default = 980.
+- `rho`: density. Default = `1e-3`.
+- `alpha`: Biot-Willis fluid-solid coupling coefficient. Default = 0.79.
+- `bm`: Biot-Modulus. Default = `1/7.8e3`.
+- `kappanu`: Quotient kappa/Nu, where kappa denotes the permeability and nu denotes the fluid viscosity. Default = 633.33.
+- `eta`: artificial damping coefficient. Default = `1e-4`.
 """
 function poro_elasticity_model(;
     n = 980,

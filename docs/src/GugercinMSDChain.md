@@ -86,6 +86,10 @@ J, R, Q, B = gugercin_pH_msd_chain(n_cells = 150, k_i = 10)
 H(s) = B'*((s*I-(J-R)*Q)\B)
 ```
 
+```@docs
+gugercin_pH_msd_chain
+```
+
 ## References
 ```LaTeX
 @article{Gugercin2012,
