@@ -4,7 +4,7 @@
 
 This benchmark is a model for a mass-spring-damper chain. It is presented in [Gugercin2012](#References).
 
-![Mass-spring-damper chain system](assets/MSD_Chain.png)
+![Mass-spring-damper chain system](./assets/MSD_Chain.png)
 
 The chain consists of ``N = \frac{n}{2}`` masses ``m_1,\,\ldots,\,m_{n/2}`` that are each connected with their neighboring masses by springs with spring constants ``k_1,\,\ldots,\,k_{n/2}``. The last mass ``m_{n/2}`` is connected to a wall via the spring ``k_{n/2}`` while at the first two masses ``m_1`` and ``m_2`` external forces ``u_1(\cdot)`` and ``u_2(\cdot)`` are applied. Moreover, each mass is connected with the ground with a damper with viscosities ``c_1,\,\ldots,\,c_{n/2}``. This configuration leads to a second-order system of the form
 ```math
