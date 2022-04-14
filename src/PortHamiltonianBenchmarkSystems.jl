@@ -18,7 +18,7 @@ S. Gugercin et al.:
 - `m_i`: The weight of the masses
 - `k_i`: The stiffness of the springs
 # Outputs
-Matrices: ``J, R, Q, B``. The resulting transfer function is ``H(s) = B' \\cdot Q \\cdot (sI-(J-R) \\cdot Q)^{-1} \\cdot B``.
+Matrices: ``J, R, Q, B``. The resulting transfer function is ``H(s) = B^\\mathsf{T} Q  (sI-(J-R)Q)^{-1}B``.
 """
 function gugercin_pH_msd_chain(;
     n_cells=50::Int,
