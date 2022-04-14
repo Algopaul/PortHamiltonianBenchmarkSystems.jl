@@ -215,7 +215,7 @@ poro_elasticity_model
 
 ```latex
 @misc{Altmann2021,
-      title={Port-Hamiltonian formulations of poroelastic network models}, 
+      title={Port-{H}amiltonian formulations of poroelastic network models}, 
       author={R. Altmann and V. Mehrmann and B. Unger},
       year={2021},
       eprint={2012.01949},
