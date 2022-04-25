@@ -181,10 +181,8 @@ with ``m = 2``. Moreover, different discretization levels are available,
 resulting in systems with state-space dimensions ``n=320``, ``n = 980``, and ``n = 
 1805``. These discretizations have been obtained using the `python` 
 interface of `FEniCS`. The following fixed parameters have been chosen:
-\begin{itemize}
- \item ``\lambda = 12``,
- \item ``\mu = 6``.
-\end{itemize}
+- ``\lambda = 12``,
+- ``\mu = 6``.
 The following parameters are variable with the default values
 - ``\rho = 10^{-3}``,
 - ``\alpha = 0.79``,
