@@ -56,7 +56,7 @@ and
  x(t) = \begin{pmatrix} q_1(t),\,p_1(t),\,q_2(t),\,p_2(t),\,\ldots,\,q_{n/2}(t),\,p_{n/2}(t)\end{pmatrix}^\mathsf{T}.
 ```
 ## Parameters
-This is a variable-dimension model in which ``N = \frac{n}{2} \in \N`` can be determined by the user. We have chosen the parameters (without units)
+This is a variable-dimension model in which ``N = \frac{n}{2} \in \N`` can be determined by the user. We have chosen these default parameters (without units).
 ```math
 \begin{aligned}
  m_1 &= \ldots = m_{n/2} = 4, \\
@@ -65,6 +65,7 @@ This is a variable-dimension model in which ``N = \frac{n}{2} \in \N`` can be de
  N &= 50
 \end{aligned}
 ```
+
 ## Interface
 
 To obtain system matrices ``J, R, Q,`` and ``B`` use the following function call.
