@@ -124,6 +124,9 @@ function load_poro_raw_data(;
   return dd["Y"], dd["D"], dd["M"], dd["K"], dd["Bp"], dd["Bf"], dd["A"]
 end
 
+include("RCLLadders.jl")
+
+
 export gugercin_pH_msd_chain, poro_elasticity_model
 
 end # module
