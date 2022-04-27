@@ -12,7 +12,7 @@ Input Arguments:
   - m:            Number of inputs (1: SISO or 2: MIMO)
 
 Output Arguments:
-  - E, J, R, Q, B:      Index-2 PH-DAE model of the RCL ladder network
+  - E, J, R, G:      Index-2 PH-DAE model of the RCL ladder network
 
 References:   R. W. Freund. Structure-Preserving Model Order Reduction of
               RCL Circuit Equations, 2008.
@@ -22,7 +22,7 @@ References:   R. W. Freund. Structure-Preserving Model Order Reduction of
   Date:   2021/12/14
 
 """
-function  setup_DAE2_RCL_LadderNetwork_sparse(ns, r::AbstractVector, c::AbstractVector, l::AbstractVector, m)
+function  setup_DAE2_RCL_LadderNetwork_sparse(; ns, r::AbstractVector, c::AbstractVector, l::AbstractVector, m)
   # Transform scalar inputs to vectors
   # Dimensions
   nk = 2*ns+m; # Number of nodes for network analysis 
@@ -77,10 +77,9 @@ function  setup_DAE2_RCL_LadderNetwork_sparse(ns, r::AbstractVector, c::Abstract
        Av' spzeros(size(Av',1),size(Al,2)+size(Av,2))]
   R = [-A11 spzeros(size(A11,1),size(Al,2)+size(Av,2));
        spzeros(size(Al',1)+size(Av',1),size(A11,2)+size(Al,2)+size(Av,2))]
-  Q = sparse(I(size(A11,1)+size(Al',1)+size(Av',1)))
-  B = spzeros(size(A11,1)+size(Al',1)+size(Av',1),m)
-  @views B[end-m+1:end, end-m+1:end] = -sparse(I(m))
-  return E, J, R, Q, B
+  G = spzeros(size(A11,1)+size(Al',1)+size(Av',1),m)
+  @views G[end-m+1:end, end-m+1:end] = -sparse(I(m))
+  return E, J, R, G
 end
 
 """
@@ -95,7 +94,7 @@ Input Arguments:
   - m:            Number of inputs (1: SISO or 2: MIMO)
 
 Output Arguments:
-  - sys_DAE:      Index-1 PH-DAE model of the RCL ladder network
+  - E, J, R, G:      Index-1 PH-DAE model of the RCL ladder network
 
 References:   R. W. Freund. Structure-Preserving Model Order Reduction of
               RCL Circuit Equations, 2008.
@@ -104,7 +103,7 @@ References:   R. W. Freund. Structure-Preserving Model Order Reduction of
   E-Mail: tim.moser@tum.de
   Date:   2021/11/03
 """
-function setup_DAE1_RCL_LadderNetwork_sparse(ns, r, c, l, m)
+function setup_DAE1_RCL_LadderNetwork_sparse(; ns, r, c, l, m)
   # Dimensions
   nk = 2*ns+m; # Number of nodes for network analysis 
   nR = ns+2
@@ -167,8 +166,8 @@ function setup_DAE1_RCL_LadderNetwork_sparse(ns, r, c, l, m)
   E11 = Ac*C*Ac'; 
   E = blockdiag(sparse(E11),sparse(L),spzeros(m, m))
   A = [ A11 -Al -Av; Al' spzeros(size(Al',1),size(Al,2)+size(Av,2)) ; Av' spzeros(size(Av',1),size(Al,2)+size(Av,2)) ]
-  B = spzeros(size(A11,1)+size(Al',1)+size(Av',1),m)
-  @views B[end-m+1:end,end-m+1:end] .= -I(m)
+  G = spzeros(size(A11,1)+size(Al',1)+size(Av',1),m)
+  @views G[end-m+1:end,end-m+1:end] .= -I(m)
   E = U'*E*U
   J = U'*[ spzeros(size(A11, 1), size(A11, 2)) -Al -Av;
           Al' spzeros(size(Al',1),size(Al,2)+size(Av,2));
@@ -176,6 +175,8 @@ function setup_DAE1_RCL_LadderNetwork_sparse(ns, r, c, l, m)
   R = U'*[ -A11 spzeros(size(A11,1),size(Al,2)+size(Av,2));
           spzeros(size(Al',1)+size(Av',1),size(A11,2)+size(Al,2)+size(Av,2))]*U
   Q = U'*sparse(I(size(A11,1)+size(Al',1)+size(Av',1)))*U
-  B = U'*B
-  return E, J, R, Q, B
+  G = U'*G
+  return E, J, R, Q, G
 end
+
+export setup_DAE1_RCL_LadderNetwork_sparse, setup_DAE2_RCL_LadderNetwork_sparse

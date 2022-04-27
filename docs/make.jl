@@ -6,7 +6,7 @@ makedocs(
  pages = [
           "Home" => "index.md",
           "Benchmark Systems" => [
-                                  "GugercinMSDChain.md", "PoroModel.md"
+                                  "GugercinMSDChain.md", "PoroModel.md", "RclCircuits.md"
             ]
          ]
 )
