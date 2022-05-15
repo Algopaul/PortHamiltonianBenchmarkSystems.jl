@@ -1,8 +1,8 @@
-# Gugercin MSD Chain
+# Single MSD Chain
 
 ## Description
 
-This benchmark is a model for a mass-spring-damper chain. It is presented in [Gugercin2012](#References).
+This benchmark is a model for a mass-spring-damper chain. It is presented in [GPBS2012](#References).
 
 ![Mass-spring-damper chain system](./assets/MSD_Chain.png)
 
@@ -93,7 +93,7 @@ gugercin_pH_msd_chain
 
 ## References
 ```LaTeX
-@article{Gugercin2012,
+@article{GPBS2012,
 	title = {Structure-preserving tangential interpolation for model reduction of port-{Hamiltonian} systems},
 	volume = {48},
 	number = {9},
