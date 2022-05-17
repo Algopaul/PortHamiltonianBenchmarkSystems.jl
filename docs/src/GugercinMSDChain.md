@@ -81,10 +81,13 @@ J, R, Q, B = gugercin_pH_msd_chain(n_cells = 150, k_i = 10)
 ```
 
 The transfer function can be defined as follows.
-```julia
+```jldoctest; output = false
 using LinearAlgebra, PortHamiltonianBenchmarkSystems
 J, R, Q, B = gugercin_pH_msd_chain(n_cells = 150, k_i = 10)
 H(s) = B'*((s*I-(J-R)*Q)\B)
+
+# output
+H (generic function with 1 method)
 ```
 
 ```@docs
