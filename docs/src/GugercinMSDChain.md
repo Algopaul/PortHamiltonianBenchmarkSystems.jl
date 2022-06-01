@@ -39,7 +39,7 @@ where ``x_1(t) := q(t)`` and ``x_2(t) := \dot{q}(t)``. Assume that one uses the 
 With this and by appropriate permutations of columns and rows of the system equations one finally obtains the port-Hamiltonian formulation
 ```math
 \begin{aligned}
-x(t) &= (J-R) Q x(t) + Bu(t), \\
+\dot x(t) &= (J-R) Q x(t) + Bu(t), \\
 y(t) &= B^\mathsf{T} Q x(t),
 \end{aligned}
 ```
