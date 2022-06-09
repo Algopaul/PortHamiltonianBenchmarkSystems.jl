@@ -1,6 +1,5 @@
 using UnPack
 
-
 """
 This struct configures port Hamiltonian mass-spring-damper systems described in
 S. Gugercin et al.:
@@ -20,6 +19,10 @@ struct SingleMSDConfig{TC, TM, TK} <: BenchmarkConfig
   c::TC
   m::TM
   k::TK
+end
+
+function SingleMSDConfig()
+  return SingleMSDConfig{Float64, Float64, Float64}(100, 2, 1.0, 2.0, 3.0)
 end
 
 function construct_system(config::SingleMSDConfig{TC, TM, TK}) where {TC <: Number, TM <: Number, TK <: Number}
