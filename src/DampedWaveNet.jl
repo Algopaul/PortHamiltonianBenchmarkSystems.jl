@@ -1,5 +1,6 @@
 using SparseArrays
 using BlockArrays
+using IterTools
 
 struct DampedWaveNet
 	incidence_matrix    ::SparseMatrixCSC{Int8,Int64}
@@ -106,8 +107,8 @@ function build(problem::DampedWaveNet)
 	n_u  = n_b                         #Number of input variables
 	n_y  = n_b                         #Number of output variables
 
-	i_pe = collect(eachblock(PseudoBlockArray(1:n_p,ep.n   ))) #Pressure indices for each edge
-	i_me = collect(eachblock(PseudoBlockArray(1:n_m,ep.n.+1))) #Mass flow indices for each edge
+	i_ep = collect(eachblock(BlockArray(1:n_p,ep.n   ))) #Edge indices for p
+	i_em = collect(eachblock(BlockArray(1:n_m,ep.n.+1))) #Edge indices for m
 
 	#Global FEM system
 	E   = spzeros(n_x,n_x)
@@ -139,7 +140,7 @@ function build(problem::DampedWaveNet)
 		Dm_loc = [ 2  1; 1  2]*h/6*ep.d[e]
 
 		#Contributions for each element
-		for (i_p,i_m) in zip(eachrow(i_pe[e]),eachrow([i_me[e][1:end-1] i_me[e][2:end]]))
+		for (i_p,i_m) in zip(eachrow(i_ep[e]),collect.(partition(i_em[e],2,1)))
 			Mp[i_p,i_p] .+= Mp_loc
 			Mm[i_m,i_m] .+= Mm_loc
 			Gp[i_m,i_p] .+= Gp_loc
@@ -149,25 +150,26 @@ function build(problem::DampedWaveNet)
 	end
 
 	#Algebraic conditions
-	i_ip, i_im, i_b = (1,1,1) #Condition counters
+	i_ip, i_im, i_b = (1,1,1) #Counter for each type of condition 
+                        
+	for v in eachcol(im_t)
+		#Indices, directions of edges connected to v, corresponding variable indices
+		es, ds  = (rowvals(v),nonzeros(v))
+		js(i_e) = ifelse.(ds .< 0,first.(i_e[es]),last.(i_e[es]))
 
-	for (n_e,es,ds) in zip([f.(eachcol(im_t)) for f in (nnz,rowvals,nonzeros)]...)
-		js_p = [i_pe[e][d<0 ? 1 : end] for (e,d) in zip(es,ds)]
-		js_m = [i_me[e][d<0 ? 1 : end] for (e,d) in zip(es,ds)]
-
-		if n_e > 1
+		if length(es) > 1
 			#Internal conditions for p
-			for js_pn in eachrow([js_p[1:end-1] js_p[2:end]])
-				Cip[i_ip,js_pn] .= [1,-1]
+			for j_pair in collect.(partition(js(i_ep),2,1))
+				Cip[i_ip,j_pair] .= [1,-1]
 				i_ip += 1
 			end
 
 			#Internal conditions for m
-			Cim[i_im,js_m] .= ds .* ep.b[es]
+			Cim[i_im,js(i_em)] .= ds .* ep.b[es]
 			i_im += 1
 		else
 			#Boundary conditions
-			Cb, j        = (bc[i_b] == 'p') ? (Cbp,js_p) : (Cbm,js_m)
+			Cb, j        = (bc[i_b] == 'p') ? (Cbp,js(i_ep)) : (Cbm,js(i_em))
 			Cb[i_b,j  ] .= 1
 			Bu[i_b,i_b]  = 1
 			i_b += 1
