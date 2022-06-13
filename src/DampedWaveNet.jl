@@ -14,16 +14,18 @@ struct DampedWaveNet
 
 	function DampedWaveNet(im,ep,bc)
 		im, ep, bc = convert(Tuple{fieldtypes(DampedWaveNet)...},(im,ep,bc))
-		im_t = sparse(im')
+
+		@assert all(in.(nonzeros(im),Ref([-1,1]))) "" *
+		"Invalid incidence matrix: found value(s) other than {-1,0,1}"
 
 		@assert all(nnz.(eachcol(im)) .== 2) "" *
 		"Invalid incidence matrix: found column(s) with other than 2 entries"
 
-		@assert all(nnz.(eachcol(im_t)) .> 0) "" *
-		"Invalid incidence matrix: found rows(s) with 0 entries"
+		@assert all(sum(abs.(im),dims=2) .> 0) "" *
+		"Invalid incidence matrix: found disconnected vertices"
 
-		@assert all(in.(nonzeros(im),Ref([-1,1]))) "" *
-		"Invalid incidence matrix: found value(s) other than {-1,0,1}"
+		@assert sum(sum(abs.(im),dims=2) .== 1) > 0 "" *
+		"Invalid incidence matrix: found no boundary vertices"
 
 		@assert all(length.(values(ep)) .== size(im)[2]) "" *
 		"Invalid edge parameters: need same number as edges"
@@ -35,9 +37,9 @@ struct DampedWaveNet
 		"Invalid edge parameters: found length(s) <= 0"
 
 		@assert all(ep.n .> 0) "" *
-		"Invalid edge parameters: found cell number < 1"
+		"Invalid edge parameters: found cell number(s) < 1"
 
-		@assert length(bc) == sum(nnz.(eachcol(im_t)) .== 1) "" *
+		@assert length(bc) == sum(sum(abs.(im),dims=2) .== 1) "" *
 		"Invalid boundary conditions: need same number as boundary nodes"
 
 		@assert all(in.(bc,Ref(['p','m']))) "" *
@@ -92,20 +94,19 @@ end
 
 function build(problem::DampedWaveNet)
 	#Convenience
-	im   = problem.incidence_matrix
-	im_t = sparse(im')
-	ep   = problem.edge_parameters
-	bc   = problem.boundary_conditions
+	im = sparse(problem.incidence_matrix')
+	ep = problem.edge_parameters
+	bc = problem.boundary_conditions
 
 	#Index calculations
-	n_p  = sum(ep.n)                   #Number of pressure variables
-	n_m  = sum(ep.n .+ 1)              #Number of mass flow variables
-	n_b  = length(bc)                  #Number of boundary conditions
-	n_ip = sum(nnz.(eachcol(im_t)).-1) #Number of internal conditions for p
-	n_im = size(im)[1] - n_b           #Number of internal conditions for m
-	n_x  = n_p+n_m+n_ip+n_im+n_b       #Number of state variables
-	n_u  = n_b                         #Number of input variables
-	n_y  = n_b                         #Number of output variables
+	n_p  = sum(ep.n)                 #Number of pressure variables
+	n_m  = sum(ep.n .+ 1)            #Number of mass flow variables
+	n_b  = length(bc)                #Number of boundary conditions
+	n_ip = sum(nnz.(eachcol(im)).-1) #Number of internal conditions for p
+	n_im = size(im)[2] - n_b         #Number of internal conditions for m
+	n_x  = n_p+n_m+n_ip+n_im+n_b     #Number of state variables
+	n_u  = n_b                       #Number of input variables
+	n_y  = n_b                       #Number of output variables
 
 	i_ep = collect(eachblock(BlockArray(1:n_p,ep.n   ))) #Edge indices for p
 	i_em = collect(eachblock(BlockArray(1:n_m,ep.n.+1))) #Edge indices for m
@@ -141,18 +142,18 @@ function build(problem::DampedWaveNet)
 
 		#Contributions for each element
 		for (i_p,i_m) in zip(eachrow(i_ep[e]),collect.(partition(i_em[e],2,1)))
-			Mp[i_p,i_p] .+= Mp_loc
-			Mm[i_m,i_m] .+= Mm_loc
-			Gp[i_m,i_p] .+= Gp_loc
-			Gm[i_p,i_m] .+= Gm_loc
-			Dm[i_m,i_m] .+= Dm_loc
+			Mp[i_p,i_p] += Mp_loc
+			Mm[i_m,i_m] += Mm_loc
+			Gp[i_m,i_p] += Gp_loc
+			Gm[i_p,i_m] += Gm_loc
+			Dm[i_m,i_m] += Dm_loc
 		end
 	end
 
 	#Algebraic conditions
 	i_ip, i_im, i_b = (1,1,1) #Counter for each type of condition 
                         
-	for v in eachcol(im_t)
+	for v in eachcol(im)
 		#Indices, directions of edges connected to v, corresponding variable indices
 		es, ds  = (rowvals(v),nonzeros(v))
 		js(i_e) = ifelse.(ds .< 0,first.(i_e[es]),last.(i_e[es]))
@@ -160,7 +161,7 @@ function build(problem::DampedWaveNet)
 		if length(es) > 1
 			#Internal conditions for p
 			for j_pair in collect.(partition(js(i_ep),2,1))
-				Cip[i_ip,j_pair] .= [1,-1]
+				Cip[i_ip,j_pair] = [1,-1]
 				i_ip += 1
 			end
 
