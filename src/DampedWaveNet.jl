@@ -162,7 +162,7 @@ function build(problem::DampedWaveNet)
 			end
 
 			#Internal conditions for m
-			Cim[i_im,js(i_em)] .= ds .* ep.b[es]
+			Cim[i_im,js(i_em)] .= ds
 			i_im += 1
 		else
 			#Boundary conditions
