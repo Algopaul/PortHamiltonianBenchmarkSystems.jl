@@ -2,9 +2,8 @@ module PortHamiltonianBenchmarkSystems
 
 using LinearAlgebra, SparseArrays
 
-include("IOFormats.jl")
-include("Downloads.jl")
-include("DampedWaveNet.jl")
+include("./UtilsIOFormats.jl")
+include("./UtilsDownloads.jl")
 
 abstract type BenchmarkConfig end
 
@@ -35,6 +34,7 @@ end
 include("./SingleMSDChain.jl")
 include("./PoroModel.jl")
 include("./RCLLadders.jl")
+include("./DampedWaveNet.jl")
 
 export PHSystem, construct_system
 
