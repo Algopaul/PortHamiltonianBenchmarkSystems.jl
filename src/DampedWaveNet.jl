@@ -122,8 +122,8 @@ function build(problem::DampedWaveNet)
 
 	Mp  = view(Ew,Block(1,1)) #Mass matrix for p
 	Mm  = view(Ew,Block(2,2)) #Mass matrix for m
-	Gp  = view(Aw,Block(2,1)) #Gradient matrix for p
-	Gm  = view(Aw,Block(1,2)) #Gradient matrix for m
+	Gp  = view(Aw,Block(2,1)) #Negative gradient matrix for p
+	Gm  = view(Aw,Block(1,2)) #Negative gradient matrix for m
 	Dm  = view(Aw,Block(2,2)) #Damping matrix for m
 	Cip = view(Aw,Block(3,1)) #Internal condition matrix for p
 	Cim = view(Aw,Block(4,2)) #Internal condition matrix for m
@@ -136,9 +136,9 @@ function build(problem::DampedWaveNet)
 		#Local FEM system on edge e
 		Mp_loc = [ 1]*h*ep.a[e]
 		Mm_loc = [ 2  1; 1  2]*h/6*ep.b[e]
-		Gp_loc = [ 1;-1]
-		Gm_loc = [-1  1]
-		Dm_loc = [ 2  1; 1  2]*h/6*ep.d[e]
+		Gp_loc = [-1; 1]
+		Gm_loc = [ 1 -1]
+		Dm_loc = [-2 -1;-1 -2]*h/6*ep.d[e]
 
 		#Contributions for each element
 		for (i_p,i_m) in zip(eachrow(i_ep[e]),collect.(partition(i_em[e],2,1)))
@@ -151,7 +151,7 @@ function build(problem::DampedWaveNet)
 	end
 
 	#Algebraic conditions
-	i_ip, i_im, i_b = (1,1,1) #Counter for each type of condition 
+	i_ip, i_im, i_b = (1,1,1) #Counter for each type of condition
                         
 	for v in eachcol(im)
 		#Indices, directions of edges connected to v, corresponding variable indices
@@ -170,9 +170,9 @@ function build(problem::DampedWaveNet)
 			i_im += 1
 		else
 			#Boundary conditions
-			Cb, j        = (bc[i_b] == 'p') ? (Cbp,js(i_ep)) : (Cbm,js(i_em))
-			Cb[i_b,j  ] .= 1
-			Bu[i_b,i_b]  = 1
+			Cb, j       = (bc[i_b] == 'p') ? (Cbp,js(i_ep)) : (Cbm,js(i_em))
+			Cb[i_b,j  ] = ds
+			Bu[i_b,i_b] = 1
 			i_b += 1
 		end
 	end
