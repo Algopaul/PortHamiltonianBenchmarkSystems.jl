@@ -4,6 +4,7 @@ using LinearAlgebra, SparseArrays
 
 include("IOFormats.jl")
 include("Downloads.jl")
+include("DampedWaveNet.jl")
 
 abstract type BenchmarkConfig end
 

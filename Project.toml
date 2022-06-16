@@ -4,9 +4,11 @@ authors = ["Amanibus <***REMOVED***>"]
 version = "0.1.0"
 
 [deps]
+BlockArrays = "8e7c35d0-a365-5155-bbbb-fb81a777f24e"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 H5Sparse = "d026d0c0-3790-4945-99de-4163f1ba8085"
 HDF5 = "f67ccb44-e63f-5c2f-98bd-6dc0ccc4ba2f"
+IterTools = "c8e1da08-722c-5040-9ed9-7db0dc04731e"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 MAT = "23992714-dd62-5051-b70f-ba57cb901cac"
 MD5 = "6ac74813-4b46-53a4-afec-0b5dc9d7885c"
