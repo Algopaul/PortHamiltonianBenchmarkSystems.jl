@@ -74,3 +74,5 @@ function load_poro_raw_data(;
   dd = loadMAT(get_filepath(filename))
   return dd["Y"], dd["D"], dd["M"], dd["K"], dd["Bp"], dd["Bf"], dd["A"]
 end
+
+export poro_elasticity_model

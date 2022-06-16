@@ -19,6 +19,14 @@ struct SingleMSDConfig{TC, TM, TK} <: BenchmarkConfig
   c::TC
   m::TM
   k::TK
+  function SingleMSDConfig(n_cells::Int, io_dim::Int, c::TC, m::TM, k::TK) where {TC, TM, TK}
+    @assert n_cells > 0 "number of cells must be positive"
+    @assert io_dim > 0 "number of inputs and outputs must be positive"
+    @assert c >= 0 "damping cannot be negative"
+    @assert m >= 0 "masses cannot be negative"
+    @assert k >= 0 "stiffnesses cannot be negative"
+    return new{TC, TM, TK}(n_cells, io_dim, c, m, k)
+  end
 end
 
 function SingleMSDConfig()
