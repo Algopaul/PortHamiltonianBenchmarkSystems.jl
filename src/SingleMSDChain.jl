@@ -52,7 +52,7 @@ function construct_system(config::SingleMSDConfig{TC, TM, TK}) where {TC <: Numb
   [Q[i,i]=1/m for i in 2:2:n]
   [Q[i,i+2]=-k for i in 1:2:(n-2)]
   [Q[i+2,i]=-k for i in 1:2:(n-2)]
-  return J, R, Q, B
+  return (J=J, R=R, Q=Q, B=B)
 end
 
 function PHSystem(config::SingleMSDConfig)
