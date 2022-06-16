@@ -12,22 +12,22 @@ struct DampedWaveNet
 	                                 Vector{Int64  }}}
 	boundary_conditions ::Vector{Char}
 
-	function DampedWaveNet(incidence_mat,ep,bc)
-		incidence_mat, ep, bc = convert(Tuple{fieldtypes(DampedWaveNet)...},(incidence_mat,ep,bc))
+	function DampedWaveNet(im,ep,bc)
+		im, ep, bc = convert(Tuple{fieldtypes(DampedWaveNet)...},(im,ep,bc))
 
-		@assert all(in.(nonzeros(incidence_mat),Ref([-1,1]))) "" *
+		@assert all(in.(nonzeros(im),Ref([-1,1]))) "" *
 		"Invalid incidence matrix: found value(s) other than {-1,0,1}"
 
-		@assert all(nnz.(eachcol(incidence_mat)) .== 2) "" *
+		@assert all(nnz.(eachcol(im)) .== 2) "" *
 		"Invalid incidence matrix: found column(s) with other than 2 entries"
 
-		@assert all(sum(abs.(incidence_mat),dims=2) .> 0) "" *
+		@assert all(sum(abs.(im),dims=2) .> 0) "" *
 		"Invalid incidence matrix: found disconnected vertices"
 
-		@assert sum(sum(abs.(incidence_mat),dims=2) .== 1) > 0 "" *
+		@assert sum(sum(abs.(im),dims=2) .== 1) > 0 "" *
 		"Invalid incidence matrix: found no boundary vertices"
 
-		@assert all(length.(values(ep)) .== size(incidence_mat)[2]) "" *
+		@assert all(length.(values(ep)) .== size(im)[2]) "" *
 		"Invalid edge parameters: need same number as edges"
 
 		@assert all(ep.d .>= 0) "" *
@@ -39,24 +39,24 @@ struct DampedWaveNet
 		@assert all(ep.n .> 0) "" *
 		"Invalid edge parameters: found cell number(s) < 1"
 
-		@assert length(bc) == sum(sum(abs.(incidence_mat),dims=2) .== 1) "" *
+		@assert length(bc) == sum(sum(abs.(im),dims=2) .== 1) "" *
 		"Invalid boundary conditions: need same number as boundary nodes"
 
 		@assert all(in.(bc,Ref(['p','m']))) "" *
 		"Invalid boundary conditions: found identifier other than {p,m}"
 
-		return new(incidence_mat,ep,bc)
+		return new(im,ep,bc)
 	end
 end
 
 function DampedWaveNet(id::String)
 	if      id == "pipe"
-		incidence_mat = reshape([ 1;-1],:,1)
+		im = reshape([ 1;-1],:,1)
 		ep = (a=[1],b=[1],d=[1],l=[1],n=[10])
 		bc = ['p','p']
 
 	elseif id == "fork"
-		incidence_mat = [-1  0  0;
+		im = [-1  0  0;
 		       0  1  0;
 		       0  0  1;
 		       1 -1 -1]
@@ -68,7 +68,7 @@ function DampedWaveNet(id::String)
 		bc = ['p','p','p']
 
 	elseif id == "diamond"
-		incidence_mat = [-1  0  0  0  0  0  0;
+		im = [-1  0  0  0  0  0  0;
 		       0  0  0  0  0  0  1;
 		       1 -1 -1  0  0  0  0;
 		       0  1  0 -1 -1  0  0;
@@ -85,12 +85,12 @@ function DampedWaveNet(id::String)
 		throw("Config id \'"*id*"\' not recognized")
 	end
 
-	return DampedWaveNet(incidence_mat,ep,bc)
+	return DampedWaveNet(im,ep,bc)
 end
 
 function build(problem::DampedWaveNet)
 	#Convenience
-	incidence_mat = sparse(problem.incidence_matrix')
+	im = sparse(problem.incidence_matrix')
 	ep = problem.edge_parameters
 	bc = problem.boundary_conditions
 
@@ -98,8 +98,8 @@ function build(problem::DampedWaveNet)
 	n_p  = sum(ep.n)                 #Number of pressure variables
 	n_m  = sum(ep.n .+ 1)            #Number of mass flow variables
 	n_b  = length(bc)                #Number of boundary conditions
-	n_ip = sum(nnz.(eachcol(incidence_mat)).-1) #Number of internal conditions for p
-	n_im = size(incidence_mat)[2] - n_b         #Number of internal conditions for m
+	n_ip = sum(nnz.(eachcol(im)).-1) #Number of internal conditions for p
+	n_im = size(im)[2] - n_b         #Number of internal conditions for m
 	n_x  = n_p+n_m+n_ip+n_im+n_b     #Number of state variables
 	n_u  = n_b                       #Number of input variables
 	n_y  = n_b                       #Number of output variables
@@ -149,7 +149,7 @@ function build(problem::DampedWaveNet)
 	#Algebraic conditions
 	i_ip, i_im, i_b = (1,1,1) #Counter for each type of condition
                         
-	for v in eachcol(incidence_mat)
+	for v in eachcol(im)
 		#Indices, directions of edges connected to v, corresponding variable indices
 		es, ds  = (rowvals(v),nonzeros(v))
 		js(i_e) = ifelse.(ds .< 0,first.(i_e[es]),last.(i_e[es]))
