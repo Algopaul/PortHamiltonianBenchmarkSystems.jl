@@ -4,6 +4,7 @@ using LinearAlgebra, SparseArrays
 
 include("IOFormats.jl")
 include("Downloads.jl")
+include("DampedWaveNet.jl")
 
 """
    `gugercin_pH_msd_chain(; n_cells=50, m=2, c_i=1.0, m_i=4.0, k_i=4.0)`
