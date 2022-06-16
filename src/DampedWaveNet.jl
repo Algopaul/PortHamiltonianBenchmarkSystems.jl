@@ -47,10 +47,6 @@ struct DampedWaveNet
 
 		return new(im,ep,bc)
 	end
-
-	#function DampedWaveNet(id::String)
-	#	DampedWaveNet(load("../Examples/DampedWaveNet_"*id*".jls")...)
-	#end
 end
 
 function DampedWaveNet(id::String)
