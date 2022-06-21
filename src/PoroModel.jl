@@ -18,8 +18,10 @@ bounded Lipschitz domain as described in
 - `rho`: density. Default = `1e-3`.
 - `alpha`: Biot-Willis fluid-solid coupling coefficient. Default = 0.79.
 - `bm`: Biot-Modulus. Default = `1/7.8e3`.
-- `kappanu`: Quotient kappa/Nu, where kappa denotes the permeability and nu denotes the fluid viscosity. Default = 633.33.
+- `kappanu`: Quotient `kappa/Nu`, where `kappa` denotes the permeability and `nu` denotes the fluid viscosity. Default = 633.33.
 - `eta`: artificial damping coefficient. Default = `1e-4`.
+# Outputs
+- ``E, J, R, B``, matrices to construct the transfer function ``H(s) = B^\\mathsf{T}(sE-(J-R))^{-1}B)``
 """
 function poro_elasticity_model(;
     n = 980,
@@ -47,7 +49,7 @@ function poro_elasticity_model(;
   J = [spzeros(n,n) -A D';A spzeros(n,n+m); -D spzeros(m,n+m)];
   R = [spzeros(n,2*n+m); spzeros(n,2*n+m); spzeros(m,2*n) K] + eta*I
   B = [zeros(n,1); Bf; Bp];
-  return E, J, R, B
+  return (E=E, J=J, R=R, B=B)
 end
 
 function load_poro_raw_data(;
