@@ -36,7 +36,7 @@ end
 
 function get_filepath(filename)
   path = @__DIR__
-  path *= "/../data/"
+  path *= "/../../data/"
   return path*"$filename"
 end
 
