@@ -30,7 +30,7 @@ struct SingleMSDConfig{TC, TM, TK} <: BenchmarkConfig
 end
 
 function SingleMSDConfig()
-  return SingleMSDConfig{Float64, Float64, Float64}(100, 2, 1.0, 2.0, 3.0)
+  return SingleMSDConfig(100, 2, 1.0, 2.0, 3.0)
 end
 
 function construct_system(config::SingleMSDConfig{TC, TM, TK}) where {TC <: Number, TM <: Number, TK <: Number}
