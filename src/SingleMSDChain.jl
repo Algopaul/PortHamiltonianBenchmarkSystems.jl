@@ -13,54 +13,61 @@ S. Gugercin et al.:
 # Outputs
 Matrices: ``J, R, Q, B``. The resulting transfer function is ``H(s) = B^\\mathsf{T} Q  (sI-(J-R)Q)^{-1}B``.
 """
-struct SingleMSDConfig{TC, TM, TK} <: BenchmarkConfig
-  n_cells::Int
-  io_dim::Int
-  c::TC
-  m::TM
-  k::TK
-  function SingleMSDConfig(n_cells::Int, io_dim::Int, c::TC, m::TM, k::TK) where {TC, TM, TK}
-    @assert n_cells > 0 "number of cells must be positive"
-    @assert io_dim > 0 "number of inputs and outputs must be positive"
-    msd_check_constants(c, "damping")
-    msd_check_constants(m, "masses")
-    msd_check_constants(k, "stiffness")
-    return new{TC, TM, TK}(n_cells, io_dim, c, m, k)
-  end
+struct SingleMSDConfig{TC,TM,TK} <: BenchmarkConfig
+    n_cells::Int
+    io_dim::Int
+    c::TC
+    m::TM
+    k::TK
+    function SingleMSDConfig(
+        n_cells::Int,
+        io_dim::Int,
+        c::TC,
+        m::TM,
+        k::TK,
+    ) where {TC,TM,TK}
+        @assert n_cells > 0 "number of cells must be positive"
+        @assert io_dim > 0 "number of inputs and outputs must be positive"
+        msd_check_constants(c, "damping")
+        msd_check_constants(m, "masses")
+        msd_check_constants(k, "stiffness")
+        return new{TC,TM,TK}(n_cells, io_dim, c, m, k)
+    end
 end
 
 function msd_check_constants(c::Number, name)
     @assert c >= 0 "$name cannot be negative"
 end
+
 function msd_check_constants(c::AbstractVector, name)
     @assert all(c .>= 0) "$name cannot have any negative entries"
 end
 
 function SingleMSDConfig()
-  return SingleMSDConfig(100, 2, 1.0, 4.0, 4.0)
+    return SingleMSDConfig(100, 2, 1.0, 4.0, 4.0)
 end
 
 function construct_system(config::SingleMSDConfig)
-  @unpack n_cells, io_dim, c, m, k = config
-  n=2*n_cells;
-  # B is initialized as dense matrix. Since all results of transfer function
-  # computations will lead to dense results.
-  B=zeros(n, io_dim);
-  [B[2*i,i]=1.0 for i in 1:io_dim]
-  J=spzeros(n,n);
-  [J[i,i+1]=1.0 for i in 1:2:(n-1)];
-  J=J-J'
-  # Set constants.
-  R = msd_construct_R(n_cells, c)
-  Q = msd_construct_Q(n_cells, k, m)
-  return (J=J, R=R, Q=Q, B=B)
+    @unpack n_cells, io_dim, c, m, k = config
+    n = 2 * n_cells
+    # B is initialized as dense matrix. Since all results of transfer function
+    # computations will lead to dense results.
+    B = zeros(n, io_dim)
+    [B[2 * i, i] = 1.0 for i = 1:io_dim]
+    J = spzeros(n, n)
+    [J[i, i + 1] = 1.0 for i = 1:2:(n - 1)]
+    J = J - J'
+    # Set constants.
+    R = msd_construct_R(n_cells, c)
+    Q = msd_construct_Q(n_cells, k, m)
+    return (J = J, R = R, Q = Q, B = B)
 end
 
 function msd_construct_R(n_cells, c)
     n = 2n_cells
-    R = spzeros(n,n)
+    R = spzeros(n, n)
     for (j, i) in enumerate(2:2:n)
-        R[i,i]=msd_vecint(c, j)
+        R[i, i] = msd_vecint(c, j)
     end
     return R
 end
@@ -87,17 +94,17 @@ function msd_vecint(x::AbstractVector, i)
 end
 
 function msd_construct_Q_add_k_stencil(Q, k, i)
-    @views Q[i:i+2, i:i+2] .+= [k 0 -k; 0 0 0; -k 0 k]
+    @views Q[i:(i + 2), i:(i + 2)] .+= [k 0 -k; 0 0 0; -k 0 k]
 end
 
 function PHSystem(config::SingleMSDConfig)
-  J, R, Q, G = construct_system(config)
-  n, m = size(G)
-  E = I(n)
-  P = spzeros(n, m)
-  S = spzeros(m, m)
-  N = spzeros(m, m)
-  return PHSystem(E, J, R, Q, G, P, S, N)
+    J, R, Q, G = construct_system(config)
+    n, m = size(G)
+    E = I(n)
+    P = spzeros(n, m)
+    S = spzeros(m, m)
+    N = spzeros(m, m)
+    return PHSystem(E, J, R, Q, G, P, S, N)
 end
 
 """
@@ -115,15 +122,9 @@ S. Gugercin et al.:
 # Outputs
 Matrices: ``J, R, Q, B``. The resulting transfer function is ``H(s) = B^\\mathsf{T} Q  (sI-(J-R)Q)^{-1}B``.
 """
-function gugercin_pH_msd_chain(;
-    n_cells=50,
-    m=2,
-    c_i=1.0,
-    m_i=4.0,
-    k_i = 4.0
-  )
-  config = SingleMSDConfig(n_cells, m, c_i, m_i, k_i)
-  return construct_system(config)
+function gugercin_pH_msd_chain(; n_cells = 50, m = 2, c_i = 1.0, m_i = 4.0, k_i = 4.0)
+    config = SingleMSDConfig(n_cells, m, c_i, m_i, k_i)
+    return construct_system(config)
 end
 
 export SingleMSDConfig, gugercin_pH_msd_chain
