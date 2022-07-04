@@ -79,6 +79,7 @@ function msd_construct_Q(n_cells, k, m)
     for (j, i) in enumerate(1:2:(n - 3))
         msd_construct_Q_add_k_stencil(Q, msd_vecint(k, j), i)
     end
+    Q[end-1, end-1] += msd_vecint(k, n_cells)
     for (j, i) in enumerate(2:2:n)
         Q[i, i] = 1 / msd_vecint(m, j)
     end
