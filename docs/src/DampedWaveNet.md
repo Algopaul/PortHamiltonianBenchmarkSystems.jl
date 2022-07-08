@@ -2,7 +2,7 @@
 
 ## Description
 
-This benchmark is a model for wave propagation in gas pipeline networks, as presented in ([Egger, 2018](#References)). The network is modeled as directed, connected graph ``\mathcal{G}(\mathcal{V},\mathcal{E})``, with vertices ``v\in\mathcal{V}``, edges ``e\in\mathcal{E}`` and at least one boundary vertex ``v\in\mathcal{V}_b\subseteq\mathcal{V}``, connected to a single edge.
+This benchmark is a model for wave propagation in gas pipeline networks, as presented in ([EKLSMM2018](#References)). The network is modeled as directed, connected graph ``\mathcal{G}(\mathcal{V},\mathcal{E})``, with vertices ``v\in\mathcal{V}``, edges ``e\in\mathcal{E}`` and at least one boundary vertex ``v\in\mathcal{V}_b\subseteq\mathcal{V}``, connected to a single edge.
 
 Graph Figure
 
@@ -129,17 +129,16 @@ DampedWaveNet
 
 ## References
 ```LaTeX
-@article{
-	Egger2018,
-	author = {Egger, H. and Kugler, T. and Liljegren-Sailer, B. and Marheineke, N. and Mehrmann, V.},
-	title = {On Structure-Preserving Model Reduction for Damped Wave Propagation in Transport Networks},
-	journal = {SIAM Journal on Scientific Computing},
-	volume = {40},
-	number = {1},
-	pages = {A331-A365},
-	year = {2018},
-	doi = {10.1137/17M1125303},
-	URL = {https://doi.org/10.1137/17M1125303},
-	eprint = {https://doi.org/10.1137/17M1125303}
+@article{EKLSMM2018,
+  author = {Egger, H. and Kugler, T. and Liljegren-Sailer, B. and Marheineke, N. and Mehrmann, V.},
+  title = {On Structure-Preserving Model Reduction for Damped Wave Propagation in Transport Networks},
+  journal = {SIAM Journal on Scientific Computing},
+  volume = {40},
+  number = {1},
+  pages = {A331-A365},
+  year = {2018},
+  doi = {10.1137/17M1125303},
+  URL = {https://doi.org/10.1137/17M1125303},
+  eprint = {https://doi.org/10.1137/17M1125303}
 }
 ```
