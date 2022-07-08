@@ -13,56 +13,99 @@ S. Gugercin et al.:
 # Outputs
 Matrices: ``J, R, Q, B``. The resulting transfer function is ``H(s) = B^\\mathsf{T} Q  (sI-(J-R)Q)^{-1}B``.
 """
-struct SingleMSDConfig{TC, TM, TK} <: BenchmarkConfig
-  n_cells::Int
-  io_dim::Int
-  c::TC
-  m::TM
-  k::TK
-  function SingleMSDConfig(n_cells::Int, io_dim::Int, c::TC, m::TM, k::TK) where {TC, TM, TK}
-    @assert n_cells > 0 "number of cells must be positive"
-    @assert io_dim > 0 "number of inputs and outputs must be positive"
-    @assert c >= 0 "damping cannot be negative"
-    @assert m >= 0 "masses cannot be negative"
-    @assert k >= 0 "stiffnesses cannot be negative"
-    return new{TC, TM, TK}(n_cells, io_dim, c, m, k)
-  end
+struct SingleMSDConfig{TC,TM,TK} <: BenchmarkConfig
+    n_cells::Int
+    io_dim::Int
+    c::TC
+    m::TM
+    k::TK
+    function SingleMSDConfig(
+        n_cells::Int,
+        io_dim::Int,
+        c::TC,
+        m::TM,
+        k::TK,
+    ) where {TC,TM,TK}
+        @assert n_cells > 0 "number of cells must be positive"
+        @assert io_dim > 0 "number of inputs and outputs must be positive"
+        msd_check_constants(c, "damping")
+        msd_check_constants(m, "masses")
+        msd_check_constants(k, "stiffness")
+        return new{TC,TM,TK}(n_cells, io_dim, c, m, k)
+    end
+end
+
+function msd_check_constants(c::Number, name)
+    @assert c >= 0 "$name cannot be negative"
+end
+
+function msd_check_constants(c::AbstractVector, name)
+    @assert all(c .>= 0) "$name cannot have any negative entries"
 end
 
 function SingleMSDConfig()
-  return SingleMSDConfig(100, 2, 1.0, 4.0, 4.0)
+    return SingleMSDConfig(100, 2, 1.0, 4.0, 4.0)
 end
 
-function construct_system(config::SingleMSDConfig{TC, TM, TK}) where {TC <: Number, TM <: Number, TK <: Number}
-  @unpack n_cells, io_dim, c, m, k = config
-  n=2*n_cells;
-  # B is initialized as dense matrix. Since all results of transfer function
-  # computations will lead to dense results.
-  B=zeros(n, io_dim);
-  [B[2*i,i]=1.0 for i in 1:io_dim]
-  J=spzeros(n,n);
-  [J[i,i+1]=1.0 for i in 1:2:(n-1)];
-  J=J-J'
-  # Set constants.
-  R=spzeros(n,n);
-  [R[i,i]=c for i in 2:2:n]
-  Q=spzeros(n,n);
-  Q[1,1]=k
-  [Q[i,i]=2*k for i in 3:2:(n-1)]
-  [Q[i,i]=1/m for i in 2:2:n]
-  [Q[i,i+2]=-k for i in 1:2:(n-2)]
-  [Q[i+2,i]=-k for i in 1:2:(n-2)]
-  return (J=J, R=R, Q=Q, B=B)
+function construct_system(config::SingleMSDConfig)
+    @unpack n_cells, io_dim, c, m, k = config
+    n = 2 * n_cells
+    # B is initialized as dense matrix. Since all results of transfer function
+    # computations will lead to dense results.
+    B = zeros(n, io_dim)
+    [B[2 * i, i] = 1.0 for i = 1:io_dim]
+    J = spzeros(n, n)
+    [J[i, i + 1] = 1.0 for i = 1:2:(n - 1)]
+    J = J - J'
+    # Set constants.
+    R = msd_construct_R(n_cells, c)
+    Q = msd_construct_Q(n_cells, k, m)
+    return (J = J, R = R, Q = Q, B = B)
+end
+
+function msd_construct_R(n_cells, c)
+    n = 2n_cells
+    R = spzeros(n, n)
+    for (j, i) in enumerate(2:2:n)
+        R[i, i] = msd_vecint(c, j)
+    end
+    return R
+end
+
+function msd_construct_Q(n_cells, k, m)
+    n = 2n_cells
+    Q = spzeros(n, n)
+    n = size(Q, 1)
+    for (j, i) in enumerate(1:2:(n - 3))
+        msd_construct_Q_add_k_stencil(Q, msd_vecint(k, j), i)
+    end
+    Q[end - 1, end - 1] += msd_vecint(k, n_cells)
+    for (j, i) in enumerate(2:2:n)
+        Q[i, i] = 1 / msd_vecint(m, j)
+    end
+    return Q
+end
+
+function msd_vecint(x::Number, ::Any)
+    return x
+end
+
+function msd_vecint(x::AbstractVector, i)
+    return x[i]
+end
+
+function msd_construct_Q_add_k_stencil(Q, k, i)
+    @views Q[i:(i + 2), i:(i + 2)] .+= [k 0 -k; 0 0 0; -k 0 k]
 end
 
 function PHSystem(config::SingleMSDConfig)
-  J, R, Q, G = construct_system(config)
-  n, m = size(G)
-  E = I(n)
-  P = spzeros(n, m)
-  S = spzeros(m, m)
-  N = spzeros(m, m)
-  return PHSystem(E, J, R, Q, G, P, S, N)
+    J, R, Q, G = construct_system(config)
+    n, m = size(G)
+    E = I(n)
+    P = spzeros(n, m)
+    S = spzeros(m, m)
+    N = spzeros(m, m)
+    return PHSystem(E, J, R, Q, G, P, S, N)
 end
 
 """
@@ -80,15 +123,9 @@ S. Gugercin et al.:
 # Outputs
 Matrices: ``J, R, Q, B``. The resulting transfer function is ``H(s) = B^\\mathsf{T} Q  (sI-(J-R)Q)^{-1}B``.
 """
-function gugercin_pH_msd_chain(;
-    n_cells=50,
-    m=2,
-    c_i=1.0,
-    m_i=4.0,
-    k_i = 4.0
-  )
-  config = SingleMSDConfig(n_cells, m, c_i, m_i, k_i)
-  return construct_system(config)
+function gugercin_pH_msd_chain(; n_cells = 50, m = 2, c_i = 1.0, m_i = 4.0, k_i = 4.0)
+    config = SingleMSDConfig(n_cells, m, c_i, m_i, k_i)
+    return construct_system(config)
 end
 
 export SingleMSDConfig, gugercin_pH_msd_chain
