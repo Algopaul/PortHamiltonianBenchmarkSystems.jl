@@ -1,6 +1,6 @@
 name = "PortHamiltonianBenchmarkSystems"
 uuid = "a30e1a9a-10b8-4bba-9e65-ab6e41f71348"
-authors = ["Amanibus <***REMOVED***>"]
+authors = ["Algopaul <72927083+Algopaul@users.noreply.github.com> and contributors"]
 version = "0.1.0"
 
 [deps]
@@ -15,3 +15,6 @@ MD5 = "6ac74813-4b46-53a4-afec-0b5dc9d7885c"
 SHA = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 UnPack = "3a884ed6-31ef-47d7-9d2a-63182c4928ed"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
