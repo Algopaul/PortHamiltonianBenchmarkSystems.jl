@@ -55,8 +55,8 @@ It now becomes apparent that in matrix form, the linear operators in several pai
     \begin{bmatrix}
         \kett{A}_p\kett{M}_p & & & \\
         & \kett{B}_m\kett{M}_m & & \\
-        & & \kett{0}& \\
-        & & & \kett{0}
+        & & 0 & \\
+        & & & 0
     \end{bmatrix}}_{\kett{E}}
     \begin{bmatrix}
         \kett{\dot{p}}\\
@@ -79,9 +79,9 @@ It now becomes apparent that in matrix form, the linear operators in several pai
     \end{bmatrix} +
     \underbrace{
     \begin{bmatrix}
-        \kett{0}&\\
+         &\\
         \kett{Y}_{m}^T &\\
-        & \kett{0}\\
+        &  \\
         & \kett{I}
     \end{bmatrix}}_{\kett{B}}
     \begin{bmatrix}
@@ -94,8 +94,8 @@ It now becomes apparent that in matrix form, the linear operators in several pai
     \end{bmatrix} &=
     \underbrace{
     \begin{bmatrix}
-        \kett{0} &\kett{Y}_{m} & &\\
-        & & \kett{0} & \kett{I}
+        0  &\kett{Y}_{m} & &\\
+        & & 0  & \kett{I}
     \end{bmatrix}}_{\kett{B}^T} 
     \begin{bmatrix}
         \kett{p}\\
