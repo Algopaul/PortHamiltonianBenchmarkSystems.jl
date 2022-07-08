@@ -116,15 +116,21 @@ Since ``\kett{p}`` contains all the pressure variables, ``\kett{p}_i`` and ``\ke
 The system can be written in standard linear port-Hamiltonian form as follows:
 ```math
 \begin{align*}
-    \kett{E}\kett{\dot{x}} &= (\kett{J}-\kett{R})\kett{Q}\kett{x} + (\kett{G}-\kett{P})\kett{u}\\
-    \kett{y} &= (\kett{G}+\kett{P})^H\kett{Q}\kett{x} + (\kett{S}+\kett{N})\kett{u}
+    \kett{E}\kett{\dot{x}} &= (\kett{J}-\kett{R})\kett{Q}\kett{x} + (\kett{G}-\kett{P})\kett{u},\\
+    \kett{y} &= (\kett{G}+\kett{P})^H\kett{Q}\kett{x} + (\kett{S}+\kett{N})\kett{u},
 \end{align*}
 ```
-- ``\kett{J} = \frac{1}{2}(\kett{A}-\kett{A}^H)``
-- ``\kett{R} = -\frac{1}{2}(\kett{A}+\kett{A}^H)``
-- ``\kett{Q} = \kett{I}``
-- ``\kett{G} = \kett{B}``
-- ``\kett{P} = \kett{S} = \kett{N} = \kett{0}``
+where
+```math
+\begin{align*}
+\kett{J} = \frac{1}{2}(\kett{A}-\kett{A}^\mathsf{T}), \quad
+\kett{R} = -\frac{1}{2}(\kett{A}+\kett{A}^\mathsf{T}), \quad
+\kett{Q} = \kett{I}, \quad
+\kett{G} = \kett{B}, \quad
+\kett{P} = 0, \quad
+\kett{S} = \kett{N} = 0
+\end{align*}
+```
 
 ## Interface
 ```@docs
