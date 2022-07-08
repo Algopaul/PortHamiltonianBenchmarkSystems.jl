@@ -1,184 +1,183 @@
-using SparseArrays
-using BlockArrays
-using IterTools
+using LinearAlgebra, SparseArrays, BlockArrays, IterTools
 
-struct DampedWaveNet
-	incidence_matrix    ::SparseMatrixCSC{Int8,Int64}
-	edge_parameters     ::NamedTuple{(:a,:b,:d,:l,:n),
-	                           Tuple{Vector{Float64},
-	                                 Vector{Float64},
-	                                 Vector{Float64},
-	                                 Vector{Float64},
-	                                 Vector{Int64  }}}
-	boundary_conditions ::Vector{Char}
+"""
+This struct descibes port-Hamiltonian pressure wave conducting pipe systems, as
+given in Egger et al. Structure-Preserving Model Reduction for Damped Wave Propagation in Transport Networks
+# Arguments
+- `incidence_matrix`: Sparse incidence matrix describing the pipe network
+- `edge_parameters`: Named tuple containing vectors a, b, d, l, n, respectively containing the parameters a,b,d,
+                     the length and the number of FEM elements of each pipe (ordered as in the incidence_matrix)
+- `boundary_conditions`: Vector of chars 'p', 'm', describing the type of boundary condition at each boundary
+                         vertex (ordered as in the incidence_matrix)
+"""
+struct DampedWaveNet <: BenchmarkConfig
+    incidence_matrix::SparseMatrixCSC{Int8,Int64}
+    edge_parameters::NamedTuple{
+        (:a, :b, :d, :l, :n),
+        Tuple{
+            Vector{Float64},
+            Vector{Float64},
+            Vector{Float64},
+            Vector{Float64},
+            Vector{Int64},
+        },
+    }
+    boundary_conditions::Vector{Char}
 
-	function DampedWaveNet(inc_mat,ep,bc)
-		inc_mat, ep, bc = convert(Tuple{fieldtypes(DampedWaveNet)...},(inc_mat,ep,bc))
+    function DampedWaveNet(imat, epar, bcon)
+        imat, epar, bcon = convert(Tuple{fieldtypes(DampedWaveNet)...}, (imat, epar, bcon))
 
-		@assert all(in.(nonzeros(inc_mat),Ref([-1,1]))) "" *
-		"Invalid incidence matrix: found value(s) other than {-1,0,1}"
+        @assert all(in.(nonzeros(imat), Ref([-1, 1]))) "Invalid incidence matrix: found value(s) other than {-1,0,1}"
+        @assert all(nnz.(eachcol(imat)) .== 2) "Invalid incidence matrix: found column(s) with other than 2 entries"
+        @assert all(sum(abs.(imat), dims = 2) .> 0) "Invalid incidence matrix: found disconnected vertices"
+        @assert sum(sum(abs.(imat), dims = 2) .== 1) > 0 "Invalid incidence matrix: found no boundary vertices"
+        @assert all(length.(values(epar)) .== size(imat)[2]) "Invalid edge parameters: need same number as edges"
+        @assert all([all(v .> 0) for v in values(epar)]) "Invalid edge parameters: all parameters must be positive"
+        @assert length(bcon) == sum(sum(abs.(imat), dims = 2) .== 1) "Invalid boundary conditions: need same number as boundary nodes"
+        @assert all(in.(bcon, Ref(['p', 'm']))) "Invalid boundary conditions: found identifier other than {p,m}"
 
-		@assert all(nnz.(eachcol(inc_mat)) .== 2) "" *
-		"Invalid incidence matrix: found column(s) with other than 2 entries"
-
-		@assert all(sum(abs.(inc_mat),dims=2) .> 0) "" *
-		"Invalid incidence matrix: found disconnected vertices"
-
-		@assert sum(sum(abs.(inc_mat),dims=2) .== 1) > 0 "" *
-		"Invalid incidence matrix: found no boundary vertices"
-
-		@assert all(length.(values(ep)) .== size(inc_mat)[2]) "" *
-		"Invalid edge parameters: need same number as edges"
-
-		@assert all(ep.d .>= 0) "" *
-		"Invalid edge parameters: found damping coefficient(s) < 0"
-
-		@assert all(ep.l .> 0) "" *
-		"Invalid edge parameters: found length(s) <= 0"
-
-		@assert all(ep.n .> 0) "" *
-		"Invalid edge parameters: found cell number(s) < 1"
-
-		@assert length(bc) == sum(sum(abs.(inc_mat),dims=2) .== 1) "" *
-		"Invalid boundary conditions: need same number as boundary nodes"
-
-		@assert all(in.(bc,Ref(['p','m']))) "" *
-		"Invalid boundary conditions: found identifier other than {p,m}"
-
-		return new(inc_mat,ep,bc)
-	end
+        return new(imat, epar, bcon)
+    end
 end
 
+"""
+This constructor provides various default DampedWaveNet configurations
+# Arguments
+- `id`: String to identify a default config. Possible values: "pipe", "fork", "diamond"
+"""
 function DampedWaveNet(id::String)
-	if      id == "pipe"
-		inc_mat = reshape([ 1;-1],:,1)
-		ep = (a=[1],b=[1],d=[1],l=[1],n=[10])
-		bc = ['p','p']
-
-	elseif id == "fork"
-		inc_mat = [-1  0  0;
-		       0  1  0;
-		       0  0  1;
-		       1 -1 -1]
-		ep = (a=[1  ,1  ,1 ],
-		      b=[1  ,1  ,1 ],
-		      d=[1  ,1  ,1 ],
-		      l=[2  ,1  ,10],
-		      n=[40 ,30 ,90])
-		bc = ['p','p','p']
-
-	elseif id == "diamond"
-		inc_mat = [-1  0  0  0  0  0  0;
-		       0  0  0  0  0  0  1;
-		       1 -1 -1  0  0  0  0;
-		       0  1  0 -1 -1  0  0;
-		       0  0  1  1  0 -1  0;
-		       0  0  0  0  1  1 -1]
-		ep = (a=[4  ,4  ,1  ,1  ,1  ,4  ,4  ]     ,
-		      b=[1/4,1/4,1  ,1  ,1  ,1/4,1/4]     ,
-		      d=[1  ,1  ,8  ,8  ,8  ,1  ,1  ]./80 ,
-		      l=[1  ,1  ,1  ,1  ,1  ,1  ,1  ]     ,
-		      n=[1  ,1  ,1  ,1  ,1  ,1  ,1  ].*500)
-		bc = ['p','p']
-
-	else
-		throw("Config id \'"*id*"\' not recognized")
-	end
-
-	return DampedWaveNet(inc_mat,ep,bc)
+    if id == "pipe"
+        imat = reshape([1; -1], :, 1)
+        epar = (a = [1], b = [1], d = [1], l = [1], n = [10])
+        bcon = ['p', 'p']
+    elseif id == "fork"
+        imat = [
+            -1 0 0
+            0 1 0
+            0 0 1
+            1 -1 -1
+        ]
+        epar =
+            (a = [1, 1, 1], b = [1, 1, 1], d = [1, 1, 1], l = [2, 1, 10], n = [40, 30, 90])
+        bcon = ['p', 'p', 'p']
+    elseif id == "diamond"
+        imat = [
+            -1 0 0 0 0 0 0
+            0 0 0 0 0 0 1
+            1 -1 -1 0 0 0 0
+            0 1 0 -1 -1 0 0
+            0 0 1 1 0 -1 0
+            0 0 0 0 1 1 -1
+        ]
+        epar = (
+            a = [4, 4, 1, 1, 1, 4, 4],
+            b = [1 / 4, 1 / 4, 1, 1, 1, 1 / 4, 1 / 4],
+            d = [1, 1, 8, 8, 8, 1, 1] ./ 80,
+            l = [1, 1, 1, 1, 1, 1, 1],
+            n = [1, 1, 1, 1, 1, 1, 1] .* 500,
+        )
+        bcon = ['p', 'p']
+    else
+        throw("Config id \'" * id * "\' not recognized")
+    end
+    return DampedWaveNet(imat, epar, bcon)
 end
 
-function build(problem::DampedWaveNet)
-	#Convenience
-	inc_mat = sparse(problem.incidence_matrix')
-	ep = problem.edge_parameters
-	bc = problem.boundary_conditions
+function construct_system(problem::DampedWaveNet)
+    #Convenience
+    imat = sparse(problem.incidence_matrix')
+    epar = problem.edge_parameters
+    bcon = problem.boundary_conditions
 
-	#Index calculations
-	n_p  = sum(ep.n)                 #Number of pressure variables
-	n_m  = sum(ep.n .+ 1)            #Number of mass flow variables
-	n_b  = length(bc)                #Number of boundary conditions
-	n_ip = sum(nnz.(eachcol(inc_mat)).-1) #Number of internal conditions for p
-	n_im = size(im)[2] - n_b         #Number of internal conditions for m
-	n_x  = n_p+n_m+n_ip+n_im+n_b     #Number of state variables
-	n_u  = n_b                       #Number of input variables
-	n_y  = n_b                       #Number of output variables
+    #Index calculations
+    n_p = sum(epar.n)       #Number of pressure variables
+    n_m = sum(epar.n .+ 1)    #Number of mass flow variables
+    n_b = length(bcon)      #Number of boundary conditions
+    n_bp = sum(bcon .== 'p')   #Number of boundary conditions for p
+    n_bm = sum(bcon .== 'm')   #Number of boundary conditions for m
+    n_im = size(imat)[2] - n_b #Number of internal conditions for m
+    n_x = n_p + n_m + n_im + n_b  #Number of state variables
 
-	i_ep = collect(eachblock(BlockArray(1:n_p,ep.n   ))) #Edge indices for p
-	i_em = collect(eachblock(BlockArray(1:n_m,ep.n.+1))) #Edge indices for m
+    i_ep = collect(eachblock(BlockArray(1:n_p, epar.n))) #Edge indices for p
+    i_em = collect(eachblock(BlockArray(1:n_m, epar.n .+ 1))) #Edge indices for m
 
-	#Global FEM system
-	E   = spzeros(n_x,n_x)
-	A   = spzeros(n_x,n_x)
-	B   = spzeros(n_x,n_u)
+    #Global FEM system
+    E = spzeros(n_x, n_x)
+    A = spzeros(n_x, n_x)
+    B = spzeros(n_x, n_b)
 
-	Ew  = PseudoBlockArray(E,[n_p,n_m,n_ip+n_im+n_b],[n_p,n_m,n_ip+n_im+n_b])
-	Aw  = PseudoBlockArray(A,[n_p,n_m,n_ip,n_im,n_b],[n_p,n_m,n_ip,n_im,n_b])
-	Bw  = PseudoBlockArray(B,[n_p+n_m+n_ip+n_im,n_b],[n_b])
+    Es = PseudoBlockArray(E, [n_p, n_m, n_im + n_bm], [n_p, n_m, n_im + n_bm])
+    As = PseudoBlockArray(A, [n_p, n_m, n_im, n_bm], [n_p, n_m, n_im, n_bm])
+    Bs = PseudoBlockArray(B, [n_p, n_m, n_im, n_bm], [n_bp, n_bm])
 
-	Mp  = view(Ew,Block(1,1)) #Mass matrix for p
-	Mm  = view(Ew,Block(2,2)) #Mass matrix for m
-	Gp  = view(Aw,Block(2,1)) #Negative gradient matrix for p
-	Gm  = view(Aw,Block(1,2)) #Negative gradient matrix for m
-	Dm  = view(Aw,Block(2,2)) #Damping matrix for m
-	Cip = view(Aw,Block(3,1)) #Internal condition matrix for p
-	Cim = view(Aw,Block(4,2)) #Internal condition matrix for m
-	Cbp = view(Aw,Block(5,1)) #Boundary condition matrix for p
-	Cbm = view(Aw,Block(5,2)) #Boundary condition matrix for m
-	Bu  = view(Bw,Block(2,1)) #Input matrix
+    E11 = view(Es, Block(1, 1))
+    E22 = view(Es, Block(2, 2))
+    A12 = view(As, Block(1, 2))
+    A21 = view(As, Block(2, 1))
+    A22 = view(As, Block(2, 2))
+    A23 = view(As, Block(2, 3))
+    A24 = view(As, Block(2, 4))
+    A32 = view(As, Block(3, 2))
+    A42 = view(As, Block(4, 2))
+    B21 = view(Bs, Block(2, 1))
+    B42 = view(Bs, Block(4, 2))
 
-	#Edge physics
-	for (e,h) in enumerate(ep.l./ep.n)
-		#Local FEM system on edge e
-		Mp_loc = [ 1]*h*ep.a[e]
-		Mm_loc = [ 2  1; 1  2]*h/6*ep.b[e]
-		Gp_loc = [-1; 1]
-		Gm_loc = [ 1 -1]
-		Dm_loc = [-2 -1;-1 -2]*h/6*ep.d[e]
+    #Conditions
+    i_im, i_bp, i_bm = (1, 1, 1) #Condition counters
 
-		#Contributions for each element
-		for (i_p,i_m) in zip(eachrow(i_ep[e]),collect.(partition(i_em[e],2,1)))
-			Mp[i_p,i_p] += Mp_loc
-			Mm[i_m,i_m] += Mm_loc
-			Gp[i_m,i_p] += Gp_loc
-			Gm[i_p,i_m] += Gm_loc
-			Dm[i_m,i_m] += Dm_loc
-		end
-	end
+    for v in eachcol(imat)
+        #Indices & directions of edges connected to v, m indices corresponding to v
+        es, ns = (rowvals(v), nonzeros(v))
+        i_vm = ifelse.(ns .< 0, first.(i_em[es]), last.(i_em[es]))
 
-	#Algebraic conditions
-	i_ip, i_im, i_b = (1,1,1) #Counter for each type of condition
-                        
-	for v in eachcol(inc_mat)
-		#Indices, directions of edges connected to v, corresponding variable indices
-		es, ds  = (rowvals(v),nonzeros(v))
-		js(i_e) = ifelse.(ds .< 0,first.(i_e[es]),last.(i_e[es]))
+        if length(es) > 1 #Internal conditions for m
+            A32[i_im, i_vm] = ns
+            i_im += 1
+        elseif bcon[i_bp + i_bm - 1] == 'p' #Boundary conditions for p
+            B21[i_vm, i_bp] = -ns
+            i_bp += 1
+        else #Boundary conditions for m
+            A42[i_bm, i_vm] = ns
+            B42[i_bm, i_bm] = 1
+            i_bm += 1
+        end
+    end
 
-		if length(es) > 1
-			#Internal conditions for p
-			for j_pair in collect.(partition(js(i_ep),2,1))
-				Cip[i_ip,j_pair] = [1,-1]
-				i_ip += 1
-			end
+    #Physics
+    for (e, h) in enumerate(epar.l ./ epar.n)
+        #Local matrices
+        Mp_loc = [1] * h
+        Mm_loc = [2 1; 1 2] * h / 6
+        Gm_loc = [-1 1]
 
-			#Internal conditions for m
-			Cim[i_im,js(i_em)] .= ds
-			i_im += 1
-		else
-			#Boundary conditions
-			Cb, j       = (bc[i_b] == 'p') ? (Cbp,js(i_ep)) : (Cbm,js(i_em))
-			Cb[i_b,j  ] = ds
-			Bu[i_b,i_b] = 1
-			i_b += 1
-		end
-	end
+        #Contributions for each element
+        for (i_p, i_m) in zip(eachrow(i_ep[e]), collect.(partition(i_em[e], 2, 1)))
+            E11[i_p, i_p] += Mp_loc .* epar.a[e]
+            E22[i_m, i_m] += Mm_loc .* epar.b[e]
+            A12[i_p, i_m] -= Gm_loc
+            A22[i_m, i_m] -= Mm_loc .* epar.d[e]
+        end
+    end
 
-	#Apply Lagrange multiplier: L .= C'
-	view(Aw,Block(1,3)) .= Cip'
-	view(Aw,Block(2,4)) .= Cim'
-	view(Aw,Block(1,5)) .= Cbp'
-	view(Aw,Block(2,5)) .= Cbm'
+    A21 .= -A12'
+    A23 .= -A32'
+    A24 .= -A42'
 
-	#Packaging
-	return (shape=(n_x,n_u,n_y),E=E,A=A,B=B)
+    #Packaging
+    return (E = E, A = A, B = B)
 end
+
+function PHSystem(problem::DampedWaveNet)
+    E, A, B = construct_system(problem)
+    E = E
+    J = (A - A') ./ 2
+    R = -(A + A') ./ 2
+    Q = sparse(1.0I, size(A)...)
+    G = B
+    P = spzeros(size(B)...)
+    S = spzeros(size(B)[2], size(B)[2])
+    N = spzeros(size(S)...)
+    return PHSystem(E, J, R, Q, G, P, S, N)
+end
+
+export DampedWaveNet
