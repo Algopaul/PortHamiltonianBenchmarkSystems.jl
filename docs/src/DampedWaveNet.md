@@ -8,45 +8,45 @@ Graph Figure
 
 On each edge, the following 1D damped wave equation holds, with presssure ``p_e\ (\text{kg}\text{m}^{-1}\text{s}^{-2})``, mass flow ``m_e\ (\text{kg}\text{s}^{-1})`` and pipe constants ``a_e\ (\text{s}^2)``, ``b_e\ (\text{m}^{-2})``, ``d_e\ (\text{m}^{-2}\text{s}^{-1})``:
 ```math
-\begin{align}
+\begin{align*}
 	a_e\partial_tp_e &= -\partial_xm_e &&\forall e\in\mathcal{E}\\
 	b_e\partial_tm_e &= -\partial_xp_e-d_em_e &&\forall e\in\mathcal{E}
-\end{align}
+\end{align*}
 ```
 At each inner vertex ``v\in\mathcal{V}_i\equiv\mathcal{V}\setminus\mathcal{V}_b``, the following pressure continuity and mass conservation conditions hold, where ``p_i|_v`` is the pressure at ``v`` and ``n_e|_v`` is the direction of edge ``e`` at ``v`` (+1: incoming, -1: outgoing):
 ```math
-\begin{align}
+\begin{align*}
 	&p_e|_v \equiv p_{i}|_v &&\forall e\in\mathcal{E}(v) &&\forall v\in\mathcal{V}_i\\
 	&\sum_{e\in\mathcal{E}(v)} n_{e} m_e|_v = 0 &&\forall v\in\mathcal{V}_i
-\end{align}
+\end{align*}
 ```
 At each boundary vertex, either a pressure or mass flow must be fixed ``(p_{u}|_v,\ m_{u}|_v)``, leaving the other quantity to be solved for ``(p_{y}|_v,\ m_{y}|_v)``:
 ```math
-\begin{align}
+\begin{align*}
 	p_{\mathcal{E}(v)}|_v = p_{u}|_v\quad n_{\mathcal{E}(v)}m_{\mathcal{E}(v)}|_v = m_{y}|_v &&\forall v \in\mathcal{V}_{b,p}\\
 	p_{\mathcal{E}(v)}|_v = p_{y}|_v\quad n_{\mathcal{E}(v)}m_{\mathcal{E}(v)}|_v = m_{u}|_v &&\forall v \in\mathcal{V}_{b,m}
-\end{align}
+\end{align*}
 ```
 ## Discretization
 
 The Galerkin variational form of the damped wave equations can be formulated as follows, where ``p_e\in\text{span}\ \mathcal{P}_e,\ \mathcal{P}_e=\{\pi_1\dots\pi_n\}``, ``m_e\in\text{span}\ \mathcal{M}_e,\ \mathcal{M}_e=\{\mu_1\dots\mu_n\}``:
 ```math
-\begin{align}
+\begin{align*}
 	a_e\int_e\partial_tp_e\pi_e\ dx &= -\int_e\partial_xm_e\pi_e\ dx &&\forall \pi_e\in\mathcal{P}_e\\
 	b_e\int_e\partial_tm_e\mu_e\ dx &= -[p_e\mu_e]_{\partial e}+\int_ep_e\partial_x\mu_e\ dx -d_e\int_em_e\mu_e\ dx &&\forall \mu_e\in\mathcal{M}_e
-\end{align}
+\end{align*}
 ```
 The boundary terms ``-[p_e\mu_e]_{\partial e}`` are the result of integration by parts and can be grouped by vertex as follows:
 ```math
-\begin{align}
+\begin{align*}
 	-n_{e} \mu_ep_{i}|_v && \forall \mu_e \in\mathcal{M}_e\quad \forall e\in\mathcal{E}(v)\quad \forall v\in\mathcal{V}_i\\
 	-n_{\mathcal{E}(v)} \mu_{\mathcal{E}(v)}p_{u}|_v &&\forall \mu_e \in\mathcal{M}_e\quad \forall v \in\mathcal{V}_{b,p}\\
 	-n_{\mathcal{E}(v)} \mu_{\mathcal{E}(v)}p_y|_v &&\forall \mu_e \in\mathcal{M}_e\quad \forall v \in\mathcal{V}_{b,m}
-\end{align}
+\end{align*}
 ```
 It now becomes apparent that in matrix form, the linear operators in several pairs of terms are each other's (negative) transpose. Hence, we can write our system of equations as the following linear DAE:
 ```math
-\begin{align}
+\begin{align*}
     \underbrace{
     \begin{bmatrix}
         \mathbf{A}_p\mathbf{M}_p & & & \\
@@ -99,7 +99,7 @@ It now becomes apparent that in matrix form, the linear operators in several pai
         \mathbf{p}_i\\
         \mathbf{p}_y
     \end{bmatrix}
-\end{align}
+\end{align*}
 ```
 - ``\mathbf{M}_p,\ \mathbf{M}_m``: mass matrices for ``p,\ m``
 - ``\mathbf{A}_p,\ \mathbf{B}_m,\ \mathbf{D}_m``: diagonal matrices containing the edge parameters ``a_e,\ b_e,\ d_e``
@@ -111,10 +111,10 @@ Since ``\mathbf{p}`` contains all the pressure variables, ``\mathbf{p}_i`` and `
 
 The system can be written in standard linear port-Hamiltonian form as follows:
 ```math
-\begin{align}
+\begin{align*}
     \mathbf{E}\mathbf{\dot{x}} &= (\mathbf{J}-\mathbf{R})\mathbf{Q}\mathbf{x} + (\mathbf{G}-\mathbf{P})\mathbf{u}\\
     \mathbf{y} &= (\mathbf{G}+\mathbf{P})^H\mathbf{Q}\mathbf{x} + (\mathbf{S}+\mathbf{N})\mathbf{u}
-\end{align}
+\end{align*}
 ```
 - ``\mathbf{J} = \frac{1}{2}(\mathbf{A}-\mathbf{A}^H)``
 - ``\mathbf{R} = -\frac{1}{2}(\mathbf{A}+\mathbf{A}^H)``
