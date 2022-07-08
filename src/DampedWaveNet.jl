@@ -1,4 +1,7 @@
-using LinearAlgebra, SparseArrays, BlockArrays, IterTools
+using BlockArrays
+using IterTools
+using LinearAlgebra
+using SparseArrays
 
 """
 This struct descibes port-Hamiltonian pressure wave conducting pipe systems, as
