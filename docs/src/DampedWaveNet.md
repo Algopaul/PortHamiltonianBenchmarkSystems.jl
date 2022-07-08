@@ -2,6 +2,10 @@
 
 ## Description
 
+```math
+\gdef\kett#1{\mathnormal{#1}}
+```
+
 This benchmark is a model for wave propagation in gas pipeline networks, as presented in ([EKLSMM2018](#References)). The network is modeled as directed, connected graph ``\mathcal{G}(\mathcal{V},\mathcal{E})``, with vertices ``v\in\mathcal{V}``, edges ``e\in\mathcal{E}`` and at least one boundary vertex ``v\in\mathcal{V}_b\subseteq\mathcal{V}``, connected to a single edge.
 
 Graph Figure
@@ -49,78 +53,78 @@ It now becomes apparent that in matrix form, the linear operators in several pai
 \begin{align*}
     \underbrace{
     \begin{bmatrix}
-        \mathbf{A}_p\mathbf{M}_p & & & \\
-        & \mathbf{B}_m\mathbf{M}_m & & \\
-        & & \mathbf{0}& \\
-        & & & \mathbf{0}
-    \end{bmatrix}}_{\mathbf{E}}
+        \kett{A}_p\kett{M}_p & & & \\
+        & \kett{B}_m\kett{M}_m & & \\
+        & & \kett{0}& \\
+        & & & \kett{0}
+    \end{bmatrix}}_{\kett{E}}
     \begin{bmatrix}
-        \mathbf{\dot{p}}\\
-        \mathbf{\dot{m}}\\
-        \mathbf{\dot{p}}_i\\
-        \mathbf{\dot{p}}_y
+        \kett{\dot{p}}\\
+        \kett{\dot{m}}\\
+        \kett{\dot{p}}_i\\
+        \kett{\dot{p}}_y
     \end{bmatrix} &=
     \underbrace{
     \begin{bmatrix}
-        & -\mathbf{G}_m & & \\
-        \mathbf{G}_m^T& -\mathbf{D}_m\mathbf{M}_m &-\mathbf{C}_{m}^T & \mathbf{U}_{m}^T\\
-        & \mathbf{C}_{m}& & \\
-        & -\mathbf{U}_{m}& &
-    \end{bmatrix}}_{\mathbf{A}}
+        & -\kett{G}_m & & \\
+        \kett{G}_m^T& -\kett{D}_m\kett{M}_m &-\kett{C}_{m}^T & \kett{U}_{m}^T\\
+        & \kett{C}_{m}& & \\
+        & -\kett{U}_{m}& &
+    \end{bmatrix}}_{\kett{A}}
     \begin{bmatrix}
-        \mathbf{p}\\
-        \mathbf{m}\\
-        \mathbf{p}_i\\
-        \mathbf{p}_y
+        \kett{p}\\
+        \kett{m}\\
+        \kett{p}_i\\
+        \kett{p}_y
     \end{bmatrix} +
     \underbrace{
     \begin{bmatrix}
-        \mathbf{0}&\\
-        \mathbf{Y}_{m}^T &\\
-        & \mathbf{0}\\
-        & \mathbf{I}
-    \end{bmatrix}}_{\mathbf{B}}
+        \kett{0}&\\
+        \kett{Y}_{m}^T &\\
+        & \kett{0}\\
+        & \kett{I}
+    \end{bmatrix}}_{\kett{B}}
     \begin{bmatrix}
-        \mathbf{p}_u\\
-        \mathbf{m}_u
+        \kett{p}_u\\
+        \kett{m}_u
     \end{bmatrix}\\
     \begin{bmatrix}
-        \mathbf{m}_y\\
-        \mathbf{p}_y
+        \kett{m}_y\\
+        \kett{p}_y
     \end{bmatrix} &=
     \underbrace{
     \begin{bmatrix}
-        \mathbf{0} &\mathbf{Y}_{m} & &\\
-        & & \mathbf{0} & \mathbf{I}
-    \end{bmatrix}}_{\mathbf{B}^T} 
+        \kett{0} &\kett{Y}_{m} & &\\
+        & & \kett{0} & \kett{I}
+    \end{bmatrix}}_{\kett{B}^T} 
     \begin{bmatrix}
-        \mathbf{p}\\
-        \mathbf{m}\\
-        \mathbf{p}_i\\
-        \mathbf{p}_y
+        \kett{p}\\
+        \kett{m}\\
+        \kett{p}_i\\
+        \kett{p}_y
     \end{bmatrix}
 \end{align*}
 ```
-- ``\mathbf{M}_p,\ \mathbf{M}_m``: mass matrices for ``p,\ m``
-- ``\mathbf{A}_p,\ \mathbf{B}_m,\ \mathbf{D}_m``: diagonal matrices containing the edge parameters ``a_e,\ b_e,\ d_e``
-- ``\mathbf{G}_m``: matrix coming from the gradient of ``m``
-- ``\mathbf{C}_m``: matrix coming from the mass conservation conditions on ``m``
-- ``\mathbf{U}_m,\ \mathbf{Y}_m``: matrices  selecting ``\mathbf{m}_u,\ \mathbf{m}_y`` from ``\mathbf{m}``
+- ``\kett{M}_p,\ \kett{M}_m``: mass matrices for ``p,\ m``
+- ``\kett{A}_p,\ \kett{B}_m,\ \kett{D}_m``: diagonal matrices containing the edge parameters ``a_e,\ b_e,\ d_e``
+- ``\kett{G}_m``: matrix coming from the gradient of ``m``
+- ``\kett{C}_m``: matrix coming from the mass conservation conditions on ``m``
+- ``\kett{U}_m,\ \kett{Y}_m``: matrices  selecting ``\kett{m}_u,\ \kett{m}_y`` from ``\kett{m}``
 
-Since ``\mathbf{p}`` contains all the pressure variables, ``\mathbf{p}_i`` and ``\mathbf{p}_y`` are redundant in the solution vector. However, they are not explicitly tied to ``\mathbf{p}`` in the system. It can be proven that the system has a unique solution and that this constrains ``\mathbf{p}_i`` and ``\mathbf{p}_y`` to be equal to their counterparts in ``\mathbf{p}``, ensuring that the original variational problem is solved ([Egger, 2018](#References)).
+Since ``\kett{p}`` contains all the pressure variables, ``\kett{p}_i`` and ``\kett{p}_y`` are redundant in the solution vector. However, they are not explicitly tied to ``\kett{p}`` in the system. It can be proven that the system has a unique solution and that this constrains ``\kett{p}_i`` and ``\kett{p}_y`` to be equal to their counterparts in ``\kett{p}``, ensuring that the original variational problem is solved ([Egger, 2018](#References)).
 
 The system can be written in standard linear port-Hamiltonian form as follows:
 ```math
 \begin{align*}
-    \mathbf{E}\mathbf{\dot{x}} &= (\mathbf{J}-\mathbf{R})\mathbf{Q}\mathbf{x} + (\mathbf{G}-\mathbf{P})\mathbf{u}\\
-    \mathbf{y} &= (\mathbf{G}+\mathbf{P})^H\mathbf{Q}\mathbf{x} + (\mathbf{S}+\mathbf{N})\mathbf{u}
+    \kett{E}\kett{\dot{x}} &= (\kett{J}-\kett{R})\kett{Q}\kett{x} + (\kett{G}-\kett{P})\kett{u}\\
+    \kett{y} &= (\kett{G}+\kett{P})^H\kett{Q}\kett{x} + (\kett{S}+\kett{N})\kett{u}
 \end{align*}
 ```
-- ``\mathbf{J} = \frac{1}{2}(\mathbf{A}-\mathbf{A}^H)``
-- ``\mathbf{R} = -\frac{1}{2}(\mathbf{A}+\mathbf{A}^H)``
-- ``\mathbf{Q} = \mathbf{I}``
-- ``\mathbf{G} = \mathbf{B}``
-- ``\mathbf{P} = \mathbf{S} = \mathbf{N} = \mathbf{0}``
+- ``\kett{J} = \frac{1}{2}(\kett{A}-\kett{A}^H)``
+- ``\kett{R} = -\frac{1}{2}(\kett{A}+\kett{A}^H)``
+- ``\kett{Q} = \kett{I}``
+- ``\kett{G} = \kett{B}``
+- ``\kett{P} = \kett{S} = \kett{N} = \kett{0}``
 
 ## Interface
 ```@docs
