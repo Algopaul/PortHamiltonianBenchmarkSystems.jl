@@ -29,7 +29,7 @@ At each boundary vertex, either a pressure or mass flow must be fixed ``(p_{u}|_
 ```
 ## Discretization
 
-The Galerkin variational form of the damped wave equations can be formulated as follows, where ``p_e\in\text{span}\ \mathcal{P}_e,\ \mathcal{P}_e=\{\pi_1\dots\pi_n\}``, ``m_e\in\text{span}\ \mathcal{M}_e,\ \mathcal{M}_e=\{\mu_1\dots\mu_n\}``:
+The Galerkin variational form of the damped wave equations can be formulated as follows, where ``{p_e\in\text{span}\ \mathcal{P}_e,\ \mathcal{P}_e=\{\pi_1\dots\pi_n\}}``, ``m_e\in\text{span}\ \mathcal{M}_e,\ \mathcal{M}_e=\{\mu_1\dots\mu_n\}``:
 ```math
 \begin{align*}
 	a_e\int_e\partial_tp_e\pi_e\ dx &= -\int_e\partial_xm_e\pi_e\ dx &&\forall \pi_e\in\mathcal{P}_e\\
