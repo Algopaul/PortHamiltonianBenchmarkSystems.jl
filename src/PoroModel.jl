@@ -33,6 +33,7 @@ function poro_elasticity_model(;
     kappanu = 633.33,
     eta = 1e-4,
 )
+    @assert n in [320, 980, 1805] "n must be one of 320, 980, or 1805"
     Y, D, M, K, Bp, Bf, A = load_poro_raw_data(n = n)
     Y = rho * sparse(Y)
     D = alpha * sparse(D)

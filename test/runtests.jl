@@ -5,9 +5,7 @@ using Test
 @testset "PortHamiltonianBenchmarkSystems" verbose = true begin
 
     include("./SingleMSDChainTests.jl")
-
-    @testset "PoroElasticityModel" begin end
-
+    include("./PoroElasticityModelTests.jl")
     @testset "RCL-Ladders" begin end
 
 end
