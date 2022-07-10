@@ -3,8 +3,6 @@ module PortHamiltonianBenchmarkSystems
 using LinearAlgebra
 using SparseArrays
 
-include("./Utils/IOFormats.jl")
-
 abstract type BenchmarkConfig end
 
 struct PHSystem{TE,TJ,TR,TG,TP,TQ,TS,TN}
