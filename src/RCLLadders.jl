@@ -1,4 +1,6 @@
-using LinearAlgebra, SparseArrays
+using LinearAlgebra
+using SparseArrays
+
 """
 Index 2 RCL Ladder Network
 

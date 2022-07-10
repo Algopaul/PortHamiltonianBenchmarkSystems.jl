@@ -20,14 +20,15 @@ struct SingleMSDConfig{TC,TM,TK} <: BenchmarkConfig
     m::TM
     k::TK
     function SingleMSDConfig(
-        n_cells::Int,
-        io_dim::Int,
-        c::TC,
-        m::TM,
-        k::TK,
+        n_cells::Int=50,
+        io_dim::Int=2,
+        c::TC=1.0,
+        m::TM=4.0,
+        k::TK=4.0,
     ) where {TC,TM,TK}
         @assert n_cells > 0 "number of cells must be positive"
         @assert io_dim > 0 "number of inputs and outputs must be positive"
+        @assert io_dim <= n_cells "number of inputs and outputs must be less than or equal to the number of cells"
         msd_check_constants(c, "damping")
         msd_check_constants(m, "masses")
         msd_check_constants(k, "stiffness")
@@ -41,10 +42,6 @@ end
 
 function msd_check_constants(c::AbstractVector, name)
     @assert all(c .>= 0) "$name cannot have any negative entries"
-end
-
-function SingleMSDConfig()
-    return SingleMSDConfig(100, 2, 1.0, 4.0, 4.0)
 end
 
 function construct_system(config::SingleMSDConfig)
