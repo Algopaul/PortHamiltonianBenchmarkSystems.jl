@@ -25,11 +25,11 @@ References:   R. W. Freund. Structure-Preserving Model Order Reduction of
 
 """
 function setup_DAE2_RCL_LadderNetwork_sparse(;
-    ns,
-    r::AbstractVector,
-    c::AbstractVector,
-    l::AbstractVector,
-    m,
+    ns::Int = 500,
+    m::Int = 1,
+    r = 0.2 * ones(ns + 1),
+    c = ones(ns),
+    l = ones(ns),
 )
     # Transform scalar inputs to vectors
     # Dimensions
@@ -106,7 +106,7 @@ Input Arguments:
   - m:            Number of inputs (1: SISO or 2: MIMO)
 
 Output Arguments:
-  - E, J, R, G:      Index-1 PH-DAE model of the RCL ladder network
+  - E, J, R, Q, G:      Index-1 PH-DAE model of the RCL ladder network
 
 References:   R. W. Freund. Structure-Preserving Model Order Reduction of
               RCL Circuit Equations, 2008.
@@ -115,7 +115,13 @@ References:   R. W. Freund. Structure-Preserving Model Order Reduction of
   E-Mail: tim.moser@tum.de
   Date:   2021/11/03
 """
-function setup_DAE1_RCL_LadderNetwork_sparse(; ns, r, c, l, m)
+function setup_DAE1_RCL_LadderNetwork_sparse(;
+    ns::Int = 500,
+    m::Int = 1,
+    r = 0.2 * ones(ns + 2),
+    c = ones(ns - 1),
+    l = ones(ns),
+)
     # Dimensions
     nk = 2 * ns + m # Number of nodes for network analysis
     nR = ns + 2
