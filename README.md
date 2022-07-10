@@ -1,5 +1,6 @@
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
-[![](https://img.shields.io/badge/docs-dev-blue.svg)](https://algopaul.github.io/PortHamiltonianBenchmarkSystems/)
+[![](https://img.shields.io/badge/docs-dev-blue.svg)](https://algopaul.github.io/PortHamiltonianBenchmarkSystems.jl/)
+[![Build status](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/workflows/CI/badge.svg)](https://github.com/PortHamiltonianBenchmarkSystems.jl/actions?query=workflow%3ACI+branch%3Amain)
+[![Coverage Status](http://codecov.io/github/Algopaul/PortHamiltonianBenchmarkSystems.jl/coverage.svg?branch=main)](http://codecov.io/github/Algopaul/PortHamiltonianBenchmarkSystems.jl?branch=main)
 
 # PortHamiltonianBenchmarkSystems
 
