@@ -1,3 +1,6 @@
+using MAT
+using LazyArtifacts
+
 """
 `poro_elasticity_model(;
     n = 980,
@@ -6,7 +9,6 @@
     M = 1/7.80e3,
     kappanu = 633.33,
     eta = 1e-4,
-    force_download = false
   )`
 
 This function returns a port-Hamiltonian model of linear poroelasticity in a
@@ -30,11 +32,9 @@ function poro_elasticity_model(;
     bm = 1/7.80e3,
     kappanu = 633.33,
     eta = 1e-4,
-    force_download = false
   )
   Y, D, M, K, Bp, Bf, A = load_poro_raw_data(
-    n=n,
-    force_download = force_download
+    n=n
   )
   Y = rho*sparse(Y)
   D = alpha*sparse(D)
@@ -56,24 +56,9 @@ function load_poro_raw_data(;
     n = 980,
     force_download = false
   )
-  filename = "poro-n$n.mat"
-  url = "https://zenodo.org/record/5702554/files/poro-n$n.mat?download=1"
-  if n == 980
-    md5_hash = hex(0x2961a189be7049ffe2d476b18cb1f678)
-  elseif n == 320
-    md5_hash = hex(0x97afe8c34f0e9a56bbe86d0a51b7b626)
-  elseif n == 1805
-    md5_hash = hex(0xc61f6687da9cd26cbf2d880d7d3a9ac9)
-  else
-    throw(ArgumentError("Model size is either 320, 980, or 1805"))
-  end
-  download_system_data_if_required(
-    filename,
-    url,
-    md5_hash,
-    force_download = force_download
-  )
-  dd = loadMAT(get_filepath(filename))
+    poro_data = artifact"ph-poromodelsbasedata"
+    matfile = joinpath(poro_data, "PH-PoroModelsBaseData/poro-n$n.mat")
+    dd = matread(matfile)
   return dd["Y"], dd["D"], dd["M"], dd["K"], dd["Bp"], dd["Bf"], dd["A"]
 end
 

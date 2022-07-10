@@ -3,7 +3,6 @@ module PortHamiltonianBenchmarkSystems
 using LinearAlgebra, SparseArrays
 
 include("./Utils/IOFormats.jl")
-include("./Utils/Downloads.jl")
 
 abstract type BenchmarkConfig end
 

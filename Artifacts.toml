@@ -1,0 +1,7 @@
+[ph-poromodelsbasedata]
+git-tree-sha1 = "8769cf280097d77d44d56aee742902b3f139ff7f"
+lazy = true
+
+    [[ph-poromodelsbasedata.download]]
+    sha256 = "d8ebbd6c373a51acd3f8871d5ba86a22ff184902e434bc31da59f278701cbc16"
+    url = "https://zenodo.org/record/6815548/files/ph-poromodelsbasedata.tar.gz?download=1"
