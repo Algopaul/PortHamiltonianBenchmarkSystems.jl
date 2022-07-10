@@ -56,4 +56,19 @@
         @test system_1 == system_2
     end
 
+    # Test direct construction of PHSystem object
+    begin
+        config = SingleMSDConfig()
+        J, R, Q, B = construct_system(config)
+        system = PHSystem(config)
+        @test system.J == J
+        @test system.R == R
+        @test system.Q == Q
+        @test system.G == B
+        @test system.P == zero(B)
+        @test norm(system.E - one(R)) == 0
+        @test norm(system.S) == 0
+        @test norm(system.N) == 0
+    end
+
 end
