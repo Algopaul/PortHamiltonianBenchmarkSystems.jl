@@ -13,7 +13,7 @@ This is a collection of port-Hamiltonian benchmark systems that can be used to t
 In a `julia` instance, execute
 ```julia
 using Pkg
-Pkg.add(url="https://github.com/Algopaul/PortHamiltonianBenchmarkSystems/")
+Pkg.add(url="https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/")
 ```
 to install **PortHamiltonianBenchmarkSystems** and gain access to all benchmark examples directly within julia. To load the one of the benchmark systems simply type
 ```julia
