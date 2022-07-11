@@ -1,7 +1,6 @@
 [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://algopaul.github.io/PortHamiltonianBenchmarkSystems.jl/)
-[![Build status](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/workflows/CI/badge.svg)](https://github.com/PortHamiltonianBenchmarkSystems.jl/actions?query=workflow%3ACI+branch%3Amain)
 [![Coverage Status](http://codecov.io/github/Algopaul/PortHamiltonianBenchmarkSystems.jl/coverage.svg?branch=main)](http://codecov.io/github/Algopaul/PortHamiltonianBenchmarkSystems.jl?branch=main)
-
+![CI](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/actions/workflows/CI.yml/badge.svg)
 # PortHamiltonianBenchmarkSystems
 
 This is a collection of port-Hamiltonian benchmark systems that can be used to test algorithms designed for simulation, control, or model-order reduction of port-Hamiltonian systems. We feature a wide spectrum of linear, nonlinear, ODE and DAE systems. The examples are described in the [docs](https://algopaul.github.io/PortHamiltonianBenchmarkSystems/).
