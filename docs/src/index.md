@@ -11,7 +11,7 @@ This is a collection of port-Hamiltonian benchmark systems that can be used to t
 In the julia REPL, execute
 ```julia
 using Pkg
-Pkg.add(url="https://github.com/Algopaul/PortHamiltonianBenchmarkSystems/")
+Pkg.add(url="https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/")
 ```
 to install **PortHamiltonianBenchmarkSystems** and gain access to all
 BenchmarkExamples directly within julia. To load the one of the benchmark
