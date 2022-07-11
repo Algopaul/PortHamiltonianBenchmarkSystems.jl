@@ -20,6 +20,11 @@ UnPack = "3a884ed6-31ef-47d7-9d2a-63182c4928ed"
 
 [compat]
 MD5 = "0.2"
+Documenter = "0.27"
+BlockArrays = "0.16"
+IterTools = "1"
+H5Sparse = "0.3"
+HDF5 = "0.16"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
