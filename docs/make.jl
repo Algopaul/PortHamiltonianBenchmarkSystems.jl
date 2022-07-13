@@ -10,6 +10,6 @@ makedocs(
     ],
 )
 deploydocs(
-    repo = "github.com/Algopaul/PortHamiltonianBenchmarkSystems.git",
+    repo = "github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl.git",
     versions = nothing,
 )
