@@ -6,4 +6,5 @@ using Test
     include("./SingleMSDChainTests.jl")
     include("./PoroElasticityModelTests.jl")
     include("./RCLLaddersTests.jl")
+    include("./DampedWaveNetTests.jl")
 end

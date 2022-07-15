@@ -52,34 +52,34 @@ function DampedWaveNet(id::String)
     if id == "pipe"
         imat = reshape([1; -1], :, 1)
         epar = (a = [1], b = [1], d = [1], l = [1], n = [10])
-        bcon = ['p', 'p']
+        bcon = ['p', 'm']
     elseif id == "fork"
-        imat = [
-            -1 0 0
-            0 1 0
-            0 0 1
-            1 -1 -1
-        ]
-        epar =
-            (a = [1, 1, 1], b = [1, 1, 1], d = [1, 1, 1], l = [2, 1, 10], n = [40, 30, 90])
-        bcon = ['p', 'p', 'p']
+        imat = [-1  0  0
+                 0  1  0
+                 0  0  1
+                 1 -1 -1]
+        epar = (
+            a = [ 1,  1,  1], 
+            b = [ 1,  1,  1], 
+            d = [ 1,  1,  1], 
+            l = [ 2,  1, 10], 
+            n = [40, 30, 90])
+        bcon = ['p', 'p', 'm']
     elseif id == "diamond"
-        imat = [
-            -1 0 0 0 0 0 0
-            0 0 0 0 0 0 1
-            1 -1 -1 0 0 0 0
-            0 1 0 -1 -1 0 0
-            0 0 1 1 0 -1 0
-            0 0 0 0 1 1 -1
-        ]
+        imat = [-1  0  0  0  0  0  0
+                 0  0  0  0  0  0  1
+                 1 -1 -1  0  0  0  0
+                 0  1  0 -1 -1  0  0
+                 0  0  1  1  0 -1  0
+                 0  0  0  0  1  1 -1]
         epar = (
             a = [4, 4, 1, 1, 1, 4, 4],
-            b = [1 / 4, 1 / 4, 1, 1, 1, 1 / 4, 1 / 4],
+            b = [1, 1, 4, 4, 4, 1, 1] ./ 4,
             d = [1, 1, 8, 8, 8, 1, 1] ./ 80,
             l = [1, 1, 1, 1, 1, 1, 1],
             n = [1, 1, 1, 1, 1, 1, 1] .* 500,
         )
-        bcon = ['p', 'p']
+        bcon = ['p', 'm']
     else
         throw("Config id \'" * id * "\' not recognized")
     end
@@ -183,4 +183,4 @@ function PHSystem(problem::DampedWaveNet)
     return PHSystem(E, J, R, Q, G, P, S, N)
 end
 
-export DampedWaveNet
+export DampedWaveNets
