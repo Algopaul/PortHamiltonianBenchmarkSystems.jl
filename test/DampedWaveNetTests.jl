@@ -1,7 +1,11 @@
 @testset "DampedWaveNet" begin
-    # Test transfer functions, sizes implicitly
     ids = ["pipe","fork","diamond"]
-    Hrefs = [
+    ref_shapes = [
+      (n_x=22,n_u=2,n_y=2)
+      (n_x=325,n_u=3,n_y=3)
+      (n_x=7012,n_u=2,n_y=2)
+    ]
+    ref_Hs = [
         [ 1.8289-0.6127im -0.9100-1.5194im
           0.9100+1.5194im  1.6749-0.9510im],
 
@@ -13,10 +17,26 @@
           0.8491-0.0570im  0.0463-0.0826im]
     ]
 
-    for (id,Href) in zip(ids,Hrefs)
-        s = PHSystem(DampedWaveNet(id))
-        H = (s.G+s.P)'*s.Q * ((5.0*im*s.E - (s.J-s.R)*s.Q)\Array(s.G-s.P))
+    for (id,ref_H,(n_x,n_u,n_y)) in zip(ids,ref_Hs,ref_shapes)
+        p     = DampedWaveNet(id)
+        E,A,B = construct_system(p)
+        s     = PHSystem(p)
+        H     = B' * ((5.0*im*E - A)\Array(B))
 
-        @test round.(H,digits=4) == Href
+        #Correct system shapes
+        @test size(E ) == (n_x,n_x)
+        @test size(A ) == (n_x,n_x)
+        @test size(B ) == (n_x,n_u)
+        @test size(B') == (n_y,n_x)
+
+        #Correspondence between natural and pH form
+        @test s.E == E
+        @test (s.J-s.R)*s.Q == A
+        @test s.G-s.P == B
+        @test (s.G+s.P)'*s.Q == B'
+        @test (s.S+s.N) == spzeros(n_y,n_u)
+
+        #Correct system transfer function
+        @test round.(H,digits=4) == ref_H
     end
 end
