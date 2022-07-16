@@ -173,7 +173,6 @@ end
 function PHSystem(problem::DampedWaveNet)
     E, A, B = construct_system(problem)
 
-    E = E
     J = (A - A') ./ 2
     R = -(A + A') ./ 2
     Q = sparse(1.0I, size(A)...)
