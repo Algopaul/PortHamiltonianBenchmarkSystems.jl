@@ -1,11 +1,5 @@
 # Damped Wave Net
-
 ## Description
-
-```math
-\gdef\kett#1{\mathnormal{#1}}
-```
-
 This benchmark is a model for wave propagation in gas pipeline networks, as presented in ([EKLSMM2018](#References)). The network is modeled as directed, connected graph ``\mathcal{G}(\mathcal{V},\mathcal{E})``, with vertices ``v\in\mathcal{V}``, edges ``e\in\mathcal{E}`` and at least one boundary vertex ``v\in\mathcal{V}_b\subseteq\mathcal{V}``, connected to a single edge.
 
 Graph Figure
@@ -32,7 +26,6 @@ At each boundary vertex, either a pressure or mass flow must be fixed ``(p_{u}|_
 \end{align*}
 ```
 ## Discretization
-
 The Galerkin variational form of the damped wave equations can be formulated as shown below, where ``{p_e\in\text{span}(\mathcal{P}_e),\ \mathcal{P}_e=\{\pi_1\dots\pi_n\}}`` and ``m_e\in\text{span}(\mathcal{M}_e),\ \mathcal{M}_e=\{\mu_1\dots\mu_n\}``. In our implementation ``\mathcal{P}_e`` and ``\mathcal{M}_e`` are respectively discontinuous element-wise constant and continuous element-wise linear function spaces, but the shown approach holds in general:
 ```math
 \begin{align*}
@@ -53,96 +46,94 @@ It now becomes apparent that in matrix form, the linear operators in several pai
 \begin{align*}
     \underbrace{
     \begin{bmatrix}
-        \kett{A}_p\kett{M}_p & & & \\
-        & \kett{B}_m\kett{M}_m & & \\
+        A_pM_p & & & \\
+        & B_mM_m & & \\
         & & 0 & \\
         & & & 0
-    \end{bmatrix}}_{\kett{E}}
+    \end{bmatrix}}_{E}
     \begin{bmatrix}
-        \kett{\dot{p}}\\
-        \kett{\dot{m}}\\
-        \kett{\dot{p}}_i\\
-        \kett{\dot{p}}_y
+        \dot{p}\\
+        \dot{m}\\
+        \dot{p}_i\\
+        \dot{p}_y
     \end{bmatrix} &=
     \underbrace{
     \begin{bmatrix}
-        & -\kett{G}_m & & \\
-        \kett{G}_m^T& -\kett{D}_m\kett{M}_m &-\kett{C}_{m}^T & \kett{U}_{m}^T\\
-        & \kett{C}_{m}& & \\
-        & -\kett{U}_{m}& &
-    \end{bmatrix}}_{\kett{A}}
+        & -G_m & & \\
+        G_m^T& -D_mM_m &-C_{m}^T & U_{m}^T\\
+        & C_{m}& & \\
+        & -U_{m}& &
+    \end{bmatrix}}_{A}
     \begin{bmatrix}
-        \kett{p}\\
-        \kett{m}\\
-        \kett{p}_i\\
-        \kett{p}_y
+        p\\
+        m\\
+        p_i\\
+        p_y
     \end{bmatrix} +
     \underbrace{
     \begin{bmatrix}
          &\\
-        \kett{Y}_{m}^T &\\
+        Y_{m}^T &\\
         &  \\
-        & \kett{I}
-    \end{bmatrix}}_{\kett{B}}
+        & I
+    \end{bmatrix}}_{B}
     \begin{bmatrix}
-        \kett{p}_u\\
-        \kett{m}_u
+        p_u\\
+        m_u
     \end{bmatrix}\\
     \begin{bmatrix}
-        \kett{m}_y\\
-        \kett{p}_y
+        m_y\\
+        p_y
     \end{bmatrix} &=
     \underbrace{
     \begin{bmatrix}
-        0  &\kett{Y}_{m} & &\\
-        & & 0  & \kett{I}
-    \end{bmatrix}}_{\kett{B}^T} 
+        0  &Y_{m} & &\\
+        & & 0  & I
+    \end{bmatrix}}_{B^T} 
     \begin{bmatrix}
-        \kett{p}\\
-        \kett{m}\\
-        \kett{p}_i\\
-        \kett{p}_y
+        p\\
+        m\\
+        p_i\\
+        p_y
     \end{bmatrix}
 \end{align*}
 ```
-- ``\kett{M}_p,\ \kett{M}_m``: mass matrices for ``p,\ m``
-- ``\kett{A}_p,\ \kett{B}_m,\ \kett{D}_m``: diagonal matrices containing the edge parameters ``a_e,\ b_e,\ d_e``
-- ``\kett{G}_m``: Galerkin variational operator for ``\partial_xm``
-- ``\kett{C}_m``: mass conservation conditions for ``m``
-- ``\kett{U}_m,\ \kett{Y}_m``: matrices selecting ``\kett{m}_u,\ \kett{m}_y`` from ``\kett{m}``
+- ``M_p,\ M_m``: mass matrices for ``p,\ m``
+- ``A_p,\ B_m,\ D_m``: diagonal matrices containing the edge parameters ``a_e,\ b_e,\ d_e``
+- ``G_m``: Galerkin variational operator for ``\partial_xm``
+- ``C_m``: mass conservation conditions for ``m``
+- ``U_m,\ Y_m``: matrices selecting ``m_u,\ m_y`` from ``m``
 
-Since ``\kett{p}`` contains all the pressure variables, ``\kett{p}_i`` and ``\kett{p}_y`` are redundant in the solution vector. However, they are not explicitly tied to ``\kett{p}`` in the system. It can be proven that the system has a unique solution and that this constrains ``\kett{p}_i`` and ``\kett{p}_y`` to be equal to their counterparts in ``\kett{p}``, ensuring that the original variational problem is solved ([Egger, 2018](#References)).
+Since ``p`` contains all the pressure variables, ``p_i`` and ``p_y`` are redundant in the solution vector. However, they are not explicitly tied to ``p`` in the system. It can be proven that the system has a unique solution and that this constrains ``p_i`` and ``p_y`` to be equal to their counterparts in ``p``, ensuring that the original variational problem is solved ([Egger, 2018](#References)).
 
 Finally, the system can be written in linear port-Hamiltonian form as follows:
 ```math
 \begin{align*}
     \begin{matrix*}[l]
-        \kett{E}\kett{\dot{x}} = (\kett{J}-\kett{R})\kett{Q}\kett{x} + (\kett{G}-\kett{P})\kett{u}\\[0.33em]
-        \ \ \ \ \kett{y} = (\kett{G}+\kett{P})^H\kett{Q}\kett{x} + (\kett{S}+\kett{N})\kett{u}
+        E\dot{x} = (J-R)Qx + (G-P)u\\[0.33em]
+        \ \ \ \ y = (G+P)^HQx + (S+N)u
     \end{matrix*} \quad\quad\quad\quad
     \begin{cases}
-        \kett{J} = \frac{1}{2}(\kett{A}-\kett{A}^\mathsf{T})\\
-        \kett{R} = -\frac{1}{2}(\kett{A}+\kett{A}^\mathsf{T})\\
-        \kett{Q} = \kett{I}\\
-        \kett{G} = \kett{B}\\
-        \kett{P} = 0\\
-        \kett{S} = 0\\
-        \kett{N} = 0
+        J = \frac{1}{2}(A-A^\mathsf{T})\\
+        R = -\frac{1}{2}(A+A^\mathsf{T})\\
+        Q = I\\
+        G = B\\
+        P = 0\\
+        S = 0\\
+        N = 0
     \end{cases}
 \end{align*}
 ```
-
 ## Interface
 ```@docs
-DampedWaveNet
+DampedWaveNetConfig
 ```
 ```@docs
-DampedWaveNet(id::String)
+DampedWaveNetConfig(id::String)
 ```
 ```@docs
-construct_system(problem::DampedWaveNet)
+construct_system(problem::DampedWaveNetConfig)
 ```
-
 ## References
 ```LaTeX
 @article{EKLSMM2018,
