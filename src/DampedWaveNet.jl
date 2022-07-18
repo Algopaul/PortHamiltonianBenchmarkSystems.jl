@@ -5,11 +5,11 @@ using SparseArrays
 
 """
 This struct descibes port-Hamiltonian, pressure wave conducting pipe systems, as
-described in Egger et al. 'Structure-Preserving Model Reduction for Damped Wave Propagation in Transport Networks.'
-# Constructor arguments
+described in Egger et al. 'Structure-Preserving Model Reduction for Damped Wave Propagation in Transport Networks'.
+# Arguments
 - `incidence_matrix`: Sparse incidence matrix describing the pipe network
-- `edge_parameters`: Named tuple containing vectors `a`, `b`, `d`, `l`, `n`, respectively containing the parameters ``a_e,\ b_e,\ d_e``,
-                     the length and the number of FEM elements of each pipe (ordered as in `incidence_matrix`)
+- `edge_parameters`: Named tuple containing vectors `a`, `b`, `d`, `l`, `n`, respectively containing the parameters ``a_e,\\ b_e,\\ d_e``,
+                     the length and the number of FEM elements for each pipe (ordered as in `incidence_matrix`)
 - `boundary_conditions`: Vector of chars `'p'`, `'m'`, determining the boundary condition type at each boundary
                          vertex (ordered as in `incidence_matrix`)
 """
@@ -44,7 +44,7 @@ struct DampedWaveNet <: BenchmarkConfig
 end
 
 """
-This constructor provides various default DampedWaveNet configurations.
+This external constructor provides various default DampedWaveNet configurations.
 # Arguments
 - `id`: String to identify a default configuration, with possible values: `"pipe"`, `"fork"`, `"diamond"`
 """
