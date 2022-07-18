@@ -27,13 +27,13 @@ At each inner vertex ``v\in\mathcal{V}_i\equiv\mathcal{V}\setminus\mathcal{V}_b`
 At each boundary vertex, either a pressure or mass flow must be fixed ``(p_{u}|_v,\ m_{u}|_v)``, leaving the other quantity to be solved for ``(p_{y}|_v,\ m_{y}|_v)``:
 ```math
 \begin{align*}
-	p_{\mathcal{E}(v)}|_v = p_{u}|_v\quad n_{\mathcal{E}(v)}m_{\mathcal{E}(v)}|_v = m_{y}|_v &&\forall v \in\mathcal{V}_{b,p}\\
-	p_{\mathcal{E}(v)}|_v = p_{y}|_v\quad n_{\mathcal{E}(v)}m_{\mathcal{E}(v)}|_v = m_{u}|_v &&\forall v \in\mathcal{V}_{b,m}
+	&p_{\mathcal{E}(v)}|_v = p_{u}|_v &n_{\mathcal{E}(v)}m_{\mathcal{E}(v)}|_v = m_{y}|_v &&\forall v \in\mathcal{V}_{b,p}\\
+	&p_{\mathcal{E}(v)}|_v = p_{y}|_v &-n_{\mathcal{E}(v)}m_{\mathcal{E}(v)}|_v = m_{u}|_v &&\forall v \in\mathcal{V}_{b,m}
 \end{align*}
 ```
 ## Discretization
 
-The Galerkin variational form of the damped wave equations can be formulated as follows, where ``{p_e\in\text{span}\ \mathcal{P}_e,\ \mathcal{P}_e=\{\pi_1\dots\pi_n\}}``, ``m_e\in\text{span}\ \mathcal{M}_e,\ \mathcal{M}_e=\{\mu_1\dots\mu_n\}``:
+The Galerkin variational form of the damped wave equations can be formulated as shown below, where ``{p_e\in\text{span}(\mathcal{P}_e),\ \mathcal{P}_e=\{\pi_1\dots\pi_n\}}`` and ``m_e\in\text{span}(\mathcal{M}_e),\ \mathcal{M}_e=\{\mu_1\dots\mu_n\}``. In our implementation ``\mathcal{P}_e`` and ``\mathcal{M}_e`` are respectively discontinuous element-wise constant and continuous element-wise linear function spaces, but the shown approach holds in general:
 ```math
 \begin{align*}
 	a_e\int_e\partial_tp_e\pi_e\ dx &= -\int_e\partial_xm_e\pi_e\ dx &&\forall \pi_e\in\mathcal{P}_e\\
@@ -107,34 +107,40 @@ It now becomes apparent that in matrix form, the linear operators in several pai
 ```
 - ``\kett{M}_p,\ \kett{M}_m``: mass matrices for ``p,\ m``
 - ``\kett{A}_p,\ \kett{B}_m,\ \kett{D}_m``: diagonal matrices containing the edge parameters ``a_e,\ b_e,\ d_e``
-- ``\kett{G}_m``: matrix coming from the gradient of ``m``
-- ``\kett{C}_m``: matrix coming from the mass conservation conditions on ``m``
-- ``\kett{U}_m,\ \kett{Y}_m``: matrices  selecting ``\kett{m}_u,\ \kett{m}_y`` from ``\kett{m}``
+- ``\kett{G}_m``: Galerkin variational operator for ``\partial_xm``
+- ``\kett{C}_m``: mass conservation conditions for ``m``
+- ``\kett{U}_m,\ \kett{Y}_m``: matrices selecting ``\kett{m}_u,\ \kett{m}_y`` from ``\kett{m}``
 
 Since ``\kett{p}`` contains all the pressure variables, ``\kett{p}_i`` and ``\kett{p}_y`` are redundant in the solution vector. However, they are not explicitly tied to ``\kett{p}`` in the system. It can be proven that the system has a unique solution and that this constrains ``\kett{p}_i`` and ``\kett{p}_y`` to be equal to their counterparts in ``\kett{p}``, ensuring that the original variational problem is solved ([Egger, 2018](#References)).
 
-The system can be written in standard linear port-Hamiltonian form as follows:
+Finally, the system can be written in linear port-Hamiltonian form as follows:
 ```math
 \begin{align*}
-    \kett{E}\kett{\dot{x}} &= (\kett{J}-\kett{R})\kett{Q}\kett{x} + (\kett{G}-\kett{P})\kett{u},\\
-    \kett{y} &= (\kett{G}+\kett{P})^H\kett{Q}\kett{x} + (\kett{S}+\kett{N})\kett{u},
-\end{align*}
-```
-where
-```math
-\begin{align*}
-\kett{J} = \frac{1}{2}(\kett{A}-\kett{A}^\mathsf{T}), \quad
-\kett{R} = -\frac{1}{2}(\kett{A}+\kett{A}^\mathsf{T}), \quad
-\kett{Q} = \kett{I}, \quad
-\kett{G} = \kett{B}, \quad
-\kett{P} = 0, \quad
-\kett{S} = \kett{N} = 0
+    \begin{matrix*}[l]
+        \kett{E}\kett{\dot{x}} = (\kett{J}-\kett{R})\kett{Q}\kett{x} + (\kett{G}-\kett{P})\kett{u}\\[0.33em]
+        \ \ \ \ \kett{y} = (\kett{G}+\kett{P})^H\kett{Q}\kett{x} + (\kett{S}+\kett{N})\kett{u}
+    \end{matrix*} \quad\quad\quad\quad
+    \begin{cases}
+        \kett{J} = \frac{1}{2}(\kett{A}-\kett{A}^\mathsf{T})\\
+        \kett{R} = -\frac{1}{2}(\kett{A}+\kett{A}^\mathsf{T})\\
+        \kett{Q} = \kett{I}\\
+        \kett{G} = \kett{B}\\
+        \kett{P} = 0\\
+        \kett{S} = 0\\
+        \kett{N} = 0
+    \end{cases}
 \end{align*}
 ```
 
 ## Interface
 ```@docs
 DampedWaveNet
+```
+```@docs
+DampedWaveNet(id::String)
+```
+```@docs
+construct_system(problem::DampedWaveNet)
 ```
 
 ## References
