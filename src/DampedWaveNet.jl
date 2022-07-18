@@ -56,24 +56,24 @@ function DampedWaveNet(id::String)
         epar = (a = [1], b = [1], d = [1], l = [1], n = [10])
         bcon = ['p', 'm']
     elseif id == "fork"
-        imat = [-1  0  0
-                 0  1  0
-                 0  0  1
-                 1 -1 -1]
-        epar = (
-            a = [ 1,  1,  1], 
-            b = [ 1,  1,  1], 
-            d = [ 1,  1,  1], 
-            l = [ 2,  1, 10], 
-            n = [40, 30, 90])
+        imat = [
+            -1 0 0
+            0 1 0
+            0 0 1
+            1 -1 -1
+        ]
+        epar =
+            (a = [1, 1, 1], b = [1, 1, 1], d = [1, 1, 1], l = [2, 1, 10], n = [40, 30, 90])
         bcon = ['p', 'p', 'm']
     elseif id == "diamond"
-        imat = [-1  0  0  0  0  0  0
-                 0  0  0  0  0  0  1
-                 1 -1 -1  0  0  0  0
-                 0  1  0 -1 -1  0  0
-                 0  0  1  1  0 -1  0
-                 0  0  0  0  1  1 -1]
+        imat = [
+            -1 0 0 0 0 0 0
+            0 0 0 0 0 0 1
+            1 -1 -1 0 0 0 0
+            0 1 0 -1 -1 0 0
+            0 0 1 1 0 -1 0
+            0 0 0 0 1 1 -1
+        ]
         epar = (
             a = [4, 4, 1, 1, 1, 4, 4],
             b = [1, 1, 4, 4, 4, 1, 1] ./ 4,
@@ -91,7 +91,7 @@ end
 """
 Method for constructing the 'natural' DAE system.
 # Arguments
-- `problem`: `DampedWaveNet` instance 
+- `problem`: `DampedWaveNet` instance
 # Output
 - `system`: Named tuple containing sparse matrices `E`, `A`, `B`
 """
@@ -102,13 +102,13 @@ function construct_system(problem::DampedWaveNet)
     bcon = problem.boundary_conditions
 
     #Index calculations
-    n_p  = sum(epar.n)             #Number of pressure variables
-    n_m  = sum(epar.n .+ 1)        #Number of mass flow variables
-    n_b  = length(bcon)            #Number of boundary conditions
+    n_p = sum(epar.n)             #Number of pressure variables
+    n_m = sum(epar.n .+ 1)        #Number of mass flow variables
+    n_b = length(bcon)            #Number of boundary conditions
     n_bp = sum(bcon .== 'p')       #Number of boundary conditions for p
     n_bm = sum(bcon .== 'm')       #Number of boundary conditions for m
     n_im = size(imat)[2] - n_b     #Number of internal conditions for m
-    n_x  = n_p + n_m + n_im + n_bm #Number of state variables
+    n_x = n_p + n_m + n_im + n_bm #Number of state variables
 
     i_ep = collect(eachblock(BlockArray(1:n_p, epar.n))) #Edge indices for p
     i_em = collect(eachblock(BlockArray(1:n_m, epar.n .+ 1))) #Edge indices for m
@@ -118,7 +118,7 @@ function construct_system(problem::DampedWaveNet)
     A = spzeros(n_x, n_x)
     B = spzeros(n_x, n_b)
 
-    Es = PseudoBlockArray(E, [n_p, n_m, n_im+ n_bm], [n_p, n_m, n_im+ n_bm])
+    Es = PseudoBlockArray(E, [n_p, n_m, n_im + n_bm], [n_p, n_m, n_im + n_bm])
     As = PseudoBlockArray(A, [n_p, n_m, n_im, n_bm], [n_p, n_m, n_im, n_bm])
     Bs = PseudoBlockArray(B, [n_p, n_m, n_im, n_bm], [n_bp, n_bm])
 
@@ -189,6 +189,6 @@ function PHSystem(problem::DampedWaveNet)
     P = spzeros(size(B)...)
     S = spzeros(size(B)[2], size(B)[2])
     N = spzeros(size(S)...)
-    
+
     return PHSystem(E, J, R, Q, G, P, S, N)
 end
