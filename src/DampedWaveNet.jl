@@ -3,15 +3,17 @@ using IterTools
 using LinearAlgebra
 using SparseArrays
 
+export DampedWaveNet
+
 """
-This struct descibes port-Hamiltonian pressure wave conducting pipe systems, as
-given in Egger et al. Structure-Preserving Model Reduction for Damped Wave Propagation in Transport Networks
+Composite type descibing port-Hamiltonian, pressure wave conducting pipe systems, as
+described in Egger et al. 'Structure-Preserving Model Reduction for Damped Wave Propagation in Transport Networks'.
 # Arguments
 - `incidence_matrix`: Sparse incidence matrix describing the pipe network
-- `edge_parameters`: Named tuple containing vectors a, b, d, l, n, respectively containing the parameters a,b,d,
-                     the length and the number of FEM elements of each pipe (ordered as in the incidence_matrix)
-- `boundary_conditions`: Vector of chars 'p', 'm', describing the type of boundary condition at each boundary
-                         vertex (ordered as in the incidence_matrix)
+- `edge_parameters`: Named tuple containing vectors `a`, `b`, `d`, `l`, `n`, respectively containing the parameters ``a_e,\\ b_e,\\ d_e``,
+                     the length and the number of FEM elements for each pipe (ordered as in `incidence_matrix`)
+- `boundary_conditions`: Vector of chars `'p'`, `'m'`, determining the boundary condition type at each boundary
+                         vertex (ordered as in `incidence_matrix`)
 """
 struct DampedWaveNet <: BenchmarkConfig
     incidence_matrix::SparseMatrixCSC{Int8,Int64}
@@ -44,15 +46,15 @@ struct DampedWaveNet <: BenchmarkConfig
 end
 
 """
-This constructor provides various default DampedWaveNet configurations
+External constructor providing various default DampedWaveNet configurations.
 # Arguments
-- `id`: String to identify a default config. Possible values: "pipe", "fork", "diamond"
+- `id`: String to identify a default configuration, with possible values: `"pipe"`, `"fork"`, `"diamond"`
 """
 function DampedWaveNet(id::String)
     if id == "pipe"
-        imat = reshape([1; -1], :, 1)
+        imat = reshape([-1; 1], :, 1)
         epar = (a = [1], b = [1], d = [1], l = [1], n = [10])
-        bcon = ['p', 'p']
+        bcon = ['p', 'm']
     elseif id == "fork"
         imat = [
             -1 0 0
@@ -62,7 +64,7 @@ function DampedWaveNet(id::String)
         ]
         epar =
             (a = [1, 1, 1], b = [1, 1, 1], d = [1, 1, 1], l = [2, 1, 10], n = [40, 30, 90])
-        bcon = ['p', 'p', 'p']
+        bcon = ['p', 'p', 'm']
     elseif id == "diamond"
         imat = [
             -1 0 0 0 0 0 0
@@ -74,18 +76,25 @@ function DampedWaveNet(id::String)
         ]
         epar = (
             a = [4, 4, 1, 1, 1, 4, 4],
-            b = [1 / 4, 1 / 4, 1, 1, 1, 1 / 4, 1 / 4],
+            b = [1, 1, 4, 4, 4, 1, 1] ./ 4,
             d = [1, 1, 8, 8, 8, 1, 1] ./ 80,
             l = [1, 1, 1, 1, 1, 1, 1],
             n = [1, 1, 1, 1, 1, 1, 1] .* 500,
         )
-        bcon = ['p', 'p']
+        bcon = ['p', 'm']
     else
         throw("Config id \'" * id * "\' not recognized")
     end
     return DampedWaveNet(imat, epar, bcon)
 end
 
+"""
+Method for constructing the 'natural' DAE system.
+# Arguments
+- `problem`: `DampedWaveNet` instance
+# Output
+- `system`: Named tuple containing sparse matrices `E`, `A`, `B`
+"""
 function construct_system(problem::DampedWaveNet)
     #Convenience
     imat = sparse(problem.incidence_matrix')
@@ -93,13 +102,13 @@ function construct_system(problem::DampedWaveNet)
     bcon = problem.boundary_conditions
 
     #Index calculations
-    n_p = sum(epar.n)       #Number of pressure variables
-    n_m = sum(epar.n .+ 1)    #Number of mass flow variables
-    n_b = length(bcon)      #Number of boundary conditions
-    n_bp = sum(bcon .== 'p')   #Number of boundary conditions for p
-    n_bm = sum(bcon .== 'm')   #Number of boundary conditions for m
-    n_im = size(imat)[2] - n_b #Number of internal conditions for m
-    n_x = n_p + n_m + n_im + n_b  #Number of state variables
+    n_p = sum(epar.n)             #Number of pressure variables
+    n_m = sum(epar.n .+ 1)        #Number of mass flow variables
+    n_b = length(bcon)            #Number of boundary conditions
+    n_bp = sum(bcon .== 'p')       #Number of boundary conditions for p
+    n_bm = sum(bcon .== 'm')       #Number of boundary conditions for m
+    n_im = size(imat)[2] - n_b     #Number of internal conditions for m
+    n_x = n_p + n_m + n_im + n_bm #Number of state variables
 
     i_ep = collect(eachblock(BlockArray(1:n_p, epar.n))) #Edge indices for p
     i_em = collect(eachblock(BlockArray(1:n_m, epar.n .+ 1))) #Edge indices for m
@@ -172,7 +181,7 @@ end
 
 function PHSystem(problem::DampedWaveNet)
     E, A, B = construct_system(problem)
-    E = E
+
     J = (A - A') ./ 2
     R = -(A + A') ./ 2
     Q = sparse(1.0I, size(A)...)
@@ -180,7 +189,6 @@ function PHSystem(problem::DampedWaveNet)
     P = spzeros(size(B)...)
     S = spzeros(size(B)[2], size(B)[2])
     N = spzeros(size(S)...)
+
     return PHSystem(E, J, R, Q, G, P, S, N)
 end
-
-export DampedWaveNet
