@@ -3,8 +3,10 @@ using IterTools
 using LinearAlgebra
 using SparseArrays
 
+export DampedWaveNet
+
 """
-This struct descibes port-Hamiltonian, pressure wave conducting pipe systems, as
+Composite type descibing port-Hamiltonian, pressure wave conducting pipe systems, as
 described in Egger et al. 'Structure-Preserving Model Reduction for Damped Wave Propagation in Transport Networks'.
 # Arguments
 - `incidence_matrix`: Sparse incidence matrix describing the pipe network
@@ -44,7 +46,7 @@ struct DampedWaveNet <: BenchmarkConfig
 end
 
 """
-This external constructor provides various default DampedWaveNet configurations.
+External constructor providing various default DampedWaveNet configurations.
 # Arguments
 - `id`: String to identify a default configuration, with possible values: `"pipe"`, `"fork"`, `"diamond"`
 """
@@ -86,6 +88,13 @@ function DampedWaveNet(id::String)
     return DampedWaveNet(imat, epar, bcon)
 end
 
+"""
+Method for constructing the 'natural' DAE system.
+# Arguments
+- `problem`: `DampedWaveNet` instance 
+# Output
+- `system`: Named tuple containing sparse matrices `E`, `A`, `B`
+"""
 function construct_system(problem::DampedWaveNet)
     #Convenience
     imat = sparse(problem.incidence_matrix')
@@ -183,5 +192,3 @@ function PHSystem(problem::DampedWaveNet)
     
     return PHSystem(E, J, R, Q, G, P, S, N)
 end
-
-export DampedWaveNet

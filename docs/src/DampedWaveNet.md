@@ -139,6 +139,9 @@ DampedWaveNet
 ```@docs
 DampedWaveNet(id::String)
 ```
+```@docs
+construct_system(problem::DampedWaveNet)
+```
 
 ## References
 ```LaTeX
