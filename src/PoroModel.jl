@@ -2,14 +2,7 @@ using MAT
 using LazyArtifacts
 
 """
-`poro_elasticity_model(;
-    n = 980,
-    rho = 1e-3,
-    alpha = 0.79,
-    M = 1/7.80e3,
-    kappanu = 633.33,
-    eta = 1e-4,
-  )`
+    poro_elasticity_model(; n = 980, rho = 1e-3, alpha = 0.79, M = 1/7.80e3, kappanu = 633.33, eta = 1e-4)
 
 This function returns a port-Hamiltonian model of linear poroelasticity in a
 bounded Lipschitz domain as described in
