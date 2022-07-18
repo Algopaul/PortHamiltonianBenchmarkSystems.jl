@@ -6,7 +6,7 @@ makedocs(
     sitename = "PortHamiltonianBenchmarkSystems",
     pages = [
         "Home" => "index.md",
-        "Package Structure" => "structure.md",
+        "Contribution" => "contribution.md",
         "Benchmark Systems" =>
             ["GugercinMSDChain.md", "PoroModel.md", "RclCircuits.md", "DampedWaveNet.md"],
     ],
