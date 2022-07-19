@@ -7,7 +7,7 @@ This package consists of a single module, containing the following six elements:
 - `<Model>Config`: external constructor providing several default `<Model>Config` instances based on some identifier
 - `construct_system`: method for constructing system matrices in 'natural' form based on some `<Model>Config` instance;
 - `PHSystem`: external constructor for constructing system matrices in port-Hamltonian form.
-The last four elements are repeated for each benchmark model and are stored together in `src/<Model>.jl`. All `<Model>.jl` files are included in `src/PortHamiltonianBenchmarkSystems.jl`, which also contains the type declarations for `PHSystem` and `BenchmarkConfig` along with some common package imports.
+The last four elements are repeated for each benchmark model and are stored together in `src/<Model>.jl`. All `<Model>.jl` files are included in `src/PortHamiltonianBenchmarkSystems.jl`, which also contains the type declarations for `PHSystem` and `BenchmarkConfig`.
 
 To contribute to the code, simply add a file based on the template below at `/src/<Model>.jl` and add a corresponding `include` statement to `src/PortHamiltonianBenchmarkSystems.jl`. The docstrings should be written in `Markdown` format, as shown below.
 ```julia
@@ -61,6 +61,22 @@ function PHSystem(config::<Model>Config)
     return PHSystem(<pH system matrices>)
 end
 ```
+## Tests
+To guarantee that all merged code is in a working state, automatic test pipelines have been set up for this repository. The test are run through GitHub Actions, using the `Test.jl` package. 
+
+Every benchmark model has its own `/test/<Model>Tests.jl` file, which is included in `/test/runtests.jl`. While the goal is to achieve near total code coverage, it is not necessary to 'test everything'. We suggest to at least test the following for a variety of configurations:
+- System matrix sizes;
+- System transfer functions;
+- Correspondence between 'natural' and port-Hamiltonian system matrices.
+
+To contribute to the tests, add a file based on the template below at `/test/<Model>Tests.jl` and add a corresponding `include` statement to `/test/runtests.jl`. Please refer to the current tests for more detailed examples.
+```julia
+@testset "<Model>" begin
+    @test #Test 1
+    @test #Test ...
+    @test #Test N
+end
+```
 ## Documentation
 The documentation for this package is built using `Documenter.jl`. The `/docs/make.jl` script uses the `Markdown` files in `/docs/src` and the images in `/docs/src/assets`to build a documentation webpage in `/docs/build`. The webpage can be loaded locally by running `make.jl` and then `LiveServer.serve(dir=/docs/build`). The documentation should then be accessible from the returned `http://localhost` port.
 
@@ -70,7 +86,7 @@ Each benchmark model is documented in a separate file, containing the following 
 - `Interface`: section importing the docstrings from the corresponding `<Model>.jl` file;
 - `References`: reference section in `BibTeX` format.
 
-To contribute to the documentation, simply add a file based on the template below at `/docs/src/<Model>.md` and add `"<Model>.md"` to the `"Benchmark Systems"` list in `/docs/make.jl`. Please use the current 'Benchmark System' pages for stylistic reference.
+To contribute to the documentation, add a file based on the template below at `/docs/src/<Model>.md` and add `"<Model>.md"` to the `"Benchmark Systems"` list in `/docs/make.jl`. Please use the current 'Benchmark System' pages for stylistic reference.
 ````markdown
 # <Model>
 
