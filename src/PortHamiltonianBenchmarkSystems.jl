@@ -5,7 +5,7 @@ using SparseArrays
 
 abstract type BenchmarkConfig end
 
-struct PHSystem{TE,TJ,TR,TG,TP,TQ,TS,TN}
+struct PHSystem{TE,TJ,TR,TQ,TG,TP,TS,TN}
     E::TE
     J::TJ
     R::TR
