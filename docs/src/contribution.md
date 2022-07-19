@@ -1,41 +1,59 @@
 # Contribution
 ## Code
-This package consists of a module, containing the following six elements:
-- `PHSystem`: parametric composite type for storing system matrices in port-Hamiltonian form, with a single input validating internal constructor
-- `BenchmarkConfig`: abstract type for grouping all `ModelConfig` types
-- `ModelConfig <: BenchmarkConfig`: (parametric) composite type containing all parameters for some model, with a single input validating internal constructor
-- `ModelConfig`: External constructor providing several default `ModelConfig` instances based on some identifier
-- `construct_system`: Method for constructing system matrices in 'natural' form based on some `ModelConfig` instance
-- `PHSystem`: External constructor for constructing system matrices in port-Hamltonian form
-The last four elements are repeated for each benchmark model and are stored together in `Model.jl`. All `Model.jl` files are included in `PortHamiltonianBenchmarkSystems.jl`, which also contains the type declarations for `PHSystem` and `BenchmarkConfig` along with some common package imports.
+This package consists of a single module, containing the following six elements:
+- `PHSystem`: parametric composite type for storing system matrices in port-Hamiltonian form, with a single input validating internal constructor;
+- `BenchmarkConfig`: abstract type for grouping all `<Model>Config` types;
+- `<Model>Config <: BenchmarkConfig`: (parametric) composite type containing all parameters for some model, with a single input validating internal constructor;
+- `<Model>Config`: external constructor providing several default `<Model>Config` instances based on some identifier
+- `construct_system`: method for constructing system matrices in 'natural' form based on some `<Model>Config` instance;
+- `PHSystem`: external constructor for constructing system matrices in port-Hamltonian form.
+The last four elements are repeated for each benchmark model and are stored together in `src/<Model>.jl`. All `<Model>.jl` files are included in `src/PortHamiltonianBenchmarkSystems.jl`, which also contains the type declarations for `PHSystem` and `BenchmarkConfig` along with some common package imports.
 
-To contribute, simply add a `Model.jl` file based on the template shown below to `/src` and add a corresponding `include` statement to `src/PortHamiltonianBenchmarkSystems.jl`.
+To contribute to the code, simply add a file based on the template below at `/src/<Model>.jl` and add a corresponding `include` statement to `src/PortHamiltonianBenchmarkSystems.jl`. The docstrings should be written in `Markdown` format, as shown below.
 ```julia
-export ModelConfig
+export <Model>Config
 
-struct ModelConfig <: BenchmarkConfig
+"""
+<description>
+# Arguments
+- <args>: <types>, <descriptions>
+"""
+struct <Model>Config <: BenchmarkConfig
     <parameters>::<types>
 
-    ModelConfig(<parameters>::<types>)
+    <Model>Config(<parameters>::<types>)
         #Validate <parameters>
 
         return new(<parameters>)
     end
 end
 
-function ModelConfig(id::<type>)
+"""
+External constructor providing various default <Model> configurations.
+# Arguments
+- `id`: <type> to identify a default configurations, with possible values: <values>
+"""
+function <Model>Config(id::<type>)
     #Fetch <parameters> based on id
 
-    return ModelConfig(<parameters>)
+    return <Model>Config(<parameters>)
 end
 
-function construct_system(config::ModelConfig)
+
+"""
+Method for constructing the 'natural' system matries.
+# Arguments
+- `config`: `<Model>Config` instance
+# Output
+- `system`: Named tuple containing sparse matrices `<names>`
+"""
+function construct_system(config::<Model>Config)
     #Construct <natural system matrices> based on config
 
     return (<names> = <natural system matrices>) #Named tuple
 end
 
-function PHSystem(config::ModelConfig)
+function PHSystem(config::<Model>Config)
     <natural system matrices> = construct_system(config)
 
     #Construct <pH system matrices> based on <natural system matrices>
@@ -44,3 +62,35 @@ function PHSystem(config::ModelConfig)
 end
 ```
 ## Documentation
+The documentation for this package is built using `Documenter.jl`. The `/docs/make.jl` script uses the `Markdown` files in `/docs/src` and the images in `/docs/src/assets`to build a documentation webpage in `/docs/build`. The webpage can be loaded locally by running `make.jl` and then `LiveServer.serve(dir=/docs/build`). The documentation should then be accessible from the returned `http://localhost` port.
+
+Each benchmark model is documented in a separate file, containing the following sections:
+- `Description`: mathematical description of the model;
+- `Discretization`: detailed description of the discretization procedure and conversion to port-Hamiltonian form;
+- `Interface`: section importing the docstrings from the corresponding `<Model>.jl` file;
+- `References`: reference section in `BibTeX` format.
+
+To contribute to the documentation, simply add a file based on the template below at `/docs/src/<Model>.md` and add `"<Model>.md"` to the `"Benchmark Systems"` list in `/docs/make.jl`. Please use the current 'Benchmark System' pages for stylistic reference.
+````markdown
+# <Model>
+
+## Description
+
+## Discretization
+
+## Interface
+```@docs
+<Model>Config
+```
+```@docs
+<Model>Config(id::<type>)
+```
+```@docs
+construct_system(config::<Model>Config)
+```
+
+## References
+```LaTeX
+
+```
+````
