@@ -95,11 +95,11 @@ Method for constructing the 'natural' DAE system.
 # Output
 - `system`: Named tuple containing sparse matrices `E`, `A`, `B`
 """
-function construct_system(problem::DampedWaveNetConfig)
+function construct_system(config::DampedWaveNetConfig)
     #Convenience
-    imat = sparse(problem.incidence_matrix')
-    epar = problem.edge_parameters
-    bcon = problem.boundary_conditions
+    imat = sparse(config.incidence_matrix')
+    epar = config.edge_parameters
+    bcon = config.boundary_conditions
 
     #Index calculations
     n_p = sum(epar.n)             #Number of pressure variables
@@ -179,8 +179,8 @@ function construct_system(problem::DampedWaveNetConfig)
     return (E = E, A = A, B = B)
 end
 
-function PHSystem(problem::DampedWaveNetConfig)
-    E, A, B = construct_system(problem)
+function PHSystem(config::DampedWaveNetConfig)
+    E, A, B = construct_system(config)
 
     J = (A - A') ./ 2
     R = -(A + A') ./ 2
