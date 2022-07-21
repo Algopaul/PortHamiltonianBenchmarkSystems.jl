@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Contribution · PortHamiltonianBenchmarkSystems</title><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.045/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.24/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../"><img class="docs-light-only" src="../assets/logo.png" alt="PortHamiltonianBenchmarkSystems logo"/><img class="docs-dark-only" src="../assets/logo-dark.png" alt="PortHamiltonianBenchmarkSystems logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../">PortHamiltonianBenchmarkSystems</a></span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><span class="tocitem">Benchmark Systems</span><ul><li><a class="tocitem" href="../GugercinMSDChain/">Single MSD Chain</a></li><li><a class="tocitem" href="../PoroModel/">Poroelastic Network Model</a></li><li><a class="tocitem" href="../RclCircuits/">RCL Ladder Network</a></li><li><a class="tocitem" href="../DampedWaveNet/">Damped Wave Net</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Contribution</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Contribution</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/blob/main/docs/src/contribution.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Contribution"><a class="docs-heading-anchor" href="#Contribution">Contribution</a><a id="Contribution-1"></a><a class="docs-heading-anchor-permalink" href="#Contribution" title="Permalink"></a></h1><h2 id="Code"><a class="docs-heading-anchor" href="#Code">Code</a><a id="Code-1"></a><a class="docs-heading-anchor-permalink" href="#Code" title="Permalink"></a></h2><p>This package consists of a single module, containing the following six elements:</p><ul><li><code>PHSystem</code>: parametric composite type for storing system matrices in port-Hamiltonian form, with a single input validating internal constructor;</li><li><code>BenchmarkConfig</code>: abstract type for grouping all <code>&lt;Model&gt;Config</code> types;</li><li><code>&lt;Model&gt;Config &lt;: BenchmarkConfig</code>: (parametric) composite type containing all parameters for some model, with a single input validating internal constructor;</li><li><code>&lt;Model&gt;Config</code>: external constructor providing several default <code>&lt;Model&gt;Config</code> instances based on some identifier</li><li><code>construct_system</code>: method for constructing system matrices in &#39;natural&#39; form based on some <code>&lt;Model&gt;Config</code> instance;</li><li><code>PHSystem</code>: external constructor for constructing system matrices in port-Hamltonian form.</li></ul><p>The last four elements are repeated for each benchmark model and are stored together in <code>src/&lt;Model&gt;.jl</code>. All <code>&lt;Model&gt;.jl</code> files are included in <code>src/PortHamiltonianBenchmarkSystems.jl</code>, which also contains the type declarations for <code>PHSystem</code> and <code>BenchmarkConfig</code>.</p><p>To contribute to the code, simply add a file based on the template below at <code>/src/&lt;Model&gt;.jl</code> and add a corresponding <code>include</code> statement to <code>src/PortHamiltonianBenchmarkSystems.jl</code>. The docstrings should be written in <code>Markdown</code> format, as shown below.</p><pre><code class="language-julia hljs">export &lt;Model&gt;Config
+
+&quot;&quot;&quot;
+&lt;description&gt;
+# Arguments
+- &lt;args&gt;: &lt;types&gt;, &lt;descriptions&gt;
+&quot;&quot;&quot;
+struct &lt;Model&gt;Config &lt;: BenchmarkConfig
+    &lt;parameters&gt;::&lt;types&gt;
+
+    &lt;Model&gt;Config(&lt;parameters&gt;::&lt;types&gt;)
+        #Validate &lt;parameters&gt;
+
+        return new(&lt;parameters&gt;)
+    end
+end
+
+&quot;&quot;&quot;
+External constructor providing various default &lt;Model&gt; configurations.
+# Arguments
+- `id`: &lt;type&gt; to identify a default configurations, with possible values: &lt;values&gt;
+&quot;&quot;&quot;
+function &lt;Model&gt;Config(id::&lt;type&gt;)
+    #Fetch &lt;parameters&gt; based on id
+
+    return &lt;Model&gt;Config(&lt;parameters&gt;)
+end
+
+
+&quot;&quot;&quot;
+Method for constructing the &#39;natural&#39; system matries.
+# Arguments
+- `config`: `&lt;Model&gt;Config` instance
+# Output
+- `system`: Named tuple containing sparse matrices `&lt;names&gt;`
+&quot;&quot;&quot;
+function construct_system(config::&lt;Model&gt;Config)
+    #Construct &lt;natural system matrices&gt; based on config
+
+    return (&lt;names&gt; = &lt;natural system matrices&gt;) #Named tuple
+end
+
+function PHSystem(config::&lt;Model&gt;Config)
+    &lt;natural system matrices&gt; = construct_system(config)
+
+    #Construct &lt;pH system matrices&gt; based on &lt;natural system matrices&gt;
+    
+    return PHSystem(&lt;pH system matrices&gt;)
+end</code></pre><h2 id="Tests"><a class="docs-heading-anchor" href="#Tests">Tests</a><a id="Tests-1"></a><a class="docs-heading-anchor-permalink" href="#Tests" title="Permalink"></a></h2><p>To guarantee that all merged code is in a working state, automatic test pipelines have been set up for this repository. The test are run through GitHub Actions, using the <code>Test.jl</code> package. </p><p>Every benchmark model has its own <code>/test/&lt;Model&gt;Tests.jl</code> file, which is included in <code>/test/runtests.jl</code>. While the goal is to achieve near total code coverage, it is not necessary to &#39;test everything&#39;. We suggest to at least test the following for a variety of configurations:</p><ul><li>System matrix sizes;</li><li>System transfer functions;</li><li>Correspondence between &#39;natural&#39; and port-Hamiltonian system matrices.</li></ul><p>To contribute to the tests, add a file based on the template below at <code>/test/&lt;Model&gt;Tests.jl</code> and add a corresponding <code>include</code> statement to <code>/test/runtests.jl</code>. Please refer to the current tests for more detailed examples.</p><pre><code class="language-julia hljs">@testset &quot;&lt;Model&gt;&quot; begin
+    @test #Test 1
+    @test #Test ...
+    @test #Test N
+end</code></pre><h2 id="Documentation"><a class="docs-heading-anchor" href="#Documentation">Documentation</a><a id="Documentation-1"></a><a class="docs-heading-anchor-permalink" href="#Documentation" title="Permalink"></a></h2><p>The documentation for this package is built using <code>Documenter.jl</code>. The <code>/docs/make.jl</code> script uses the <code>Markdown</code> files in <code>/docs/src</code> and the images in <code>/docs/src/assets</code>to build a documentation webpage in <code>/docs/build</code>. The webpage can be loaded locally by running <code>make.jl</code> and then <code>LiveServer.serve(dir=/docs/build</code>). The documentation should then be accessible from the returned <code>http://localhost</code> port.</p><p>Each benchmark model is documented in a separate file, containing the following sections:</p><ul><li><code>Description</code>: mathematical description of the model;</li><li><code>Discretization</code>: detailed description of the discretization procedure and conversion to port-Hamiltonian form;</li><li><code>Interface</code>: section importing the docstrings from the corresponding <code>&lt;Model&gt;.jl</code> file;</li><li><code>References</code>: reference section in <code>BibTeX</code> format.</li></ul><p>To contribute to the documentation, add a file based on the template below at <code>/docs/src/&lt;Model&gt;.md</code> and add <code>&quot;&lt;Model&gt;.md&quot;</code> to the <code>&quot;Benchmark Systems&quot;</code> list in <code>/docs/make.jl</code>. Please use the current &#39;Benchmark System&#39; pages for stylistic reference.</p><pre><code class="language-markdown hljs"># &lt;Model&gt;
+
+## Description
+
+## Discretization
+
+## Interface
+```@docs
+&lt;Model&gt;Config
+```
+```@docs
+&lt;Model&gt;Config(id::&lt;type&gt;)
+```
+```@docs
+construct_system(config::&lt;Model&gt;Config)
+```
+
+## References
+```LaTeX
+
+```</code></pre></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.21 on <span class="colophon-date" title="Thursday 21 July 2022 11:34">Thursday 21 July 2022</span>. Using Julia version 1.7.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
