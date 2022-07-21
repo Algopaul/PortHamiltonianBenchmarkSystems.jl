@@ -22,9 +22,9 @@
     ]
 
     for (id, ref_H, (n_x, n_u, n_y)) in zip(ids, ref_Hs, ref_shapes)
-        p = DampedWaveNet(id)
-        E, A, B = construct_system(p)
-        s = PHSystem(p)
+        config = DampedWaveNetConfig(id)
+        E, A, B = construct_system(config)
+        s = PHSystem(config)
         H = B' * ((5.0 * im * E - A) \ Array(B))
 
         #Correct system shapes
