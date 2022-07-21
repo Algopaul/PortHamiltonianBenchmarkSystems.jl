@@ -18,11 +18,13 @@ BenchmarkExamples directly within julia. To load the one of the benchmark
 systems simply type
 ```julia
 using PortHamiltonianBenchmarkSystems
-J, R, Q, B = gugercin_pH_msd_chain()
+
+config = SomeModelConfig("SomeId")
+system = construct_system(config)
 ```
 to load the model used in [Gugercin2012](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems/blob/7c7e588f9bd67ba4a5c67ac37768c9c43021e6e6/bibliography.tex#L9-L17). To learn about tunable options for this benchmark example, simply load the documentation using the following call.
 ```julia
-?gugercin_pH_msd_chain
+?SomeModel
 ```
 
 !!! note

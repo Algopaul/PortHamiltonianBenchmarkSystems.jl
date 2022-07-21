@@ -3,7 +3,7 @@ using IterTools
 using LinearAlgebra
 using SparseArrays
 
-export DampedWaveNet
+export DampedWaveNetConfig
 
 """
 Composite type descibing port-Hamiltonian, pressure wave conducting pipe systems, as
@@ -15,7 +15,7 @@ described in Egger et al. 'Structure-Preserving Model Reduction for Damped Wave 
 - `boundary_conditions`: Vector of chars `'p'`, `'m'`, determining the boundary condition type at each boundary
                          vertex (ordered as in `incidence_matrix`)
 """
-struct DampedWaveNet <: BenchmarkConfig
+struct DampedWaveNetConfig <: BenchmarkConfig
     incidence_matrix::SparseMatrixCSC{Int8,Int64}
     edge_parameters::NamedTuple{
         (:a, :b, :d, :l, :n),
@@ -29,8 +29,8 @@ struct DampedWaveNet <: BenchmarkConfig
     }
     boundary_conditions::Vector{Char}
 
-    function DampedWaveNet(imat, epar, bcon)
-        imat, epar, bcon = convert(Tuple{fieldtypes(DampedWaveNet)...}, (imat, epar, bcon))
+    function DampedWaveNetConfig(imat, epar, bcon)
+        imat, epar, bcon = convert(Tuple{fieldtypes(DampedWaveNetConfig)...}, (imat, epar, bcon))
 
         @assert all(in.(nonzeros(imat), Ref([-1, 1]))) "Invalid incidence matrix: found value(s) other than {-1,0,1}"
         @assert all(nnz.(eachcol(imat)) .== 2) "Invalid incidence matrix: found column(s) with other than 2 entries"
@@ -46,11 +46,11 @@ struct DampedWaveNet <: BenchmarkConfig
 end
 
 """
-External constructor providing various default DampedWaveNet configurations.
+External constructor providing various default instances of DampedWaveNetConfig.
 # Arguments
 - `id`: String to identify a default configuration, with possible values: `"pipe"`, `"fork"`, `"diamond"`
 """
-function DampedWaveNet(id::String)
+function DampedWaveNetConfig(id::String)
     if id == "pipe"
         imat = reshape([-1; 1], :, 1)
         epar = (a = [1], b = [1], d = [1], l = [1], n = [10])
@@ -85,21 +85,21 @@ function DampedWaveNet(id::String)
     else
         throw("Config id \'" * id * "\' not recognized")
     end
-    return DampedWaveNet(imat, epar, bcon)
+    return DampedWaveNetConfig(imat, epar, bcon)
 end
 
 """
 Method for constructing the 'natural' DAE system.
 # Arguments
-- `problem`: `DampedWaveNet` instance
+- `config`: `DampedWaveNetConfig` instance
 # Output
 - `system`: Named tuple containing sparse matrices `E`, `A`, `B`
 """
-function construct_system(problem::DampedWaveNet)
+function construct_system(config::DampedWaveNetConfig)
     #Convenience
-    imat = sparse(problem.incidence_matrix')
-    epar = problem.edge_parameters
-    bcon = problem.boundary_conditions
+    imat = sparse(config.incidence_matrix')
+    epar = config.edge_parameters
+    bcon = config.boundary_conditions
 
     #Index calculations
     n_p = sum(epar.n)             #Number of pressure variables
@@ -179,8 +179,8 @@ function construct_system(problem::DampedWaveNet)
     return (E = E, A = A, B = B)
 end
 
-function PHSystem(problem::DampedWaveNet)
-    E, A, B = construct_system(problem)
+function PHSystem(config::DampedWaveNetConfig)
+    E, A, B = construct_system(config)
 
     J = (A - A') ./ 2
     R = -(A + A') ./ 2
