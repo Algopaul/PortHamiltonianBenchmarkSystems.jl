@@ -37,13 +37,12 @@ struct PHSystem{TE,TJ,TR,TQ,TG,TP,TS,TN}
         @assert size(N) == (m, m)
         return new{TE,TJ,TR,TQ,TG,TP,TS,TN}(E, J, R, Q, G, P, S, N)
     end
-
-    include("./SingleMSDChain.jl")
-    include("./PoroModel.jl")
-    include("./RCLLadders.jl")
-    include("./DampedWaveNet.jl")
-
-    export PHSystem, construct_system
 end
 
+include("./SingleMSDChain.jl")
+include("./PoroModel.jl")
+include("./RCLLadders.jl")
+include("./DampedWaveNet.jl")
+
+export PHSystem, construct_system
 end
