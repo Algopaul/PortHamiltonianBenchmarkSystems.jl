@@ -1,5 +1,8 @@
 # Contribution
 
+## Modus Operandi
+This benchmark collection is driven by the active support of the port-Hamiltonian community. If your research has lead to port-Hamiltonian models that may be relevant for this collection, we would be happy to include them. All entries consist of code for generating system matrices, a comprehensive set of tests and a documentation page, showing the derivation of the system and a code reference. Exact instructions for each of these parts are provided in the sections below. To add your benchmark model to the collection, either fork our repository, add your entry and issue a pull request, or send us your contribution directly via [E-Mail](mailto:schwerdt@math.tu-berlin.de).
+
 ## Code
 This package consists of a single module, containing the following six elements:
 - `PHSystem`: parametric composite type for storing system matrices in port-Hamiltonian form, with a single input validating internal constructor;
@@ -81,7 +84,7 @@ end
 ```
 
 ## Documentation
-The documentation for this package is built using `Documenter.jl`. The `/docs/make.jl` script uses the `Markdown` files in `/docs/src` and the images in `/docs/src/assets`to build a documentation webpage in `/docs/build`. The webpage can be loaded locally by running `make.jl` and then `LiveServer.serve(dir=/docs/build`). The documentation should then be accessible from the returned `http://localhost` port.
+The documentation for this package is built using `Documenter.jl`. The `/docs/make.jl` script uses the `Markdown` files in `/docs/src` and the images in `/docs/src/assets`to build a documentation webpage in `/docs/build`. Equations are rendered using [``\KaTeX``](https://katex.org/), which is invoked by the `math` environment. The webpage can be loaded locally by running `make.jl` and then `LiveServer.serve(dir=/docs/build`). The documentation should then be accessible from the returned `http://localhost` port.
 
 Each benchmark model is documented in a separate file, containing the following sections:
 - `Description`: mathematical description of the model;

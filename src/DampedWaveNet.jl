@@ -6,8 +6,8 @@ using SparseArrays
 export DampedWaveNetConfig
 
 """
-Composite type descibing port-Hamiltonian, pressure wave conducting pipe systems, as
-described in Egger et al. 'Structure-Preserving Model Reduction for Damped Wave Propagation in Transport Networks'.
+Composite type descibing pressure wave conducting pipe systems, as described in 
+Egger et al. 'Structure-Preserving Model Reduction for Damped Wave Propagation in Transport Networks'.
 # Arguments
 - `incidence_matrix`: Sparse incidence matrix describing the pipe network
 - `edge_parameters`: Named tuple containing vectors `a`, `b`, `d`, `l`, `n`, respectively containing the parameters ``a_e,\\ b_e,\\ d_e``,
