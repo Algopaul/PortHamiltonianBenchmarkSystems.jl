@@ -109,19 +109,13 @@ Since ``p`` contains all the pressure variables, ``p_i`` and ``p_y`` are redunda
 Finally, the system can be written in linear port-Hamiltonian form as follows:
 ```math
 \begin{align*}
-    \begin{matrix*}[l]
-        E\dot{x} = (J-R)Qx + (G-P)u\\[0.33em]
-        \ \ \ \ y = (G+P)^HQx + (S+N)u
-    \end{matrix*} \quad\quad\quad\quad
-    \begin{cases}
-        J = \frac{1}{2}(A-A^\mathsf{T})\\
-        R = -\frac{1}{2}(A+A^\mathsf{T})\\
-        Q = I\\
-        G = B\\
-        P = 0\\
-        S = 0\\
-        N = 0
-    \end{cases}
+    E\dot{x} &= (J-R)Qx + (G-P)u\\
+    y &= (G+P)^HQx + (S+N)u
+\end{align*}
+```
+```math
+\begin{align*}
+J = \frac{1}{2}(A-A^\mathsf{T}),\ R = -\frac{1}{2}(A+A^\mathsf{T}),\ Q = I,\ G = B,\ P = 0,\ S = N = 0
 \end{align*}
 ```
 ## Interface
