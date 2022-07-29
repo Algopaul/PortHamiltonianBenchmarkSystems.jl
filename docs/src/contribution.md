@@ -24,19 +24,16 @@ Composite type describing a linear port-Hamiltonian system, where all independen
 # Arguments
 - n_x: number of state variables
 - n_u: number of inputs
-- n_y: number of outputs
 """
 struct RandLinConfig <: BenchmarkConfig
     n_x::Int64
     n_u::Int64
-    n_y::Int64
 
-    RandLinConfig(n_x::Int64, n_u::Int64, n_y::Int64)
+    RandLinConfig(n_x::Int64, n_u::Int64)
         #Validate parameters
-        @assert (n_x, n_u, n_y) .> 0 "Number of state variables, inputs and outputs must be larger than 0"
-        @assert n_u + n_y < n_x "Number of in and outputs must be smaller than number of state variables"
+        @assert (n_x, n_u) .> 0 "Number of state variables, inputs and outputs must be larger than 0"
 
-        return new(n_x, n_u, n_y)
+        return new(n_x, n_u)
     end
 end
 
@@ -46,15 +43,13 @@ External constructor for retrieving default RandLinConfig instances.
 - `id`: string for identifying default instances, with possible values: `"A"`,`"B"`,`"C"`
 - `n_x`: override for ``n_x``
 - `n_u`: override for ``n_u``
-- `n_y`: override for ``n_y``
 """
-function RandLinConfig(id::String; n_x = nothing, n_u = nothing, n_y = nothing)
-    params = matread(artifact"pH_RandLinConfig_"*id)
+function RandLinConfig(id::String; n_x = nothing, n_u = nothing)
+    params = matread(artifact"pH_RandLinConfig_"*id)    
     n_x == nothing ? n_x = params["n_x"] :
     n_u == nothing ? n_u = params["n_u"] :
-    n_y == nothing ? n_y = params["n_y"] :
 
-    return RandLinConfig(n_x, n_u, n_y)
+    return RandLinConfig(n_x, n_u)
 end
 
 """
@@ -64,15 +59,39 @@ Method for constructing the 'natural' system matries.
 # Output
 - `system`: Named tuple containing sparse matrices `E`, `A`, `B`, `C`, `D`
 """
-function construct_system(config::RandLinConfig)
-
-    return (E = E, A = A, B = B, C = C, D = D)
-end
-
-function PHSystem(config::RandLinConfig)
-    E, A, B, C, D = construct_system(config)
+function construct_system(config::RandLinConfig; pH_form = false)
+    function rand_SPD(n)
+        return
+    end
     
-    return PHSystem(E, J, R, Q, G, P, S, N)
+    function rand_SPSD(n)
+        M = rand(n,n)
+        return M*M'
+    end
+
+    function rand_SS(n)
+        M = rand(n,n)
+        return (M - M')/2
+    end
+
+    E = rand_SPD(config.n_x)
+    Q = rand_SPD(config.n_x)
+
+    Gamma = rand_SS(config.n_x + config.n_u)
+    J = Gamma[1:n_x,1:n_x]
+    G = Gamma[1:n_x,n_x+1:end]
+    N = Gamma[n_x+1:end,n_x+1:end]
+
+    Delta = rand_SPSD(config.n_x + config.n_u)
+    R = Delta[1:n_x,1:n_x]
+    P = Delta[1:n_x,n_x+1:end]
+    S = Delta[n_x+1:end,n_x+1:end]
+
+    if pH_form
+        return (E = E, J = J, R = R, Q = Q, G = G, P = P, S = S, N = N)
+    else
+        return (E = E, A = (J - R)*Q, B = G - P, C = (G + P)*Q, D = S + N)
+    end
 end
 ```
 
