@@ -1,19 +1,19 @@
-# PortHamiltonianBenchmarkSystems
+# PortHamiltonianBenchmarkSystems.jl
 
 ## About
 
-**PortHamiltonianBenchmarkSystems.jl** is a collection of port-Hamiltonian system constructors, that can be used as benchmarks for simulation, control and model-order reduction algorithms. We feature a wide spectrum of linear, nonlinear, ODE and DAE systems, with full choice of parameters, as well as many default configurations.
+[PortHamiltonianBenchmarkSystems.jl](https://algopaul.github.io/PortHamiltonianBenchmarkSystems.jl/) is a collection of port-Hamiltonian system constructors, that can be used as benchmarks for simulation, control and model-order reduction algorithms. We feature a wide spectrum of linear, nonlinear, ODE and DAE systems, with full choice of parameters, as well as many default configurations.
 
-!!! Note
-If you don't intend to use Julia as a main language in your research/project, but still want to take advantage of this package, you can download `mat`-files for each system in our collection at link. Alternatively, you could generate your desired system in Julia and save the matrices as `mat`-files, using [MAT.jl](https://github.com/JuliaIO/MAT.jl).
+!!! note
+	If you do not intend to use Julia as a main language in your research or project, but still want to take advantage of this package, you can download MAT-files for various configurations of each system from our [Zenodo](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/). Alternatively, you could generate your desired systems in Julia and save them in a format of your choosing (e.g. as MAT-files, using [MAT.jl](https://github.com/JuliaIO/MAT.jl)).
 
 ## Installation and Usage
 
-To install **PortHamiltonianBenchmarkSystems**, run the following commands in the Julia REPL:
+To install [PortHamiltonianBenchmarkSystems.jl](https://algopaul.github.io/PortHamiltonianBenchmarkSystems.jl/), run the following commands in the Julia REPL:
 ```julia
 (@v1.7) pkg> add "https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/"
 ```
-To generate one of the systems, e.g. a single mass-spring-damper chain with the parameters from [Gugercin2012](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems/blob/7c7e588f9bd67ba4a5c67ac37768c9c43021e6e6/bibliography.tex#L9-L17), type:
+To generate one of the systems, e.g. a mass-spring-damper chain with the parameters from [Gugercin2012](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems/blob/7c7e588f9bd67ba4a5c67ac37768c9c43021e6e6/bibliography.tex#L9-L17), type:
 ```julia
 using PortHamiltonianBenchmarkSystems
 
@@ -23,7 +23,6 @@ J, R, Q, B = construct_system(config)
 Naturally, we may modify any parameters we wish, or specify all of them ourselves:
 ```julia
 config = SingleMSDConfig("Gugercin", k = 5.0)
-
 config = SingleMSDConfig(10, 2, 1.0, 4.0, 5.0)
 ```
 If you need the system matrices in standard port-Hamiltonian form, type:
@@ -35,9 +34,9 @@ The docstrings for the constructors and methods shown above can be pulled up in 
 ```julia
 help?> SingleMSDChain
 help?> construct_system(config::SingleMSDConfig)
-help?> PHsystem(config::SingleMSDConfig)
+help?> PHSystem(config::SingleMSDConfig)
 ```
-For a complete description of the model in question, its discretization and a code reference, see the [Single MSD Chain](@ref) page.
+For a detailed description of the system in question, an overview of its discretization and a code reference, consult the [Single MSD Chain](@ref) page.
 
 ## How to Contribute
 
