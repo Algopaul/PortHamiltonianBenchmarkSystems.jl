@@ -105,9 +105,9 @@ function construct_system(config::DampedWaveNetConfig)
     n_p = sum(epar.n)             #Number of pressure variables
     n_m = sum(epar.n .+ 1)        #Number of mass flow variables
     n_b = length(bcon)            #Number of boundary conditions
-    n_bp = sum(bcon .== 'p')       #Number of boundary conditions for p
-    n_bm = sum(bcon .== 'm')       #Number of boundary conditions for m
-    n_im = size(imat)[2] - n_b     #Number of internal conditions for m
+    n_bp = sum(bcon .== 'p')      #Number of boundary conditions for p
+    n_bm = sum(bcon .== 'm')      #Number of boundary conditions for m
+    n_im = size(imat)[2] - n_b    #Number of internal conditions for m
     n_x = n_p + n_m + n_im + n_bm #Number of state variables
 
     i_ep = collect(eachblock(BlockArray(1:n_p, epar.n))) #Edge indices for p
