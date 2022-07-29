@@ -3,7 +3,7 @@
 ## Modus Operandi
 This benchmark collection is driven by the active support of the port-Hamiltonian community. If your research has lead to port-Hamiltonian models that may be relevant for this collection, we would be happy to include them. If you wish to contribute to the project directly, please consult this page, fork our [git repository](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/) and issue a pull request. Alternatively, feel free to contact us via [e-mail](mailto:schwerdt@math.tu-berlin.de) to discuss our potential collaboration. We are happy to receive reference implementations in other languages and reimplement them in Julia for this package.
 
-All entries in the collection consist of code for generating the system matrices, a comprehensive set of tests and a documentation page. Exact instructions for each of these parts are provided in the sections below. Some of the design choices detailed below may still be subject to change. Efforts are currently being made to settle on a final structure. Any subsequently required changes to community contributions will be handled by us.
+All entries in the collection consist of code for generating the system matrices, a comprehensive set of tests and a documentation page. Exact instructions for each of these parts are provided in the sections below. Some of the design choices may still be subject to change, but efforts are currently being made to settle on a final structure. Any subsequently required changes to community contributions will be handled by us.
 
 ## Code
 This package consists of a single module, containing the following six elements:
@@ -39,7 +39,7 @@ External constructor retrieving various default <Model> configurations from Zeno
 # Arguments
 - `id`: <type> to identify a default configurations, with possible values: <values>
 """
-function <Model>Config(id::<type>,)
+function <Model>Config(id::<type>)
     #Fetch <parameters> based on id
 
     return <Model>Config(<parameters>)
@@ -85,7 +85,7 @@ end
 ```
 
 ## Documentation
-The documentation for this package is built using `Documenter.jl`. The `/docs/make.jl` script uses the `Markdown` files in `/docs/src` and the images in `/docs/src/assets`to build a documentation webpage in `/docs/build`. Equations are rendered using [``\KaTeX``](https://katex.org/), which is invoked by the `math` environment. The webpage can be loaded locally by running `make.jl` and then `LiveServer.serve(dir=/docs/build`). The documentation should then be accessible from the returned `http://localhost` port.
+The documentation for this package is built using `Documenter.jl`. The `/docs/make.jl` script uses the Markdown files in `/docs/src` and the images in `/docs/src/assets`to build a documentation webpage in `/docs/build`. Equations are rendered using [``\KaTeX``](https://katex.org/), which is invoked in Markdown by the `math` environment. The webpage can be loaded locally by running `make.jl` and then `LiveServer.serve(dir=/docs/build`). The documentation should then be accessible from the returned `http://localhost` port.
 
 Each benchmark model is documented in a separate file, containing the following sections:
 - `Description`: mathematical description of the model;
