@@ -55,13 +55,13 @@ function RandLinConfig(id::String; n_x = nothing, n_u = nothing)
 end
 
 """
-Method for constructing the system matries.
+Method for constructing the system matries in natural form.
 # Arguments
 - `config`: `RandLinConfig` instance
 # Output
-- `system`: Named tuple containing the system matrices in natural or pH form
+- `system`: Named tuple containing the system matrices in natural form
 """
-function construct_system(config::RandLinConfig; pH_form = false)
+function construct_system(config::RandLinConfig)
     function rand_SS(n) #Skew symmetric
         M = randn(n,n)
         return (M - M')/2
@@ -72,27 +72,20 @@ function construct_system(config::RandLinConfig; pH_form = false)
         return M * M'
     end
 
-    function rand_SPD(n) #Symmetric positive definite
-        M = rand_SPSD(n)
-        return (M + M')/2
-    end
-
-    E = rand_SPD(config.n_x)
-    Q = rand_SPD(config.n_x)
-
     Gamma = rand_SS(config.n_x + config.n_u)
+
     J = Gamma[1:n_x,1:n_x]
+    R = rand_SPSD(config.n_x + config.n_u)
     G = Gamma[1:n_x,n_x+1:end]
     N = Gamma[n_x+1:end,n_x+1:end]
 
-    W = rand_SPSD(config.n_x + config.n_u)
-    R = W[1:n_x,1:n_x]
-    P = W[1:n_x,n_x+1:end]
-    S = W[n_x+1:end,n_x+1:end]
+    return (J = J, R = R, B = B, D = D)
+end
 
-    return pH_form ? 
-           (E = E, J = J, R = R, Q = Q, G = G, P = P, S = S, N = N) :
-           (E = E, A = (J - R)*Q, B = G - P, C = (G + P)*Q, D = S + N)
+function PHSystem(config:RandLinConfig)
+    J, R, B, D = construct_system(config)
+
+    return (E = I, J, R, Q = I, G = B, P = spzeros(size(G)...), N = D, S = spzeros(size(N)...))
 end
 ```
 
