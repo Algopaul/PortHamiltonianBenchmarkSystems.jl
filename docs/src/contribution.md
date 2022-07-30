@@ -17,6 +17,8 @@ The last four elements are repeated for each benchmark model and are stored toge
 
 To contribute to the code, simply add a file based on the example below at `/src/<Model>.jl` and add a corresponding `include` statement to `src/PortHamiltonianBenchmarkSystems.jl`. As shown below, the docstrings should be written in `Markdown` format and any default `<Model>Config` parameters should be stored on our [Zenodo](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/) and retreived as Julia artifacts when needed.
 ```julia
+using Random
+
 export RandLinConfig
 
 """
@@ -53,25 +55,26 @@ function RandLinConfig(id::String; n_x = nothing, n_u = nothing)
 end
 
 """
-Method for constructing the 'natural' system matries.
+Method for constructing the system matries.
 # Arguments
 - `config`: `RandLinConfig` instance
 # Output
-- `system`: Named tuple containing sparse matrices `E`, `A`, `B`, `C`, `D`
+- `system`: Named tuple containing the system matrices in natural or pH form
 """
 function construct_system(config::RandLinConfig; pH_form = false)
-    function rand_SPD(n)
-        return
+    function rand_SS(n) #Skew symmetric
+        M = randn(n,n)
+        return (M - M')/2
     end
     
-    function rand_SPSD(n)
-        M = rand(n,n)
-        return M*M'
+    function rand_SPSD(n) #Symmetric positive semi-definite
+        M = randn(n,n)
+        return M * M'
     end
 
-    function rand_SS(n)
-        M = rand(n,n)
-        return (M - M')/2
+    function rand_SPD(n) #Symmetric positive definite
+        M = rand_SPSD(n)
+        return (M + M')/2
     end
 
     E = rand_SPD(config.n_x)
@@ -82,16 +85,14 @@ function construct_system(config::RandLinConfig; pH_form = false)
     G = Gamma[1:n_x,n_x+1:end]
     N = Gamma[n_x+1:end,n_x+1:end]
 
-    Delta = rand_SPSD(config.n_x + config.n_u)
-    R = Delta[1:n_x,1:n_x]
-    P = Delta[1:n_x,n_x+1:end]
-    S = Delta[n_x+1:end,n_x+1:end]
+    W = rand_SPSD(config.n_x + config.n_u)
+    R = W[1:n_x,1:n_x]
+    P = W[1:n_x,n_x+1:end]
+    S = W[n_x+1:end,n_x+1:end]
 
-    if pH_form
-        return (E = E, J = J, R = R, Q = Q, G = G, P = P, S = S, N = N)
-    else
-        return (E = E, A = (J - R)*Q, B = G - P, C = (G + P)*Q, D = S + N)
-    end
+    return pH_form ? 
+           (E = E, J = J, R = R, Q = Q, G = G, P = P, S = S, N = N) :
+           (E = E, A = (J - R)*Q, B = G - P, C = (G + P)*Q, D = S + N)
 end
 ```
 
@@ -129,7 +130,9 @@ To contribute to the documentation, add a file based on the example below at `/d
 This benchmark is a linear pH-system, of the following form:
 ```math
 ```
-where all independent matrix entries are randomly chosen between 0 and 1. 
+where the matrices are randomly generated as follows:
+```math
+``` 
 
 ## Discretization
 The system is discrete a priori.
