@@ -14,7 +14,7 @@ To install [PortHamiltonianBenchmarkSystems](https://algopaul.github.io/PortHami
 using Pkg
 Pkg.add(url="https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/")
 ```
-To generate one of the systems, e.g. a mass-spring-damper chain with the parameters from [Gugercin2012](), type:
+To generate one of the systems, e.g. a mass-spring-damper chain with the parameters from [Gugercin2012](https://doi.org/10.1016/j.automatica.2012.05.052), type:
 ```julia
 using PortHamiltonianBenchmarkSystems
 
