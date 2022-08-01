@@ -17,41 +17,40 @@ The last four elements are repeated for each benchmark model and are stored toge
 
 To contribute to the code, simply add a file based on the example below at `/src/<Model>.jl` and add a corresponding `include` statement to `src/PortHamiltonianBenchmarkSystems.jl`. As shown below, the docstrings should be written in `Markdown` format and any default `<Model>Config` parameters should be stored on our [Zenodo](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/) and retreived as Julia artifacts when needed.
 ```julia
-using Random
-
 export RandLinConfig
 
 """
 Composite type describing a linear port-Hamiltonian system, where all independent matrix entries are randomly chosen between 0 and 1.
 # Arguments
 - n_x: number of state variables
-- n_u: number of inputs
+- n_p: number of input and output ports
 """
 struct RandLinConfig <: BenchmarkConfig
     n_x::Int64
-    n_u::Int64
+    n_p::Int64
 
-    RandLinConfig(n_x::Int64, n_u::Int64)
+    RandLinConfig(n_x::Int64, n_p::Int64)
         #Validate parameters
-        @assert (n_x, n_u) .> 0 "Number of state variables, inputs and outputs must be larger than 0"
+        @assert (n_x, n_p) .> 0 "Number of state variables and ports must be larger than 0"
+        @assert n_p  <= n_x "???"
 
-        return new(n_x, n_u)
+        return new(n_x, n_p)
     end
 end
 
 """
 External constructor for retrieving default RandLinConfig instances.
 # Arguments
-- `id`: string for identifying default instances, with possible values: `"A"`,`"B"`,`"C"`
+- `id`: identifier for default parameter set
 - `n_x`: override for ``n_x``
-- `n_u`: override for ``n_u``
+- `n_p`: override for ``n_p``
 """
-function RandLinConfig(id::String; n_x = nothing, n_u = nothing)
-    params = matread(artifact"pH_RandLinConfig_"*id)    
+function RandLinConfig(id::String; n_x = nothing, n_p = nothing)
+    params = matread(artifact"pH_RandLinConfig_" * id)    
     n_x == nothing ? n_x = params["n_x"] :
-    n_u == nothing ? n_u = params["n_u"] :
+    n_p == nothing ? n_p = params["n_p"] :
 
-    return RandLinConfig(n_x, n_u)
+    return RandLinConfig(n_x, n_p)
 end
 
 """
@@ -59,33 +58,30 @@ Method for constructing the system matries in natural form.
 # Arguments
 - `config`: `RandLinConfig` instance
 # Output
-- `system`: Named tuple containing the system matrices in natural form
+- `system`: Named tuple containing the system matrices in 'natural' form
 """
 function construct_system(config::RandLinConfig)
-    function rand_SS(n) #Skew symmetric
-        M = randn(n,n)
-        return (M - M')/2
-    end
-    
-    function rand_SPSD(n) #Symmetric positive semi-definite
-        M = randn(n,n)
-        return M * M'
-    end
+    M1 = rand(config.n_x, config.n_x)
+    M2 = rand(config.n_x, config.n_x)
+    M3 = rand(config.n_x, config.n_p)
 
-    Gamma = rand_SS(config.n_x + config.n_u)
+    J = (M1 - M1')/sqrt(2)
+    R = (M2 * M2')/sqrt(config.n_x)
+    G = (M3 - M3')/sqrt(3)
 
-    J = Gamma[1:n_x,1:n_x]
-    R = rand_SPSD(config.n_x + config.n_u)
-    G = Gamma[1:n_x,n_x+1:end]
-    N = Gamma[n_x+1:end,n_x+1:end]
-
-    return (J = J, R = R, B = B, D = D)
+    return (J = J, R = R, G = G)
 end
 
 function PHSystem(config:RandLinConfig)
-    J, R, B, D = construct_system(config)
+    J, R, G = construct_system(config)
 
-    return (E = I, J, R, Q = I, G = B, P = spzeros(size(G)...), N = D, S = spzeros(size(N)...))
+    E = sparse(1.0I,size(J)...)
+    Q = sparse(1.0I,size(J)...)
+    P = spzeros(size(G)...)
+    N = spzeros(config.n_p, config.n_p)
+    S = spzeros(size(N)...)
+
+    return PHSystem(E, J, R, Q, G, P, S, N)
 end
 ```
 
@@ -111,7 +107,7 @@ The documentation for this package is built using `Documenter.jl`. The `/docs/ma
 
 Each benchmark model is documented in a separate file, containing the following sections:
 - `Description`: mathematical description of the model;
-- `Discretization`: detailed description of the discretization procedure and conversion to port-Hamiltonian form;
+- `Discretization`: (if applicable) detailed description of the discretization procedure and conversion to port-Hamiltonian form;
 - `Interface`: section importing the docstrings from the corresponding `<Model>.jl` file;
 - `References`: reference section in `BibTeX` format.
 
@@ -120,12 +116,14 @@ To contribute to the documentation, add a file based on the example below at `/d
 # Random Linear pH-System
 
 ## Description
-This benchmark is a linear pH-system, of the following form:
+This benchmark is a linear port-Hamiltonian system:
 ```math
+\begin{align*}
+    E\dot{x} &= (J-R)Qx + (G-P)u\\
+    y &= (G+P)^HQx + (S+N)u
+\end{align*}
 ```
-where the matrices are randomly generated as follows:
-```math
-``` 
+where ``E,Q=I``, ``P,S,N=0`` and ``J,\ R,\ G`` are random dense matrices of the correct structure (R positive semi-definite, J, G skew symmetric) with mean 0 and variance 1.
 
 ## Discretization
 The system is discrete a priori.
