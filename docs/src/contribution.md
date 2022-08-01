@@ -8,14 +8,13 @@ All entries in the collection consist of code for generating the system matrices
 ## Code
 This package consists of a single module, containing the following six elements:
 - `PHSystem`: parametric composite type for storing system matrices in port-Hamiltonian form, with a single input validating internal constructor;
-- `BenchmarkConfig`: abstract type for grouping all `<Model>Config` types;
-- `<Model>Config <: BenchmarkConfig`: (parametric) composite type containing all parameters for some model, with a single input validating internal constructor;
+- `<Model>Config`: (parametric) composite type containing all parameters for some model, with a single input validating internal constructor;
 - `<Model>Config`: external constructor providing several default `<Model>Config` instances based on some identifier
 - `construct_system`: method for constructing system matrices in 'natural' form based on some `<Model>Config` instance;
 - `PHSystem`: external constructor for constructing system matrices in port-Hamltonian form.
-The last four elements are repeated for each benchmark model and are stored together in `src/<Model>.jl`. All `<Model>.jl` files are included in `src/PortHamiltonianBenchmarkSystems.jl`, which also contains the type declarations for `PHSystem` and `BenchmarkConfig`.
+The last four elements are repeated for each benchmark model and are stored together in `src/<Model>.jl`. All `<Model>.jl` files are included in `src/PortHamiltonianBenchmarkSystems.jl`, which also contains the type declaration for `PHSystem`.
 
-To contribute to the code, simply add a file based on the example below at `/src/<Model>.jl` and add a corresponding `include` statement to `src/PortHamiltonianBenchmarkSystems.jl`. As shown below, the docstrings should be written in `Markdown` format and any default `<Model>Config` parameters should be stored on our [Zenodo](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/) and retreived as Julia artifacts when needed.
+To contribute to the code, simply add a file based on the example below at `/src/<Model>.jl` and add a corresponding `include` statement to `src/PortHamiltonianBenchmarkSystems.jl`. As shown below, the docstrings should be written in `Markdown` format. See the [Extras](@ref) section for additional information on best practices for setting a more complex model construction.
 ```julia
 export RandLinConfig
 
@@ -25,38 +24,15 @@ Composite type describing a linear port-Hamiltonian system, where all independen
 - n_x: number of state variables
 - n_p: number of input and output ports
 """
-struct RandLinConfig <: BenchmarkConfig
+struct RandLinConfig
     n_x::Int64
     n_p::Int64
-
-    RandLinConfig(n_x::Int64, n_p::Int64)
-        #Validate parameters
-        @assert (n_x, n_p) .> 0 "Number of state variables and ports must be larger than 0"
-        @assert n_p  <= n_x "???"
-
-        return new(n_x, n_p)
-    end
-end
-
-"""
-External constructor for retrieving default RandLinConfig instances.
-# Arguments
-- `id`: identifier for default parameter set
-- `n_x`: override for ``n_x``
-- `n_p`: override for ``n_p``
-"""
-function RandLinConfig(id::String; n_x = nothing, n_p = nothing)
-    params = matread(artifact"pH_RandLinConfig_" * id)    
-    n_x == nothing ? n_x = params["n_x"] :
-    n_p == nothing ? n_p = params["n_p"] :
-
-    return RandLinConfig(n_x, n_p)
 end
 
 """
 Method for constructing the system matries in natural form.
 # Arguments
-- `config`: `RandLinConfig` instance
+- `config`:  `RandLinConfig` instance
 # Output
 - `system`: Named tuple containing the system matrices in 'natural' form
 """
@@ -107,7 +83,7 @@ The documentation for this package is built using `Documenter.jl`. The `/docs/ma
 
 Each benchmark model is documented in a separate file, containing the following sections:
 - `Description`: mathematical description of the model;
-- `Discretization`: (if applicable) detailed description of the discretization procedure and conversion to port-Hamiltonian form;
+- `Derivation`:  detailed description of the discretization (if applicable) and conversion to port-Hamiltonian form;
 - `Interface`: section importing the docstrings from the corresponding `<Model>.jl` file;
 - `References`: reference section in `BibTeX` format.
 
@@ -125,8 +101,8 @@ This benchmark is a linear port-Hamiltonian system:
 ```
 where ``E,Q=I``, ``P,S,N=0`` and ``J,\ R,\ G`` are random dense matrices of the correct structure (R positive semi-definite, J, G skew symmetric) with mean 0 and variance 1.
 
-## Discretization
-The system is discrete a priori.
+## Derivation
+This system discrete, random, and in port-Hamiltonian form automatically.
 
 ## Interface
 ```@docs
@@ -141,6 +117,46 @@ construct_system(config::RandLinConfig)
 
 ## References
 ```LaTeX
-
+@article{Sabbadini2022,
+  title = "On random port-Hamiltonian Systems",
+  journal = "We publish anything",
+}
 ```
+
 ````
+
+## Extras
+
+A parameter-validation step may be added to the Config-constructor.
+```julia
+struct RandLinConfig
+    n_x::Int64
+    n_p::Int64
+
+    RandLinConfig(n_x::Int64, n_p::Int64)
+        @assert n_x > 0 "Number of state variables must be larger than 0"
+        @assert n_p > 0 "Number of ports must be larger than 0"
+        return new(n_x, n_p)
+    end
+end
+```
+
+An external constructor for retrieving default `RandLinConfig` instances.
+```julia
+"""
+Constructor for retrieving default `RandLinConfig` instances.
+# Arguments
+- `id`: identifier for default parameter set
+# Output
+- `system`: `RandLinConfig` instance
+"""
+function RandLinConfig(id::String)
+    if id == "ExampleA"
+        return RandLinConfig(5, 3)
+    elseif id == "ExampleB"
+        return RandLinConfig(6, 2)
+    else
+        error("No valid example name provided")
+    end
+end
+```
