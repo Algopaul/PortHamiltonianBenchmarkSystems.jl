@@ -2,10 +2,10 @@
 
 ## About
 
-[PortHamiltonianBenchmarkSystems.jl](https://algopaul.github.io/PortHamiltonianBenchmarkSystems.jl/) is a collection of port-Hamiltonian system constructors, that can be used as benchmarks for simulation, control and model-order reduction algorithms. We feature a wide spectrum of linear, nonlinear, ODE and DAE systems, with full choice of parameters, as well as many default configurations.
+[PortHamiltonianBenchmarkSystems.jl](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/) is a collection of constructors for port-Hamiltonian systems, that can be used as benchmarks for simulation, control and model-order reduction algorithms. We feature constructors for a wide range of linear, nonlinear, ODE and DAE systems, as well as several default parameter sets for each. Detailed descriptions of each featured system can be found in the sidebar, under 'Benchmark Systems'.
 
 !!! note
-	If you do not intend to use Julia as a main language in your research or project, but still want to take advantage of this package, you can download MAT-files for various configurations of each system from our [Zenodo](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/). Alternatively, you could generate your desired systems in Julia and save them in a format of your choosing (e.g. as MAT-files, using [MAT.jl](https://github.com/JuliaIO/MAT.jl)).
+    If you do not intend to use Julia as a main language in your research, but still want to take advantage of this package, you can download MAT-files for all default configurations of each system from our [Zenodo](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/). Alternatively, you could generate your desired systems in Julia and save them in a format of your choosing (e.g. as MAT-files, using [MAT.jl](https://github.com/JuliaIO/MAT.jl)).
 
 ## Installation and Usage
 
@@ -41,3 +41,4 @@ For a detailed description of the system in question, an overview of its discret
 ## How to Contribute
 
 This benchmark collection is driven by the active support of the port-Hamiltonian community. If your research has lead to port-Hamiltonian models that may be relevant for this collection, we would be happy to include them. If you wish to contribute to the project directly, please consult our [Contribution](@ref) page, fork our [git repository](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/) and issue a pull request. Alternatively, feel free to contact us via [e-mail](mailto:schwerdt@math.tu-berlin.de) to discuss our potential collaboration. We are happy to receive reference implementations in other languages and reimplement them in Julia for this package.
+
