@@ -2,6 +2,7 @@ using BlockArrays
 using IterTools
 using LinearAlgebra
 using SparseArrays
+using MAT
 
 export DampedWaveNetConfig
 
@@ -52,41 +53,31 @@ External constructor providing various default instances of DampedWaveNetConfig.
 """
 function DampedWaveNetConfig(id::String)
     if id == "pipe"
-        imat = reshape([-1; 1], :, 1)
-        epar = (a = [1], b = [1], d = [1], l = [1], n = [10])
-        bcon = ['p', 'm']
+        damped_data = artifact"ph_DampedWaveNet_pipe"
     elseif id == "fork"
-        imat = [
-            -1 0 0
-            0 1 0
-            0 0 1
-            1 -1 -1
-        ]
-        epar =
-            (a = [1, 1, 1], b = [1, 1, 1], d = [1, 1, 1], l = [2, 1, 10], n = [40, 30, 90])
-        bcon = ['p', 'p', 'm']
+        damped_data = artifact"ph_DampedWaveNet_fork"
     elseif id == "diamond"
-        imat = [
-            -1 0 0 0 0 0 0
-            0 0 0 0 0 0 1
-            1 -1 -1 0 0 0 0
-            0 1 0 -1 -1 0 0
-            0 0 1 1 0 -1 0
-            0 0 0 0 1 1 -1
-        ]
-        epar = (
-            a = [4, 4, 1, 1, 1, 4, 4],
-            b = [1, 1, 4, 4, 4, 1, 1] ./ 4,
-            d = [1, 1, 8, 8, 8, 1, 1] ./ 80,
-            l = [1, 1, 1, 1, 1, 1, 1],
-            n = [1, 1, 1, 1, 1, 1, 1] .* 500,
-        )
-        bcon = ['p', 'm']
+        damped_data = artifact"ph_DampedWaveNet_diamond"
     else
-        throw("Config id \'" * id * "\' not recognized")
+        error("Invalid id: must be one of {pipe, fork, diamond}")
     end
+    matfile = joinpath(damped_data, "$id.mat")
+    params = matread(matfile)
+    imat = params["imat"]
+    epar = params["epar"]
+    epar = (
+        a = ensure_vector(epar["a"]),
+        b = ensure_vector(epar["b"]),
+        d = ensure_vector(epar["d"]),
+        l = ensure_vector(epar["l"]),
+        n = ensure_vector(epar["n"]),
+    )
+    bcon = only.(params["bcon"])
     return DampedWaveNetConfig(imat, epar, bcon)
 end
+
+ensure_vector(x::Number) = [x]
+ensure_vector(x::AbstractVector) = x
 
 """
 Method for constructing the 'natural' DAE system.
@@ -192,3 +183,4 @@ function PHSystem(config::DampedWaveNetConfig)
 
     return PHSystem(E, J, R, Q, G, P, S, N)
 end
+
