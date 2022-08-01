@@ -121,8 +121,26 @@ S. Gugercin et al.:
 Matrices: ``J, R, Q, B``. The resulting transfer function is ``H(s) = B^\\mathsf{T} Q  (sI-(J-R)Q)^{-1}B``.
 """
 function gugercin_pH_msd_chain(; n_cells = 50, m = 2, c_i = 1.0, m_i = 4.0, k_i = 4.0)
+    @warn """Deprecated, use SingleMSDConfig("Gugercin") instead"""
     config = SingleMSDConfig(n_cells, m, c_i, m_i, k_i)
     return construct_system(config)
+end
+
+"""
+    SingleMSDConfig(id::String)
+
+External constructor providing various default instances of SingleMSDConfig.
+# Arguments
+- `id`: The identifier of the desired configuration.
+# Outputs
+- `config`: Instance of `SingleMSDConfig`.
+"""
+function SingleMSDConfig(id::String)
+    if id == "Gugercin"
+        return SingleMSDConfig(50, 2, 1.0, 4.0, 4.0)
+    else
+        error("Unknown benchmark id: " + id)
+    end
 end
 
 export SingleMSDConfig, gugercin_pH_msd_chain
