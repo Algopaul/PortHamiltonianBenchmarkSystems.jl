@@ -67,7 +67,7 @@ function load_poro_raw_data(; n = 980, force_download = false)
 end
 
 function PHSystem(config::PoroElasticityConfig)
-    E, J, R, Q, G = construct_system(config)
+    E, J, R, G = construct_system(config)
     n, m = size(G)
     Q = I(n)
     P = spzeros(n, m)
