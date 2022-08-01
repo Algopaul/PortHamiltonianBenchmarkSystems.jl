@@ -4,41 +4,43 @@ This benchmark is a model for wave propagation in gas pipeline networks, as pres
 
 Graph Figure
 
-On each edge, the following 1D damped wave equation holds, with presssure ``p_e\ (\text{kg}\text{m}^{-1}\text{s}^{-2})``, mass flow ``m_e\ (\text{kg}\text{s}^{-1})`` and pipe constants ``a_e\ (\text{s}^2)``, ``b_e\ (\text{m}^{-2})``, ``d_e\ (\text{m}^{-2}\text{s}^{-1})``:
+On each edge, the following 1D damped wave equation is given by
 ```math
 \begin{align*}
-	a_e\partial_tp_e &= -\partial_xm_e &&\forall e\in\mathcal{E}\\
-	b_e\partial_tm_e &= -\partial_xp_e-d_em_e &&\forall e\in\mathcal{E}
+	a_e\partial_tp_e &= -\partial_xm_e &&\forall e\in\mathcal{E},\\
+	b_e\partial_tm_e &= -\partial_xp_e-d_em_e &&\forall e\in\mathcal{E},
 \end{align*}
 ```
-At each inner vertex ``v\in\mathcal{V}_i\equiv\mathcal{V}\setminus\mathcal{V}_b``, the following pressure continuity and mass conservation conditions hold, where ``p_i|_v`` is the pressure at ``v`` and ``n_e|_v`` is the direction of edge ``e`` at ``v`` (+1: incoming, -1: outgoing):
+with presssure ``p_e\ (\text{kg}\text{m}^{-1}\text{s}^{-2})``, mass flow ``m_e\ (\text{kg}\text{s}^{-1})`` and pipe constants ``a_e\ (\text{s}^2)``, ``b_e\ (\text{m}^{-2})``, ``d_e\ (\text{m}^{-2}\text{s}^{-1})``.
+
+At each inner vertex ``v\in\mathcal{V}_i\equiv\mathcal{V}\setminus\mathcal{V}_b``, the following pressure continuity and mass conservation conditions hold, where ``p_i|_v`` is the pressure at ``v`` and ``n_e|_v`` is the direction of edge ``e`` at ``v`` (+1: incoming, -1: outgoing)
 ```math
 \begin{align*}
-	&p_e|_v \equiv p_{i}|_v &&\forall e\in\mathcal{E}(v) &&\forall v\in\mathcal{V}_i\\
-	&\sum_{e\in\mathcal{E}(v)} n_{e} m_e|_v = 0 &&\forall v\in\mathcal{V}_i
+	&p_e|_v \equiv p_{i}|_v &&\forall e\in\mathcal{E}(v) &&\forall v\in\mathcal{V}_i,\\
+	&\sum_{e\in\mathcal{E}(v)} n_{e} m_e|_v = 0 &&\forall v\in\mathcal{V}_i.
 \end{align*}
 ```
 At each boundary vertex, either a pressure or mass flow must be fixed ``(p_{u}|_v,\ m_{u}|_v)``, leaving the other quantity to be solved for ``(p_{y}|_v,\ m_{y}|_v)``:
 ```math
 \begin{align*}
-	&p_{\mathcal{E}(v)}|_v = p_{u}|_v &n_{\mathcal{E}(v)}m_{\mathcal{E}(v)}|_v = m_{y}|_v &&\forall v \in\mathcal{V}_{b,p}\\
-	&p_{\mathcal{E}(v)}|_v = p_{y}|_v &-n_{\mathcal{E}(v)}m_{\mathcal{E}(v)}|_v = m_{u}|_v &&\forall v \in\mathcal{V}_{b,m}
+	&p_{\mathcal{E}(v)}|_v = p_{u}|_v &n_{\mathcal{E}(v)}m_{\mathcal{E}(v)}|_v = m_{y}|_v &&\forall v \in\mathcal{V}_{b,p},\\
+	&p_{\mathcal{E}(v)}|_v = p_{y}|_v &-n_{\mathcal{E}(v)}m_{\mathcal{E}(v)}|_v = m_{u}|_v &&\forall v \in\mathcal{V}_{b,m}.
 \end{align*}
 ```
 ## Discretization
 The Galerkin variational form of the damped wave equations can be formulated as shown below, where ``{p_e\in\text{span}(\mathcal{P}_e),\ \mathcal{P}_e=\{\pi_1\dots\pi_n\}}`` and ``m_e\in\text{span}(\mathcal{M}_e),\ \mathcal{M}_e=\{\mu_1\dots\mu_n\}``. In our implementation ``\mathcal{P}_e`` and ``\mathcal{M}_e`` are respectively discontinuous element-wise constant and continuous element-wise linear function spaces, but the shown approach holds in general:
 ```math
 \begin{align*}
-	a_e\int_e\partial_tp_e\pi_e\ dx &= -\int_e\partial_xm_e\pi_e\ dx &&\forall \pi_e\in\mathcal{P}_e\\
-	b_e\int_e\partial_tm_e\mu_e\ dx &= -[p_e\mu_e]_{\partial e}+\int_ep_e\partial_x\mu_e\ dx -d_e\int_em_e\mu_e\ dx &&\forall \mu_e\in\mathcal{M}_e
+	a_e\int_e\partial_tp_e\pi_e\ \mathrm{d}x &= -\int_e\partial_xm_e\pi_e\ \mathrm{d}x &&\forall \pi_e\in\mathcal{P}_e,\\
+	b_e\int_e\partial_tm_e\mu_e\ \mathrm{d}x &= -[p_e\mu_e]_{\partial e} + \int_ep_e\partial_x\mu_e\ \mathrm{d}x -d_e\int_em_e\mu_e\ \mathrm{d}x &&\forall \mu_e\in\mathcal{M}_e.
 \end{align*}
 ```
 The boundary terms ``-[p_e\mu_e]_{\partial e}`` are the result of integration by parts and can be grouped by vertex as follows:
 ```math
 \begin{align*}
-	-n_{e} \mu_ep_{i}|_v && \forall \mu_e \in\mathcal{M}_e\quad \forall e\in\mathcal{E}(v)\quad \forall v\in\mathcal{V}_i\\
-	-n_{\mathcal{E}(v)} \mu_{\mathcal{E}(v)}p_{u}|_v &&\forall \mu_e \in\mathcal{M}_e\quad \forall v \in\mathcal{V}_{b,p}\\
-	-n_{\mathcal{E}(v)} \mu_{\mathcal{E}(v)}p_y|_v &&\forall \mu_e \in\mathcal{M}_e\quad \forall v \in\mathcal{V}_{b,m}
+	-n_{e} \mu_ep_{i}|_v && \forall \mu_e \in\mathcal{M}_e\quad \forall e\in\mathcal{E}(v)\quad \forall v\in\mathcal{V}_i,\\
+	-n_{\mathcal{E}(v)} \mu_{\mathcal{E}(v)}p_{u}|_v &&\forall \mu_e \in\mathcal{M}_e\quad \forall v \in\mathcal{V}_{b,p},\\
+	-n_{\mathcal{E}(v)} \mu_{\mathcal{E}(v)}p_y|_v &&\forall \mu_e \in\mathcal{M}_e\quad \forall v \in\mathcal{V}_{b,m}.
 \end{align*}
 ```
 It now becomes apparent that in matrix form, the linear operators in several pairs of terms are each other's (negative) transpose. Hence, we can write our system of equations as the following linear DAE:
@@ -72,15 +74,15 @@ It now becomes apparent that in matrix form, the linear operators in several pai
     \end{bmatrix} +
     \underbrace{
     \begin{bmatrix}
-         &\\
+        0 &\\
         Y_{m}^T &\\
-        &  \\
+        & 0 \\
         & I
     \end{bmatrix}}_{B}
     \begin{bmatrix}
         p_u\\
         m_u
-    \end{bmatrix}\\
+    \end{bmatrix},\\
     \begin{bmatrix}
         m_y\\
         p_y
@@ -95,7 +97,7 @@ It now becomes apparent that in matrix form, the linear operators in several pai
         m\\
         p_i\\
         p_y
-    \end{bmatrix}
+    \end{bmatrix}.
 \end{align*}
 ```
 - ``M_p,\ M_m``: mass matrices for ``p,\ m``
@@ -109,13 +111,14 @@ Since ``p`` contains all the pressure variables, ``p_i`` and ``p_y`` are redunda
 Finally, the system can be written in linear port-Hamiltonian form as follows:
 ```math
 \begin{align*}
-    E\dot{x} &= (J-R)Qx + (G-P)u\\
-    y &= (G+P)^HQx + (S+N)u
+    E\dot{x} &= (J-R)Qx + (G-P)u,\\
+    y &= (G+P)^HQx + (S+N)u,
 \end{align*}
 ```
+where
 ```math
 \begin{align*}
-J = \frac{1}{2}(A-A^\mathsf{T}),\ R = -\frac{1}{2}(A+A^\mathsf{T}),\ Q = I,\ G = B,\ P = 0,\ S = N = 0
+J = \frac{1}{2}(A-A^\mathsf{T}),\ R = -\frac{1}{2}(A+A^\mathsf{T}),\ Q = I,\ G = B,\ P = 0,\ S = N = 0.
 \end{align*}
 ```
 ## Interface
