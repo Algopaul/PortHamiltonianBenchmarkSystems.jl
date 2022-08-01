@@ -6,8 +6,8 @@ using SparseArrays
 export DampedWaveNetConfig
 
 """
-Composite type descibing port-Hamiltonian, pressure wave conducting pipe systems, as
-described in Egger et al. 'Structure-Preserving Model Reduction for Damped Wave Propagation in Transport Networks'.
+Composite type descibing pressure wave conducting pipe systems, as described in 
+Egger et al. 'Structure-Preserving Model Reduction for Damped Wave Propagation in Transport Networks'.
 # Arguments
 - `incidence_matrix`: Sparse incidence matrix describing the pipe network
 - `edge_parameters`: Named tuple containing vectors `a`, `b`, `d`, `l`, `n`, respectively containing the parameters ``a_e,\\ b_e,\\ d_e``,
@@ -105,9 +105,9 @@ function construct_system(config::DampedWaveNetConfig)
     n_p = sum(epar.n)             #Number of pressure variables
     n_m = sum(epar.n .+ 1)        #Number of mass flow variables
     n_b = length(bcon)            #Number of boundary conditions
-    n_bp = sum(bcon .== 'p')       #Number of boundary conditions for p
-    n_bm = sum(bcon .== 'm')       #Number of boundary conditions for m
-    n_im = size(imat)[2] - n_b     #Number of internal conditions for m
+    n_bp = sum(bcon .== 'p')      #Number of boundary conditions for p
+    n_bm = sum(bcon .== 'm')      #Number of boundary conditions for m
+    n_im = size(imat)[2] - n_b    #Number of internal conditions for m
     n_x = n_p + n_m + n_im + n_bm #Number of state variables
 
     i_ep = collect(eachblock(BlockArray(1:n_p, epar.n))) #Edge indices for p
