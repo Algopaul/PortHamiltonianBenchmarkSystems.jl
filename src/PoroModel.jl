@@ -13,8 +13,6 @@ This struct configures port Hamiltonian poroelasticity systems described in
 - `bm`: Biot-Modulus. Default = `1/7.8e3`.
 - `kappanu`: Quotient `kappa/Nu`, where `kappa` denotes the permeability and `nu` denotes the fluid viscosity. Default = 633.33.
 - `eta`: artificial damping coefficient. Default = `1e-4`.
-# Outputs
-- ``E, J, R, B``, matrices to construct the transfer function ``H(s) = B^\\mathsf{T}(sE-(J-R))^{-1}B)``
 """
 struct PoroElasticityConfig <: BenchmarkConfig
     n::Int
