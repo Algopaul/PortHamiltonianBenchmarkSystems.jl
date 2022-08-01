@@ -21,4 +21,20 @@
         @test norm(H(s1) - [H1][:, :]) < 1e-9
         @test norm(H(s2) - [H2][:, :]) < 1e-9
     end
+
+    # Test PHSystem constructor
+    for n in [320, 980, 1805]
+        config = PoroElasticityConfig(n)
+        E, J, R, B = construct_system(config)
+        system = PHSystem(config)
+        @test system.E == E
+        @test system.J == J
+        @test system.R == R
+        @test system.G == B
+        n, m = size(B)
+        @test norm(system.Q - I(n)) == 0
+        @test norm(system.P - zeros(n, m)) == 0
+        @test norm(system.S - zeros(m, m)) == 0
+        @test norm(system.N - zeros(m, m)) == 0
+    end
 end
