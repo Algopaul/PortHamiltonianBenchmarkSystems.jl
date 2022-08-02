@@ -1,6 +1,5 @@
 using MAT
 using LazyArtifacts
-using UnPack
 
 """
 This struct configures port Hamiltonian poroelasticity systems described in
@@ -39,7 +38,7 @@ struct PoroElasticityConfig <: BenchmarkConfig
 end
 
 function construct_system(config::PoroElasticityConfig)
-    @unpack n, rho, alpha, bm, kappanu, eta = config
+    (; n, rho, alpha, bm, kappanu, eta) = config
     Y, D, M, K, Bp, Bf, A = load_poro_raw_data(n = n)
     Y = rho * sparse(Y)
     D = alpha * sparse(D)

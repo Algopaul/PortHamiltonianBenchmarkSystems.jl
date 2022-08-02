@@ -1,5 +1,3 @@
-using UnPack
-
 """
 This struct configures port Hamiltonian mass-spring-damper systems described in
 S. Gugercin et al.:
@@ -45,7 +43,7 @@ function msd_check_constants(c::AbstractVector, name)
 end
 
 function construct_system(config::SingleMSDConfig)
-    @unpack n_cells, io_dim, c, m, k = config
+    (; n_cells, io_dim, c, m, k) = config
     n = 2 * n_cells
     # B is initialized as dense matrix. Since all results of transfer function
     # computations will lead to dense results.
