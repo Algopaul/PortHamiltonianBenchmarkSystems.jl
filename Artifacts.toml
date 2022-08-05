@@ -5,3 +5,27 @@ lazy = true
     [[ph-poromodelsbasedata.download]]
     sha256 = "d8ebbd6c373a51acd3f8871d5ba86a22ff184902e434bc31da59f278701cbc16"
     url = "https://zenodo.org/record/6815548/files/ph-poromodelsbasedata.tar.gz?download=1"
+
+[ph_DampedWaveNet_diamond]
+git-tree-sha1 = "548a4770ceaf6a6185668d7cee4eb56453d57b54"
+lazy = true
+
+    [[ph_DampedWaveNet_diamond.download]]
+    sha256 = "9894af4c0505f1aac822144f6dcea070fd39c9816e53dbfa0402dce8d3665382"
+    url = "https://zenodo.org/record/6949405/files/ph_DampedWaveNet_diamond.tar.gz?download=1"
+
+[ph_DampedWaveNet_fork]
+git-tree-sha1 = "d8881dc38ebc72eb4c27fde114087716f8d4c23c"
+lazy = true
+
+    [[ph_DampedWaveNet_fork.download]]
+    sha256 = "1c7a1ca6562d8672378c9a1f696d30fe203527c2695f9d2f495d0f014350894c"
+    url = "https://zenodo.org/record/6949405/files/ph_DampedWaveNet_fork.tar.gz?download=1"
+
+[ph_DampedWaveNet_pipe]
+git-tree-sha1 = "35f7be487458f7b46f464e1028285594034c22b4"
+lazy = true
+
+    [[ph_DampedWaveNet_pipe.download]]
+    sha256 = "8b0550f18f4c40c011f82d50b6aa362ce286f260340369e49a98baafeb36f6dd"
+    url = "https://zenodo.org/record/6949405/files/ph_DampedWaveNet_pipe.tar.gz?download=1"
