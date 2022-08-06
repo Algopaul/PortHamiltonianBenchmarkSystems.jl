@@ -1,18 +1,15 @@
 # Damped Wave Net
+
 ## Description
 This benchmark is a model for wave propagation in gas pipeline networks, as presented in ([EKLSMM2018](#References)). The network is modeled as directed, connected graph ``\mathcal{G}(\mathcal{V},\mathcal{E})``, with vertices ``v\in\mathcal{V}``, edges ``e\in\mathcal{E}`` and at least one boundary vertex ``v\in\mathcal{V}_b\subseteq\mathcal{V}``, connected to a single edge.
 
-Graph Figure
-
-On each edge, the following 1D damped wave equation is given by
+On each edge, the following 1D damped wave equation holds, with presssure ``p_e\ (\text{kg}\text{m}^{-1}\text{s}^{-2})``, mass flow ``m_e\ (\text{kg}\text{s}^{-1})`` and pipe constants ``a_e\ (\text{s}^2)``, ``b_e\ (\text{m}^{-2})``, ``d_e\ (\text{m}^{-2}\text{s}^{-1})``.
 ```math
 \begin{align*}
 	a_e\partial_tp_e &= -\partial_xm_e &&\forall e\in\mathcal{E},\\
 	b_e\partial_tm_e &= -\partial_xp_e-d_em_e &&\forall e\in\mathcal{E},
 \end{align*}
 ```
-with presssure ``p_e\ (\text{kg}\text{m}^{-1}\text{s}^{-2})``, mass flow ``m_e\ (\text{kg}\text{s}^{-1})`` and pipe constants ``a_e\ (\text{s}^2)``, ``b_e\ (\text{m}^{-2})``, ``d_e\ (\text{m}^{-2}\text{s}^{-1})``.
-
 At each inner vertex ``v\in\mathcal{V}_i\equiv\mathcal{V}\setminus\mathcal{V}_b``, the following pressure continuity and mass conservation conditions hold, where ``p_i|_v`` is the pressure at ``v`` and ``n_e|_v`` is the direction of edge ``e`` at ``v`` (+1: incoming, -1: outgoing)
 ```math
 \begin{align*}
