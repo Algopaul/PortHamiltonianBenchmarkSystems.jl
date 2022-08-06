@@ -7,16 +7,16 @@ All entries in the collection consist of code for generating the system matrices
 
 ## Code
 This package consists of a single module, containing the following five elements:
-1. `PHSystem`: parametric composite type for storing system matrices in standard port-Hamiltonian form,
-2. `<System>Config`: (parametric) composite type for storing parameter sets for some system,
-3. `<System>Config(id::String)`: external constructor returing default `<System>Config` instances, based on some `id`,
-4. `construct_system(config::<System>Config)`: method returning system matrices in "natural" form, based on some `<System>Config` instance,
-5. `PHSystem(config::<System>Config)`: external constructor returning `PHSystem` instances, based on some `<System>Config` instance.
+- `PHSystem`: parametric composite type for storing system matrices in standard port-Hamiltonian form,
+- `<System>Config`: (parametric) composite type for storing parameter sets for some system,
+- `<System>Config(id::String)`: external constructor returing default `<System>Config` instances, based on some `id`,
+- `construct_system(config::<System>Config)`: method returning system matrices in "natural" form, based on some `<System>Config` instance,
+- `PHSystem(config::<System>Config)`: external constructor returning `PHSystem` instances, based on some `<System>Config` instance.
 The last four elements are repeated for each benchmark system and are stored together in `/src/<System>.jl`, along with their respective docstrings in Markdown format. All `<System>.jl` files are included in `/src/PortHamiltonianBenchmarkSystems.jl`.
 
 To contribute to the code, simply add a file based on the example below at `/src/<System>.jl` and add a corresponding `include` statement to `/src/PortHamiltonianBenchmarkSystems.jl`. Some best practices for more complex systems are also given below.
 ```@raw html
-<details><summary>Code Example</summary>
+<details><summary>Code Example</summary><p>
 ```
 ```julia
 export RandLinConfig
@@ -64,11 +64,11 @@ function PHSystem(config::RandLinConfig)
 end
 ```
 ```@raw html
-</details>
+</details><p>
 ```
 
 ```@raw html
-<details><summary>Best Practices</summary>
+<details><summary>Best Practices</summary><p>
 ```
 While it may seem unnecessary in a simple case like this, it is important to include an internal constructor in `<System>Config`, to perform input validation:
 ```julia
@@ -120,7 +120,7 @@ Every benchmark model has its own `/test/<System>Tests.jl` file, which is includ
 
 To contribute to the tests, add a file based on the example below at `/test/<System>Tests.jl` and add a corresponding `include` statement to `/test/runtests.jl`.
 ```@raw html
-<details><summary>Test Example</summary>
+<details><summary>Test Example</summary><p>
 ```
 ```julia
 @testset "RandLin" begin
@@ -150,20 +150,20 @@ end
 ```
 
 ## Documentation
-The documentation for this package is built using [Documenter.jl](https://github.com/JuliaDocs/Documenter.jl). The `/docs/make.jl` script uses the Markdown files in `/docs/src` and the images in `/docs/src/assets` to build a documentation webpage in `/docs/build`. Equations are rendered using [``\KaTeX``](https://katex.org/), which is invoked in Markdown by the `math` environment. The webpage can be loaded locally by running the commands below in the Julia REPL. The documentation should then be accessible from the returned `localhost` port.
+The documentation for this package is built using [Documenter.jl](https://github.com/JuliaDocs/Documenter.jl). The `/docs/make.jl` script uses the Markdown files in `/docs/src` and the images in `/docs/src/assets` to build a documentation webpage in `/docs/build`. Equations are rendered using [``\KaTeX``](https://katex.org/), which is invoked in Markdown by the `math` environment. The webpage can be built and deployed locally by running the commands below in the Julia REPL:
 ```julia
 using LiveServer
 include("/docs/make.jl")
 serve(dir="/docs/build")
 ```
-Each benchmark model is documented in a separate file, containing the following sections:
+Each benchmark system is documented in a separate file, containing the following sections:
 - Description: mathematical description of the model,
 - Derivation: detailed description of the conversion from mathematical model to port-Hamiltonian system,
 - Interface: section importing the docstrings from the corresponding `<System>.jl` file,
 - References: reference section in [BibTeX](http://www.bibtex.org/) format.
 To contribute to the documentation, add a file based on the example below at `/docs/src/<System>.md` and add `"<System>.md"` to the `"Benchmark Systems"` list in `/docs/make.jl`. Please refer to the current "Benchmark Systems" pages for stylistic reference.
 ```@raw html
-<details><summary>Documentation Example</summary>
+<details><summary>Documentation Example</summary><p>
 ```
 ````markdown
 # Random Linear pH-System
@@ -179,7 +179,7 @@ This benchmark is a linear port-Hamiltonian system of the form:
 where ``E,Q=I``, ``P,S,N=0`` and ``J,\ R,\ G`` are random dense matrices of the correct structure (R positive semi-definite, J, G skew symmetric) with mean 0 and variance 1 [Sabbadini2022](#References).
 
 ## Derivation
-This system discrete, random, and in port-Hamiltonian form automatically.
+This system is in discrete, port-Hamiltonian form a priori.
 
 ## Interface
 ```@docs

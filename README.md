@@ -1,6 +1,7 @@
 [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://algopaul.github.io/PortHamiltonianBenchmarkSystems.jl/)
 [![Coverage Status](http://codecov.io/github/Algopaul/PortHamiltonianBenchmarkSystems.jl/coverage.svg?branch=main)](http://codecov.io/github/Algopaul/PortHamiltonianBenchmarkSystems.jl?branch=main)
 ![CI](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/actions/workflows/CI.yml/badge.svg)
+
 # PortHamiltonianBenchmarkSystems
 
 ## About
@@ -9,8 +10,8 @@
 
 !!! note
     This package is currently [Julia](https://julialang.org/) only. If you want to take advantage of this benchmark collection in other programming languages, you can:
-    - generate any desired system in Julia and save the matrices in a format of your choosing (see [JuliaIO](https://github.com/JuliaIO)),
-    - generate MAT-files for any default parameter set, using our [Command-Line Interface](https://github.com/Algopaul/PortHamiltonianBenchmarkSystemsCLI.jl).
+    - Generate any desired system in Julia and save the matrices in a format of your choosing (see [JuliaIO](https://github.com/JuliaIO)),
+    - Generate MAT-files for any default parameter set, using our [Command-Line Interface](https://github.com/Algopaul/PortHamiltonianBenchmarkSystemsCLI.jl).
 
 ## Installation and Usage
 
@@ -34,7 +35,7 @@ If you need the system matrices in standard port-Hamiltonian form, type:
 system = PHSystem(config)
 E, J, R, Q, G, P, S, N = @unpack system
 ```
-Docstrings for the types and methods show above can be accessed in the Julia REPL by typing `?` and then name of the type or method.
+Docstrings for the types and methods shown above can be accessed in the Julia REPL by typing `?` and then name of the type or method.
 
 ## How to Contribute
 

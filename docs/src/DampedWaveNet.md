@@ -59,7 +59,7 @@ It now becomes apparent that in matrix form, the linear operators in several pai
     \underbrace{
     \begin{bmatrix}
         & -G_m & & \\
-        G_m^T& -D_mM_m &-C_{m}^T & U_{m}^T\\
+        G_m^\mathsf{T}& -D_mM_m &-C_{m}^\mathsf{T} & U_{m}^\mathsf{T}\\
         & C_{m}& & \\
         & -U_{m}& &
     \end{bmatrix}}_{A}
@@ -72,7 +72,7 @@ It now becomes apparent that in matrix form, the linear operators in several pai
     \underbrace{
     \begin{bmatrix}
         0 &\\
-        Y_{m}^T &\\
+        Y_{m}^\mathsf{T} &\\
         & 0 \\
         & I
     \end{bmatrix}}_{B}
@@ -88,7 +88,7 @@ It now becomes apparent that in matrix form, the linear operators in several pai
     \begin{bmatrix}
         0  &Y_{m} & &\\
         & & 0  & I
-    \end{bmatrix}}_{B^T} 
+    \end{bmatrix}}_{B^\mathsf{T}} 
     \begin{bmatrix}
         p\\
         m\\
@@ -103,21 +103,17 @@ It now becomes apparent that in matrix form, the linear operators in several pai
 - ``C_m``: mass conservation conditions for ``m``
 - ``U_m,\ Y_m``: matrices selecting ``m_u,\ m_y`` from ``m``
 
-Since ``p`` contains all the pressure variables, ``p_i`` and ``p_y`` are redundant in the solution vector. However, they are not explicitly tied to ``p`` in the system. It can be proven that the system has a unique solution and that this constrains ``p_i`` and ``p_y`` to be equal to their counterparts in ``p``, ensuring that the original variational problem is solved ([Egger, 2018](#References)).
+Since ``p`` contains all the pressure variables, ``p_i`` and ``p_y`` are redundant in the solution vector. However, they are not explicitly tied to ``p`` in the system. It can be proven that the system has a unique solution and that this constrains ``p_i`` and ``p_y`` to be equal to their counterparts in ``p``, ensuring that the original variational problem is solved ([EKLSMM2018](#References)).
 
 Finally, the system can be written in linear port-Hamiltonian form as follows:
 ```math
 \begin{align*}
     E\dot{x} &= (J-R)Qx + (G-P)u,\\
-    y &= (G+P)^HQx + (S+N)u,
+    y &= (G+P)^\mathsf{T}Qx + (S+N)u,
 \end{align*}
 ```
-where
-```math
-\begin{align*}
-J = \frac{1}{2}(A-A^\mathsf{T}),\ R = -\frac{1}{2}(A+A^\mathsf{T}),\ Q = I,\ G = B,\ P = 0,\ S = N = 0.
-\end{align*}
-```
+where ``J = \frac{1}{2}(A-A^\mathsf{T})``, ``R = -\frac{1}{2}(A+A^\mathsf{T})``, ``Q = I``, ``G = B``, ``P = 0``, ``S = N = 0``.
+
 ## Interface
 ```@docs
 DampedWaveNetConfig
