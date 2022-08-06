@@ -80,7 +80,7 @@ ensure_vector(x::Number) = [x]
 ensure_vector(x::AbstractVector) = x
 
 """
-Method for constructing the 'natural' DAE system.
+Method for constructing the "natural" DAE system.
 # Arguments
 - `config`: `DampedWaveNetConfig` instance
 # Output
