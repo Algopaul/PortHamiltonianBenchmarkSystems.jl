@@ -8,10 +8,9 @@
 
 [PortHamiltonianBenchmarkSystems](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/) is a collection of port-Hamiltonian systems, that can be used as benchmarks for simulation, control, and model-order reduction algorithms. We feature constructors for a wide range of linear, nonlinear, ODE, and DAE systems, as well as several default parameter sets for each. Detailed descriptions and derivations of the featured systems can be found in the [documentation](https://algopaul.github.io/PortHamiltonianBenchmarkSystems.jl/).
 
-!!! note
-    This package is currently [Julia](https://julialang.org/) only. If you want to take advantage of this benchmark collection in other programming languages, you can:
-    - Generate any desired system in Julia and save the matrices in a format of your choosing (see [JuliaIO](https://github.com/JuliaIO)),
-    - Generate MAT-files for any default parameter set, using our [Command-Line Interface](https://github.com/Algopaul/PortHamiltonianBenchmarkSystemsCLI.jl).
+If you want to take advantage of this benchmark collection programming languages other than julia, you can:
+- Generate any desired system in Julia and save the matrices in a format of your choosing (see [JuliaIO](https://github.com/JuliaIO)),
+- Generate MAT-files for any default parameter set, using our [Command-Line Interface](https://github.com/Algopaul/PortHamiltonianBenchmarkSystemsCLI.jl).
 
 ## Installation and Usage
 
