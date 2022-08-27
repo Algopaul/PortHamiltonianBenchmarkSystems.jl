@@ -1,18 +1,15 @@
 # Damped Wave Net
+
 ## Description
 This benchmark is a model for wave propagation in gas pipeline networks, as presented in ([EKLSMM2018](#References)). The network is modeled as directed, connected graph ``\mathcal{G}(\mathcal{V},\mathcal{E})``, with vertices ``v\in\mathcal{V}``, edges ``e\in\mathcal{E}`` and at least one boundary vertex ``v\in\mathcal{V}_b\subseteq\mathcal{V}``, connected to a single edge.
 
-Graph Figure
-
-On each edge, the following 1D damped wave equation is given by
+On each edge, the following 1D damped wave equation holds, with presssure ``p_e\ (\text{kg}\text{m}^{-1}\text{s}^{-2})``, mass flow ``m_e\ (\text{kg}\text{s}^{-1})`` and pipe constants ``a_e\ (\text{s}^2)``, ``b_e\ (\text{m}^{-2})``, ``d_e\ (\text{m}^{-2}\text{s}^{-1})``.
 ```math
 \begin{align*}
 	a_e\partial_tp_e &= -\partial_xm_e &&\forall e\in\mathcal{E},\\
 	b_e\partial_tm_e &= -\partial_xp_e-d_em_e &&\forall e\in\mathcal{E},
 \end{align*}
 ```
-with presssure ``p_e\ (\text{kg}\text{m}^{-1}\text{s}^{-2})``, mass flow ``m_e\ (\text{kg}\text{s}^{-1})`` and pipe constants ``a_e\ (\text{s}^2)``, ``b_e\ (\text{m}^{-2})``, ``d_e\ (\text{m}^{-2}\text{s}^{-1})``.
-
 At each inner vertex ``v\in\mathcal{V}_i\equiv\mathcal{V}\setminus\mathcal{V}_b``, the following pressure continuity and mass conservation conditions hold, where ``p_i|_v`` is the pressure at ``v`` and ``n_e|_v`` is the direction of edge ``e`` at ``v`` (+1: incoming, -1: outgoing)
 ```math
 \begin{align*}
@@ -62,7 +59,7 @@ It now becomes apparent that in matrix form, the linear operators in several pai
     \underbrace{
     \begin{bmatrix}
         & -G_m & & \\
-        G_m^T& -D_mM_m &-C_{m}^T & U_{m}^T\\
+        G_m^\mathsf{T}& -D_mM_m &-C_{m}^\mathsf{T} & U_{m}^\mathsf{T}\\
         & C_{m}& & \\
         & -U_{m}& &
     \end{bmatrix}}_{A}
@@ -75,7 +72,7 @@ It now becomes apparent that in matrix form, the linear operators in several pai
     \underbrace{
     \begin{bmatrix}
         0 &\\
-        Y_{m}^T &\\
+        Y_{m}^\mathsf{T} &\\
         & 0 \\
         & I
     \end{bmatrix}}_{B}
@@ -91,7 +88,7 @@ It now becomes apparent that in matrix form, the linear operators in several pai
     \begin{bmatrix}
         0  &Y_{m} & &\\
         & & 0  & I
-    \end{bmatrix}}_{B^T} 
+    \end{bmatrix}}_{B^\mathsf{T}} 
     \begin{bmatrix}
         p\\
         m\\
@@ -106,21 +103,17 @@ It now becomes apparent that in matrix form, the linear operators in several pai
 - ``C_m``: mass conservation conditions for ``m``
 - ``U_m,\ Y_m``: matrices selecting ``m_u,\ m_y`` from ``m``
 
-Since ``p`` contains all the pressure variables, ``p_i`` and ``p_y`` are redundant in the solution vector. However, they are not explicitly tied to ``p`` in the system. It can be proven that the system has a unique solution and that this constrains ``p_i`` and ``p_y`` to be equal to their counterparts in ``p``, ensuring that the original variational problem is solved ([Egger, 2018](#References)).
+Since ``p`` contains all the pressure variables, ``p_i`` and ``p_y`` are redundant in the solution vector. However, they are not explicitly tied to ``p`` in the system. It can be proven that the system has a unique solution and that this constrains ``p_i`` and ``p_y`` to be equal to their counterparts in ``p``, ensuring that the original variational problem is solved ([EKLSMM2018](#References)).
 
 Finally, the system can be written in linear port-Hamiltonian form as follows:
 ```math
 \begin{align*}
     E\dot{x} &= (J-R)Qx + (G-P)u,\\
-    y &= (G+P)^HQx + (S+N)u,
+    y &= (G+P)^\mathsf{T}Qx + (S+N)u,
 \end{align*}
 ```
-where
-```math
-\begin{align*}
-J = \frac{1}{2}(A-A^\mathsf{T}),\ R = -\frac{1}{2}(A+A^\mathsf{T}),\ Q = I,\ G = B,\ P = 0,\ S = N = 0.
-\end{align*}
-```
+where ``J = \frac{1}{2}(A-A^\mathsf{T})``, ``R = -\frac{1}{2}(A+A^\mathsf{T})``, ``Q = I``, ``G = B``, ``P = 0``, ``S = N = 0``.
+
 ## Interface
 ```@docs
 DampedWaveNetConfig
