@@ -38,13 +38,13 @@ The topology of the network and its characteristics may be changed via
 To obtain system matrices ``E, J, R`` and ``G`` use the following function call.
 ```julia
 using PortHamiltonianBenchmarkSystems
-E, J, R, G = setup_DAE1_RCL_LadderNetwork_sparse() # for standard parameters
+E, J, R, Q, G = setup_DAE1_RCL_LadderNetwork_sparse() # for standard parameters
 ```
 
 To specify optional arguments, specify the parameters as named arguments.
 ```julia
 using PortHamiltonianBenchmarkSystems
-E, J, R, G = setup_DAE1_RCL_LadderNetwork_sparse(ns = 500, r = rand(502))
+E, J, R, Q, G = setup_DAE1_RCL_LadderNetwork_sparse(ns = 500, r = rand(502))
 ```
 
 The transfer function can be defined as follows.
