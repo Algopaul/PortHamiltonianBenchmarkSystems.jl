@@ -95,6 +95,13 @@ H (generic function with 1 method)
 gugercin_pH_msd_chain
 ```
 
+## Control System
+For controller design benchmarks, we have defined a *plant* model based on the mass-spring-damper chain. It is defined with force control and verlocity outputs on the first two masses. The disturbance input and performance outputs are forces and verlocities, respectively, at the third and fourth mass. The plant is returned in standard state-space format to simplify interoperation with standard controller design methods.
+```@docs
+generate_MSD_plant
+```
+
+
 ## References
 ```LaTeX
 @article{GPBS2012,

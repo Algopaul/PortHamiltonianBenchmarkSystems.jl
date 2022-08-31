@@ -148,7 +148,12 @@ Constructor for the configuration as control problem.
 # Arguments
 - `n_cells`: The number of masses. The system dimension is `2n_cells`.
 # Outputs
-- A, B, C, D, nz, nw: The control problem system matrices and dimensions
+- `A`: The system matrix of the plant.
+- `B`: The input matrix of the plant, as a concatenation of `B=hcat(B1, B2)`, where `B1` and `B2` describe the disturbance input and the control input, respectively. `B2` has `nw` columns.
+- `C`: The output matrix of the plant, as a concatenation of `C=vcat(C1, C2)`, where `C1` and `C2` describe the performance output and the measured output, respectively. `C2` has `nz` columns.
+- `D`: The feedthrough matrix of the plant, as a concatenation of `D=vcat(hcat(D11, D12), hcat(D21, D22))`.
+- dimension `nw`: dimension of the disturbance input.
+- dimension `nz`: dimension of the performance output.
 """
 function generate_MSD_plant(n_cells)
     config = SingleMSDConfig(n_cells, 2, 1.0, 4.0, 4.0)
