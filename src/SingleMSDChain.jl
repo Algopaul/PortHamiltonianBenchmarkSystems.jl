@@ -141,4 +141,28 @@ function SingleMSDConfig(id::String)
     end
 end
 
-export SingleMSDConfig, gugercin_pH_msd_chain
+"""
+    generate_MSD_plant(n_cells::Int)
+
+Constructor for the configuration as control problem.
+# Arguments
+- `n_cells`: The number of masses. The system dimension is `2n_cells`.
+# Outputs
+- A, B, C, D, nz, nw: The control problem system matrices and dimensions
+"""
+function generate_MSD_plant(n_cells)
+    config = SingleMSDConfig(n_cells, 2, 1.0, 4.0, 4.0)
+    J, R, Q, B = construct_system(config)
+    # Add disturbance inputs.
+    Bw = zero(B)
+    Bw[6, 1] = 1.0
+    Bw[8, 2] = 1.0
+    A = (J - R) * Q
+    B = hcat(Bw, B)
+    C = B' * Q
+    D = zeros(size(B, 2), size(B, 2))
+    nz, nw = 2, 2
+    return (A, B, C, D, nz, nw)
+end
+
+export SingleMSDConfig, gugercin_pH_msd_chain, generate_MSD_plant

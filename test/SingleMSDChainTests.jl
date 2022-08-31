@@ -71,4 +71,16 @@
         @test norm(system.N) == 0
     end
 
+    # Test setup of control plant
+    begin
+        for n_cells in [5, 10]
+            A, B, C, D, nz, nw = generate_MSD_plant(n_cells)
+            @test size(A) == (n_cells * 2, n_cells * 2)
+            @test size(B) == (n_cells * 2, 4)
+            @test size(C) == (4, n_cells * 2)
+            @test size(D) == (4, 4)
+            @test nz == 2
+            @test nw == 2
+        end
+    end
 end
