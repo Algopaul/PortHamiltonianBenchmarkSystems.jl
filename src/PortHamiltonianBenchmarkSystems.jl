@@ -43,6 +43,7 @@ include("./SingleMSDChain.jl")
 include("./PoroModel.jl")
 include("./RCLLadders.jl")
 include("./DampedWaveNet.jl")
+include("./Elasticity2DAFW.jl")
 
 export PHSystem, construct_system
 end

@@ -29,3 +29,10 @@ lazy = true
     [[ph_DampedWaveNet_pipe.download]]
     sha256 = "8b0550f18f4c40c011f82d50b6aa362ce286f260340369e49a98baafeb36f6dd"
     url = "https://zenodo.org/record/6949405/files/ph_DampedWaveNet_pipe.tar.gz?download=1"
+
+[elasticity_model]
+git-tree-sha1 = "46c7d33e15b4264f4f3fcfe171a1dcb6e69d2fb7"
+
+    [[elasticity_model.download]]
+    sha256 = "be3499dde7c8f8c030e67f148ad9e6046bbdc2a85e4e9f7061332d048e47ee34"
+    url = "https://zenodo.org/record/7221178/files/PHElasticityBaseData.tar.xz?download=1"
