@@ -1,4 +1,4 @@
-# Planar Elasticity (Wwork in Progress)
+# Planar Elasticity (Work in Progress)
 
 ## Description
 This benchmark is the planar elastodynamic problem presented in
