@@ -17,7 +17,7 @@ struct SingleMSDConfig{TC,TM,TK} <: BenchmarkConfig
     c::TC
     m::TM
     k::TK
-    function SingleMSDConfig(
+    function SingleMSDConfig(;
         n_cells::Int=50,
         io_dim::Int=2,
         c::TC=1.0,

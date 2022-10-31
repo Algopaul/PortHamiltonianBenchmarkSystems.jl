@@ -7,7 +7,7 @@ using MAT
 export DampedWaveNetConfig
 
 """
-Composite type descibing pressure wave conducting pipe systems, as described in 
+Composite type descibing pressure wave conducting pipe systems, as described in
 Egger et al. 'Structure-Preserving Model Reduction for Damped Wave Propagation in Transport Networks'.
 # Arguments
 - `incidence_matrix`: Sparse incidence matrix describing the pipe network
@@ -30,8 +30,9 @@ struct DampedWaveNetConfig <: BenchmarkConfig
     }
     boundary_conditions::Vector{Char}
 
-    function DampedWaveNetConfig(imat, epar, bcon)
-        imat, epar, bcon = convert(Tuple{fieldtypes(DampedWaveNetConfig)...}, (imat, epar, bcon))
+    function DampedWaveNetConfig(; imat, epar, bcon)
+        imat, epar, bcon =
+            convert(Tuple{fieldtypes(DampedWaveNetConfig)...}, (imat, epar, bcon))
 
         @assert all(in.(nonzeros(imat), Ref([-1, 1]))) "Invalid incidence matrix: found value(s) other than {-1,0,1}"
         @assert all(nnz.(eachcol(imat)) .== 2) "Invalid incidence matrix: found column(s) with other than 2 entries"

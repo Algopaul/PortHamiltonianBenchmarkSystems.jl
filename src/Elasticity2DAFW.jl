@@ -11,7 +11,7 @@ This struct configures port Hamiltonian elasticity systems described in
 """
 struct Elasticity2DAFWConfig <: BenchmarkConfig
     n::Int
-    function Elasticity2DAFWConfig(n::Int = 1260) where {}
+    function Elasticity2DAFWConfig(; n::Int = 1260) where {}
         @assert n in [1260, 1880, 4920] "n must be one of 1260, 1880, or 4920."
         return new(n)
     end

@@ -20,7 +20,7 @@ struct PoroElasticityConfig <: BenchmarkConfig
     bm::Float64
     kappanu::Float64
     eta::Float64
-    function PoroElasticityConfig(
+    function PoroElasticityConfig(;
         n::Int = 980,
         rho::Float64 = 1e-3,
         alpha::Float64 = 0.79,
