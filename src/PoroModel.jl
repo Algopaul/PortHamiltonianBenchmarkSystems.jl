@@ -98,7 +98,7 @@ function poro_elasticity_model(;
     kappanu = 633.33,
     eta = 1e-4,
 )
-    config = PoroElasticityConfig(n, rho, alpha, bm, kappanu, eta)
+    config = PoroElasticityConfig(n=n, rho=rho, alpha=alpha, bm=bm, kappanu=kappanu, eta=eta)
     return construct_system(config)
 end
 

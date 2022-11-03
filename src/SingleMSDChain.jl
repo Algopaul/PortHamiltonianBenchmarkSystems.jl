@@ -156,7 +156,7 @@ Constructor for the configuration as control problem.
 - dimension `nz`: dimension of the performance output.
 """
 function generate_MSD_plant(n_cells)
-    config = SingleMSDConfig(n_cells, 2, 1.0, 4.0, 4.0)
+    config = SingleMSDConfig(n_cells=n_cells, io_dim=2, c=1.0, m=4.0, k=4.0)
     J, R, Q, B = construct_system(config)
     # Add disturbance inputs.
     Bw = zero(B)

@@ -24,7 +24,7 @@
 
     # Test PHSystem constructor
     for n in [320, 980, 1805]
-        config = PoroElasticityConfig(n)
+        config = PoroElasticityConfig(n=n)
         E, J, R, B = construct_system(config)
         system = PHSystem(config)
         @test system.E == E

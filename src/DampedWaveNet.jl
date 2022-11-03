@@ -74,7 +74,7 @@ function DampedWaveNetConfig(id::String)
         n = ensure_vector(epar["n"]),
     )
     bcon = only.(params["bcon"])
-    return DampedWaveNetConfig(imat, epar, bcon)
+    return DampedWaveNetConfig(imat=imat, epar=epar, bcon=bcon)
 end
 
 ensure_vector(x::Number) = [x]

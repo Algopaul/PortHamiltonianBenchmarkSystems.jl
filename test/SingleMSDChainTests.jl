@@ -5,9 +5,9 @@
             if m > n_cells
                 @test_throws AssertionError(
                     "number of inputs and outputs must be less than or equal to the number of cells",
-                ) SingleMSDConfig(n_cells, m)
+                ) SingleMSDConfig(n_cells=n_cells, io_dim=m)
             else
-                config = SingleMSDConfig(n_cells, m)
+                config = SingleMSDConfig(n_cells=n_cells, io_dim=m)
                 J, R, Q, B = construct_system(config)
                 @test size(J) == (n_cells * 2, n_cells * 2)
                 @test size(R) == (n_cells * 2, n_cells * 2)
@@ -19,7 +19,7 @@
 
     # Test for correct values of transfer function
     begin
-        config = SingleMSDConfig(50, 2, 1.0, 4.0, 4.0)
+        config = SingleMSDConfig(n_cells=50, io_dim=2, c=1.0, m=4.0, k=4.0)
         J, R, Q, B = construct_system(config)
         H(s) = B' * Q * ((s * I - (J - R) * Q) \ B)
         # Values taken from baseline-implementation (not publicly available)
@@ -44,14 +44,14 @@
         k_1 = 1.5
         c_1 = 2.5
         m_1 = 3.5
-        config_1 = SingleMSDConfig(n_cells_1, io_dim_1, c_1, m_1, k_1)
+        config_1 = SingleMSDConfig(n_cells = n_cells_1, io_dim = io_dim_1, c=c_1, m=m_1, k=k_1)
         system_1 = construct_system(config_1)
         n_cells_2 = 10
         io_dim_2 = 2
         k_2 = 1.5 * ones(2n_cells_2)
         c_2 = 2.5 * ones(2n_cells_2)
         m_2 = 3.5 * ones(2n_cells_2)
-        config_2 = SingleMSDConfig(n_cells_2, io_dim_2, c_2, m_2, k_2)
+        config_2 = SingleMSDConfig(n_cells=n_cells_2, io_dim=io_dim_2, c=c_2, m=m_2, k=k_2)
         system_2 = construct_system(config_2)
         @test system_1 == system_2
     end
