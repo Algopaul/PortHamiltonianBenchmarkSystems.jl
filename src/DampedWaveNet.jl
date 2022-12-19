@@ -18,16 +18,11 @@ Egger et al. 'Structure-Preserving Model Reduction for Damped Wave Propagation i
 """
 struct DampedWaveNetConfig <: BenchmarkConfig
     incidence_matrix::SparseMatrixCSC{Int8,Int64}
-    edge_parameters::NamedTuple{
-        (:a, :b, :d, :l, :n),
-        Tuple{
-            Vector{Float64},
-            Vector{Float64},
-            Vector{Float64},
-            Vector{Float64},
-            Vector{Int64},
-        },
-    }
+    edge_as::Vector{Float64}
+    edge_bs::Vector{Float64}
+    edge_ds::Vector{Float64}
+    edge_ls::Vector{Float64}
+    edge_ns::Vector{Int64}
     boundary_conditions::Vector{Char}
 
     function DampedWaveNetConfig(; imat, epar, bcon)
@@ -38,8 +33,8 @@ struct DampedWaveNetConfig <: BenchmarkConfig
         @assert all(nnz.(eachcol(imat)) .== 2) "Invalid incidence matrix: found column(s) with other than 2 entries"
         @assert all(sum(abs.(imat), dims = 2) .> 0) "Invalid incidence matrix: found disconnected vertices"
         @assert sum(sum(abs.(imat), dims = 2) .== 1) > 0 "Invalid incidence matrix: found no boundary vertices"
-        @assert all(length.(values(epar)) .== size(imat)[2]) "Invalid edge parameters: need same number as edges"
-        @assert all([all(v .> 0) for v in values(epar)]) "Invalid edge parameters: all parameters must be positive"
+        @assert all(length.(edge_as,edge_bs,edge_ds,edge_ls,edge_ns) .== size(imat)[2]) "Invalid edge parameters: need same number as edges"
+        @assert all([all(v .> 0) for v in (edge_as,edge_bs,edge_ds,edge_ls,edge_ns)]) "Invalid edge parameters: all parameters must be positive"
         @assert length(bcon) == sum(sum(abs.(imat), dims = 2) .== 1) "Invalid boundary conditions: need same number as boundary nodes"
         @assert all(in.(bcon, Ref(['p', 'm']))) "Invalid boundary conditions: found identifier other than {p,m}"
 
@@ -90,20 +85,24 @@ Method for constructing the "natural" DAE system.
 function construct_system(config::DampedWaveNetConfig)
     #Convenience
     imat = sparse(config.incidence_matrix')
-    epar = config.edge_parameters
+    as = config.edge_as
+    bs = config.edge_bs
+    ds = config.edge_ds
+    ls = config.edge_ls
+    ns = config.edge_ns
     bcon = config.boundary_conditions
 
     #Index calculations
-    n_p = sum(epar.n)             #Number of pressure variables
-    n_m = sum(epar.n .+ 1)        #Number of mass flow variables
+    n_p = sum(ns)                 #Number of pressure variables
+    n_m = sum(ns .+ 1)            #Number of mass flow variables
     n_b = length(bcon)            #Number of boundary conditions
     n_bp = sum(bcon .== 'p')      #Number of boundary conditions for p
     n_bm = sum(bcon .== 'm')      #Number of boundary conditions for m
     n_im = size(imat)[2] - n_b    #Number of internal conditions for m
     n_x = n_p + n_m + n_im + n_bm #Number of state variables
 
-    i_ep = collect(eachblock(BlockArray(1:n_p, epar.n))) #Edge indices for p
-    i_em = collect(eachblock(BlockArray(1:n_m, epar.n .+ 1))) #Edge indices for m
+    i_ep = collect(eachblock(BlockArray(1:n_p, ns))) #Edge indices for p
+    i_em = collect(eachblock(BlockArray(1:n_m, ns .+ 1))) #Edge indices for m
 
     #Global FEM system
     E = spzeros(n_x, n_x)
@@ -148,7 +147,7 @@ function construct_system(config::DampedWaveNetConfig)
     end
 
     #Physics
-    for (e, h) in enumerate(epar.l ./ epar.n)
+    for (e, h) in enumerate(ls ./ ns)
         #Local matrices
         Mp_loc = [1] * h
         Mm_loc = [2 1; 1 2] * h / 6
@@ -156,10 +155,10 @@ function construct_system(config::DampedWaveNetConfig)
 
         #Contributions for each element
         for (i_p, i_m) in zip(eachrow(i_ep[e]), collect.(partition(i_em[e], 2, 1)))
-            E11[i_p, i_p] += Mp_loc .* epar.a[e]
-            E22[i_m, i_m] += Mm_loc .* epar.b[e]
+            E11[i_p, i_p] += Mp_loc .* as[e]
+            E22[i_m, i_m] += Mm_loc .* bs[e]
             A12[i_p, i_m] -= Gm_loc
-            A22[i_m, i_m] -= Mm_loc .* epar.d[e]
+            A22[i_m, i_m] -= Mm_loc .* ds[e]
         end
     end
 
@@ -184,4 +183,3 @@ function PHSystem(config::DampedWaveNetConfig)
 
     return PHSystem(E, J, R, Q, G, P, S, N)
 end
-
