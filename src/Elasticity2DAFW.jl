@@ -44,19 +44,4 @@ function PHSystem(config::Elasticity2DAFWConfig)
     return PHSystem(E, J, R, Q, G, P, S, N)
 end
 
-"""
-    elasticity2Dafw_model(; n = 1260)
-
-This function returns a port-Hamiltonian model of linear elastodynamics in a
-bounded Lipschitz domain.
-# Arguments
-- `n`: System dimension (can only be either: 1260, 1880, or 4920). Default = 1260.
-# Outputs
-- ``E, J, R, B``, matrices to construct the transfer function ``H(s) = B^\\mathsf{T}(sE-(J-R))^{-1}B)``
-"""
-function elasticity2Dafw_model(; n = 1260)
-    config = Elasticity2DAFWConfig(n)
-    return construct_system(config)
-end
-
-export Elasticity2DAFWConfig, elasticity2Dafw_model
+export Elasticity2DAFWConfig

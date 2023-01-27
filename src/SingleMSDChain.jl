@@ -5,11 +5,12 @@ S. Gugercin et al.:
       port-Hamiltonian systems
 # Arguments
 - `n_cells`: The number of masses. The system dimension is `2n_cells`
-- `c_i`: The amount of damping
-- `m_i`: The weight of the masses
-- `k_i`: The stiffness of the springs
+- `io_dim`: The input and output dimension of the system
+- `c`: The amount of damping
+- `m`: The weight of the masses
+- `k`: The stiffness of the springs
 # Outputs
-Matrices: ``J, R, Q, B``. The resulting transfer function is ``H(s) = B^\\mathsf{T} Q  (sI-(J-R)Q)^{-1}B``.
+- `config`: The configuration struct for the system. The system can subsequently be created with `construct_system(config)`
 """
 struct SingleMSDConfig{TC,TM,TK} <: BenchmarkConfig
     n_cells::Int
@@ -104,38 +105,22 @@ function PHSystem(config::SingleMSDConfig)
 end
 
 """
-    gugercin_pH_msd_chain(; n_cells=50, m=2, c_i=1.0, m_i=4.0, k_i=4.0)
-
-This function returns the port Hamiltonian mass-spring-damper system described in
-S. Gugercin et al.:
-      Structure-preserving tangential interpolation for model reduction of
-      port-Hamiltonian systems
-# Arguments
-- `n_cells`: The number of masses. The system dimension is `2n_cells`
-- `c_i`: The amount of damping
-- `m_i`: The weight of the masses
-- `k_i`: The stiffness of the springs
-# Outputs
-Matrices: ``J, R, Q, B``. The resulting transfer function is ``H(s) = B^\\mathsf{T} Q  (sI-(J-R)Q)^{-1}B``.
-"""
-function gugercin_pH_msd_chain(; n_cells = 50, m = 2, c_i = 1.0, m_i = 4.0, k_i = 4.0)
-    @warn """Deprecated, use SingleMSDConfig("Gugercin") instead"""
-    config = SingleMSDConfig(n_cells, m, c_i, m_i, k_i)
-    return construct_system(config)
-end
-
-"""
     SingleMSDConfig(id::String)
 
 External constructor providing various default instances of SingleMSDConfig.
 # Arguments
-- `id`: The identifier of the desired configuration.
+- `id`: The identifier of the desired configuration. Use "Gugercin" for the setup in [Gugercin2012](https://doi.org/10.1016/j.automatica.2012.05.052)
 # Outputs
 - `config`: Instance of `SingleMSDConfig`.
 """
 function SingleMSDConfig(id::String)
     if id == "Gugercin"
-        return SingleMSDConfig(50, 2, 1.0, 4.0, 4.0)
+        n_cells = 50
+        io_dim = 2
+        c = 1.0
+        m = 4.0
+        k = 4.0
+        return SingleMSDConfig(; n_cells, io_dim, c, m, k)
     else
         error("Unknown benchmark id: " + id)
     end

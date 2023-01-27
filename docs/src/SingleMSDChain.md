@@ -68,18 +68,6 @@ This is a variable-dimension model in which ``N = \frac{n}{2} \in \N`` can be de
 
 ## Interface
 
-To obtain system matrices ``J, R, Q,`` and ``B`` use the following function call.
-```julia
-using PortHamiltonianBenchmarkSystems
-J, R, Q, B = gugercin_pH_msd_chain() # for standard parameters
-```
-
-To specify optional arguments, specify the parameters as named arguments.
-```julia
-using PortHamiltonianBenchmarkSystems
-J, R, Q, B = gugercin_pH_msd_chain(n_cells = 150, k_i = 10)
-```
-
 The transfer function can be defined as follows.
 ```jldoctest; output = false
 using LinearAlgebra, PortHamiltonianBenchmarkSystems
@@ -91,8 +79,19 @@ H(s) = B'*((s*I-(J-R)*Q)\B)
 H (generic function with 1 method)
 ```
 
+The parameters can be specified as follows
+```jldoctest; output = false
+using LinearAlgebra, PortHamiltonianBenchmarkSystems
+config = SingleMSDConfig(n_cells=50, io_dim = 2, m = 1.0, k = 4.0, c = 4.0)
+J, R, Q, B = construct_system(config)
+H(s) = B'*((s*I-(J-R)*Q)\B)
+
+# output
+H (generic function with 1 method)
+```
+
 ```@docs
-gugercin_pH_msd_chain
+SingleMSDConfig
 ```
 
 ## Control System
