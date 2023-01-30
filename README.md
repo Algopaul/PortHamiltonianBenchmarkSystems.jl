@@ -32,7 +32,7 @@ config = SingleMSDConfig(n_cells = 10, io_dim = 2, c = 1.0, m = 4.0, k = 5.0)
 If you need the system matrices in standard port-Hamiltonian form, type:
 ```julia
 system = PHSystem(config)
-E, J, R, Q, G, P, S, N = @unpack system
+(; E, J, R, Q, G, P, S, N) = system
 ```
 Docstrings for the types and methods shown above can be accessed in the Julia REPL by typing `?` and then name of the type or method.
 
