@@ -44,6 +44,8 @@ include("./PoroModel.jl")
 include("./RCLLadders.jl")
 include("./DampedWaveNet.jl")
 include("./Elasticity2DAFW.jl")
+include("./HeatModel.jl")
+include("./LosslessWaveModel.jl")
 
 export PHSystem, construct_system
 end
