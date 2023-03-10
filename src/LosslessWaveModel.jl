@@ -44,6 +44,17 @@ LosslessWaveDiscSizes = Dict(["small" => 21701, "medium" => 84225, "large" => 51
 LosslessWaveLSizes = Dict(["small" => 3189, "medium" => 10841, "large" => 64013])
 LosslessWaveRectSizes = Dict(["small" => 3825, "medium" => 14089, "large" => 83521])
 
+"""
+    construct_system(config::LosslessWaveModelConfig)
+
+Construct the lossless wave model benchmark system.
+
+# Arguments
+- `config`: Configuration for the lossless wave model benchmark system from the configuration struct.
+
+# Output:
+- Matrices `M_p`, `M_q`, `M_b`, `B`, and `D`.
+"""
 function construct_system(hmc::LosslessWaveModelConfig)
     data = load_losslesswave_data(hmc.n)
     return (

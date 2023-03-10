@@ -242,6 +242,7 @@ and the data is loaded using `construct_system(config)`.
 ```@docs
 LosslessWaveModelConfigFactory
 LosslessWaveModelConfig
+construct_system(::LosslessWaveModelConfig)
 ```
 
 ## References

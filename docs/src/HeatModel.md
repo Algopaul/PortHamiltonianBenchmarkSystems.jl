@@ -252,6 +252,7 @@ and the data is loaded using `construct_system(config)`.
 ```@docs
 HeatModelConfigFactory
 HeatModelConfig
+construct_system(::HeatModelConfig)
 ```
 
 ## References

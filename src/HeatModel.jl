@@ -44,6 +44,17 @@ HeatDiscSizes = Dict(["small" => 21701, "medium" => 84225, "large" => 516741])
 HeatLSizes = Dict(["small" => 3189, "medium" => 10841, "large" => 64013])
 HeatRectSizes = Dict(["small" => 3825, "medium" => 14089, "large" => 83521])
 
+"""
+    construct_system(config::HeatModelConfig)
+
+Construct the heat model benchmark system from the configuration struct.
+
+# Arguments
+- `config`: Configuration for the lossless wave model benchmark system.
+
+# Output:
+- Matrices `M_T`, `M_Q`, `M_b`, `D`, and `J`.
+"""
 function construct_system(hmc::HeatModelConfig)
     data = load_heat_data(hmc.n)
     return (
