@@ -24,7 +24,7 @@ J, R, Q, B = construct_system(config)
 ```
 Naturally, we may also specify the parameters ourselves:
 ```julia
-config = SingleMSDConfig(10, 2, 1.0, 4.0, 5.0)
+config = SingleMSDConfig(n_cells=10, io_dim=2, c=1.0, m=4.0, k=5.0)
 ```
 If you need the system matrices in standard port-Hamiltonian form, type:
 ```julia
