@@ -71,6 +71,6 @@ jobs:
         shell: julia --project=docs --color=yes {0}
         run: |
           using Documenter: DocMeta, doctest
-          using MyPkg
-          DocMeta.setdocmeta!(MyPkg, :DocTestSetup, :(using MyPkg); recursive=true)
-          doctest(MyPkg)
+          using PortHamiltonianBenchmarkSystems
+          DocMeta.setdocmeta!(PortHamiltonianBenchmarkSystems, :DocTestSetup, :(using PortHamiltonianBenchmarkSystems); recursive=true)
+          doctest(PortHamiltonianBenchmarkSystems)
