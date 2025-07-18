@@ -5,7 +5,6 @@ version = "0.1.0"
 
 [deps]
 BlockArrays = "8e7c35d0-a365-5155-bbbb-fb81a777f24e"
-Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 IterTools = "c8e1da08-722c-5040-9ed9-7db0dc04731e"
 LazyArtifacts = "4af54fe1-eca0-43a8-85a7-787d91b784e3"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
@@ -15,7 +14,6 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
 BlockArrays = "0.16"
-Documenter = "0.27"
 IterTools = "1"
 MAT = "0.10"
 julia = "1.10"
