@@ -1,8 +1,8 @@
 # Planar Elasticity (Work in Progress)
 
 ## Description
-This benchmark is the planar elastodynamic problem presented in
-[Brugnoli2020](#References) and discretized using the Arnold-Falk-Whinter weakly symmetric element [Arnold2014](#References). It corresponds to a mixed Hamiltonian formulation of linearized elasticity. Let ``\Omega \subseteq \mathbb{R}^2`` be a Lipschitz domain and ``\mathbb{T} = [0,T]`` for ``T \in (0,\infty)``.
+This benchmark is the planar elastodynamic problem presented in [Bru20](@cite) and discretized using the Arnold-Falk-Whinter weakly symmetric element [AL14](@cite). 
+It corresponds to a mixed Hamiltonian formulation of linearized elasticity. Let ``\Omega \subseteq \mathbb{R}^2`` be a Lipschitz domain and ``\mathbb{T} = [0,T]`` for ``T \in (0,\infty)``.
 Consider the system of coupled partial differential equations
 ```math
 \begin{aligned}
@@ -112,27 +112,11 @@ H(s) = B'*((s*E-(J-R))\B)
 Here `H` is the transfer function.
 
 ```@docs
-elasticity2Dafw_model()
+Elasticity2DAFWConfig
 ```
 
 ## References
-
-```latex
-@article{Arnold2014,
-   author  = {D. Arnold and J. Lee},
-   issue   = {6},
-   journal = {SIAM Journal on Numerical Analysis},
-   pages   = {2743-2769},
-   title   = {Mixed Methods for Elastodynamics with Weak Symmetry},
-   volume  = {52},
-   url     = {https://epubs.siam.org/doi/10.1137/13095032X},
-   year    = {2014}
-   }
-
-@phdthesis{Brugnoli2020,
-  author = {A.~Brugnoli},
-  title  = {A port-{H}amiltonian formulation of flexible structures. Modelling and structure-preserving finite element discretization},
-  school = {Universit\'e de Toulouse, ISAE-SUPAERO, France},
-  year   = {2020}
-  }
+```@bibliography
+Pages = ["Elasticity2DAFW.md"]
+Canonical = false
 ```

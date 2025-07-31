@@ -2,6 +2,7 @@
 
 ## The model
 
+We follow [SMH19, SMH19a](@cite) for the derivation of the port-Hamiltonian formulation of the lossless wave equation with Neumann boundary control.
 Let us consider the vertical deflection from equilibrium $w$ of a 2D membrane $\Omega \subset \mathbb{R}^2$. Denoting $\rho$ the mass density and $T$ the Young modulus of the membrane, a positive definite tensor, leads to the following well-known *wave equation*
 
 ```math
@@ -41,7 +42,7 @@ e_q := \delta_{\alpha_q} \mathcal{H} = T \cdot \alpha_q,
 \qquad e_p := \delta_{\alpha_p} \mathcal{H} = \frac{\alpha_p}{\rho},
 ```
 
-*i.e.* the *stress* and the *velocity* respectively. These equality are the **constitutive relation** which close the system.
+*i.e.* the *stress* and the *velocity* respectively. These equalities are the **constitutive relation** which close the system.
 
 Thanks to these variables, the wave equation writes as a **port-Hamiltonian system**
 
@@ -140,8 +141,6 @@ The integration by parts of the second line makes $u_\partial = e_q \cdot \mathb
 \end{array}\right.
 ```
 
-
-
 ### Projection
 
 Let $(\phi_q^i)\_{1 \le i \le N_q}$, $(\varphi_p^j)\_{1 \le j \le N_p}$ and $(\psi^k)\_{1 \le k \le N_\partial}$ be finite element families for $q$-type, $p$-type and boundary-type variables. Variables are approximated in their respective finite element family
@@ -199,8 +198,6 @@ and
 (B)\_{jk} := \int_{\partial \Omega} \varphi_p^j \psi^k.
 ```
 
-
-
 ### Discrete Hamiltonian
 
 By definition, the discrete Hamiltonian is equal to the continuous Hamiltonian evaluated in the approximated variables. As we are working with the co-energy formulation, a first step is to restate the Hamiltonian in terms of co-energy variables
@@ -246,32 +243,7 @@ construct_system(::LosslessWaveModelConfig)
 ```
 
 ## References
-
-
-```
-@incollection{Serhani2019a,
-author = {Serhani, Anass and Matignon, Denis and Haine, Ghislain},
-booktitle = {Geometric Science of Information},
-editor = { {Nielsen, Frank} and {Barbaresco, Fr{\'e}d{\'e}ric} },
-pages = {549--558},
-publisher = {Springer},
-address ={Cham},
-series = {Lecture Notes in Computer Science},
-title = { {A Partitioned Finite Element Method for the Structure-Preserving Discretization of Damped Infinite-Dimensional Port-Hamiltonian Systems with Boundary Control} },
-volume = {11712},
-year = {2019}
-}
-```
-
-```
-@article{Serhani2019b,
-author={Serhani, Anass and Matignon, Denis and Haine, Ghislain},
-journal = {IFAC-PapersOnLine},
-title={ {Partitioned Finite Element Method for port-Hamiltonian systems with Boundary Damping: Anisotropic Heterogeneous 2-D wave equations} },
-volume = {52},
-number = {2},
-pages = {96--101},
-year = {2019},
-note = {3rd IFAC Workshop on Control of Systems Governed by Partial Differential Equations (CPDE)}
-}
+```@bibliography
+Pages = ["LosslessWave.md"]
+Canonical = false
 ```

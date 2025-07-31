@@ -2,7 +2,9 @@
 
 ## Description
 
-This example considers the temperature $T$ of a 2D domain $\Omega \subset \mathbb{R}^2$. Denoting $C_v$ the heat capacity (at constant volume), $\rho$ the mass density and $\lambda$ the heat conductivity, a positive definite tensor, leads to the following well-known *heat equation*
+This example considers the temperature $T$ of a 2D domain $\Omega \subset \mathbb{R}^2$. 
+We follow [SHM19](@cite) for the derivation of the port-Hamiltonian formulation and [SHM19a](@cite) for the subsequent structure-preserving discretization.  
+Denoting $C_v$ the heat capacity (at constant volume), $\rho$ the mass density and $\lambda$ the heat conductivity, a positive definite tensor, leads to the following well-known *heat equation*
 
 ```math
 \rho(x) C_v(x) \frac{\partial}{\partial t} T(t,x) - {\rm div} \left( \lambda(x) \cdot {\rm grad} \left( T(t,x) \right) \right) = 0, \quad t \ge 0, \, x \in \Omega,
@@ -36,7 +38,7 @@ e_u := \delta^\rho_{\alpha_u} \mathcal{H} = \frac{\alpha_u}{C_v} = T,
 
 *i.e.* the *temperature*. This equality is the first **constitutive relation**.
 
-Denoting $J\_Q$ the heat flux, the first principle of thermodynamics reads: $\frac{\partial}{\partial t} \rho u + {\rm div} \left( J\_Q \right) = 0$. Fourier's law gives the second constitutive relation: $J\_Q = - \lambda \cdot {\rm grad} \left( T \right)$. Then one can write
+Denoting $J_Q$ the heat flux, the first principle of thermodynamics reads: $\frac{\partial}{\partial t} \rho u + {\rm div} \left( J_Q \right) = 0$. Fourier's law gives the second constitutive relation: $J_Q = - \lambda \cdot {\rm grad} \left( T \right)$. Then one can write
 
 ```math
 \begin{bmatrix}
@@ -256,29 +258,7 @@ construct_system(::HeatModelConfig)
 ```
 
 ## References
-
-```
-@article{Serhani2019c,
-author={Serhani, Anass and Haine, Ghislain and Matignon, Denis},
-title={ {Anisotropic heterogeneous $n$-D heat equation with boundary control and observation: I. Modeling as port-Hamiltonian system} },
-journal = {IFAC-PapersOnLine},
-volume = {52},
-number = {7},
-pages = {51--56},
-year = {2019},
-note = {3rd IFAC Workshop on Thermodynamic Foundations for a Mathematical Systems (TFMST)}
-}
-```
-
-```
-@article{Serhani2019d,
-author={Serhani, Anass and Haine, Ghislain and Matignon, Denis},
-title={ {Anisotropic heterogeneous $n$-D heat equation with boundary control and observation: II. Structure-preserving discretization} },
-journal = {IFAC-PapersOnLine},
-volume = {52},
-number = {7},
-pages = {57--62},
-year = {2019},
-note = {3rd IFAC Workshop on Thermodynamic Foundations for a Mathematical Systems (TFMST)}
-}
+```@bibliography
+Pages = ["HeatModel.md"]
+Canonical = false
 ```

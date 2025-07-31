@@ -1,18 +1,30 @@
-using Documenter, PortHamiltonianBenchmarkSystems
+using PortHamiltonianBenchmarkSystems
+using Documenter, DocumenterCitations
 
-push!(LOAD_PATH, "../src/")
+DocMeta.setdocmeta!(PortHamiltonianBenchmarkSystems, :DocTestSetup, :(using PortHamiltonianBenchmarkSystems); recursive=true)
 
-makedocs(
-    sitename = "PortHamiltonianBenchmarkSystems",
-    pages = [
+bib = CitationBibliography(joinpath(@__DIR__, "..", "CITATION.bib"))
+
+makedocs(;
+    modules=[PortHamiltonianBenchmarkSystems],
+    sitename="PortHamiltonianBenchmarkSystems.jl",
+    format=Documenter.HTML(;
+        prettyurls=get(ENV, "CI", "false") == "true",
+        canonical="https://Algopaul.github.io/PortHamiltonianBenchmarkSystems.jl",
+        edit_link="main",
+        assets=String[],
+    ),
+    pages=[
         "Home" => "index.md",
         "Contribution" => "Contribution.md",
         "Benchmark Systems" =>
             ["SingleMSDChain.md", "PoroModel.md", "RclCircuits.md", "DampedWaveNet.md", "Elasticity2DAFW.md", "HeatModel.md", "LosslessWave.md"],
+        "References" => "References.md",
     ],
+    plugins=[bib],
 )
 
 deploydocs(
     repo = "github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl.git",
-    versions = nothing,
+    devbranch = "main"
 )

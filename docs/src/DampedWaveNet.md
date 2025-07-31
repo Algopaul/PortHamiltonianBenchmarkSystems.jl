@@ -1,7 +1,8 @@
 # Damped Wave Net
 
 ## Description
-This benchmark is a model for wave propagation in gas pipeline networks, as presented in ([EKLSMM2018](#References)). The network is modeled as directed, connected graph ``\mathcal{G}(\mathcal{V},\mathcal{E})``, with vertices ``v\in\mathcal{V}``, edges ``e\in\mathcal{E}`` and at least one boundary vertex ``v\in\mathcal{V}_b\subseteq\mathcal{V}``, connected to a single edge.
+This benchmark is a model for wave propagation in gas pipeline networks, as presented in [EKL+18](@cite). 
+The network is modeled as directed, connected graph ``\mathcal{G}(\mathcal{V},\mathcal{E})``, with vertices ``v\in\mathcal{V}``, edges ``e\in\mathcal{E}`` and at least one boundary vertex ``v\in\mathcal{V}_b\subseteq\mathcal{V}``, connected to a single edge.
 
 On each edge, the following 1D damped wave equation holds, with presssure ``p_e\ (\text{kg}\text{m}^{-1}\text{s}^{-2})``, mass flow ``m_e\ (\text{kg}\text{s}^{-1})`` and pipe constants ``a_e\ (\text{s}^2)``, ``b_e\ (\text{m}^{-2})``, ``d_e\ (\text{m}^{-2}\text{s}^{-1})``.
 ```math
@@ -103,7 +104,7 @@ It now becomes apparent that in matrix form, the linear operators in several pai
 - ``C_m``: mass conservation conditions for ``m``
 - ``U_m,\ Y_m``: matrices selecting ``m_u,\ m_y`` from ``m``
 
-Since ``p`` contains all the pressure variables, ``p_i`` and ``p_y`` are redundant in the solution vector. However, they are not explicitly tied to ``p`` in the system. It can be proven that the system has a unique solution and that this constrains ``p_i`` and ``p_y`` to be equal to their counterparts in ``p``, ensuring that the original variational problem is solved ([EKLSMM2018](#References)).
+Since ``p`` contains all the pressure variables, ``p_i`` and ``p_y`` are redundant in the solution vector. However, they are not explicitly tied to ``p`` in the system. It can be proven that the system has a unique solution and that this constrains ``p_i`` and ``p_y`` to be equal to their counterparts in ``p``, ensuring that the original variational problem is solved (cf. [EKL+18](@cite)).
 
 Finally, the system can be written in linear port-Hamiltonian form as follows:
 ```math
@@ -124,18 +125,9 @@ DampedWaveNetConfig(id::String)
 ```@docs
 construct_system(problem::DampedWaveNetConfig)
 ```
+
 ## References
-```LaTeX
-@article{EKLSMM2018,
-  author = {Egger, H. and Kugler, T. and Liljegren-Sailer, B. and Marheineke, N. and Mehrmann, V.},
-  title = {On Structure-Preserving Model Reduction for Damped Wave Propagation in Transport Networks},
-  journal = {SIAM Journal on Scientific Computing},
-  volume = {40},
-  number = {1},
-  pages = {A331-A365},
-  year = {2018},
-  doi = {10.1137/17M1125303},
-  URL = {https://doi.org/10.1137/17M1125303},
-  eprint = {https://doi.org/10.1137/17M1125303}
-}
+```@bibliography
+Pages = ["DampedWaveNet.md"]
+Canonical = false
 ```

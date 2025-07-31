@@ -1,8 +1,8 @@
 # Poroelastic Network Model
 
 ## Description
-This benchmark is the poroelastic network model presented in 
-[AMU2021](#References). The model is derived from Biot's consolidation model 
+This benchmark is the poroelastic network model presented in [AMU21](@cite). 
+The model is derived from Biot's consolidation model 
 for poroelastic elasticity. Let ``\Omega \subseteq \mathbb{R}^d`` be a Lipschitz 
 domain with ``d~\in~\{2,\,3\}`` and ``\mathbb{T} = [0,T]`` for ``T \in (0,\infty)``.
 Consider the system of coupled partial differential equations
@@ -207,17 +207,11 @@ Here `H` is the transfer function.
 
 ```@docs
 poro_elasticity_model
+PoroElasticityConfig
 ```
 
 ## References
-
-```latex
-@misc{AMU2021,
-      title={Port-{H}amiltonian formulations of poroelastic network models}, 
-      author={R. Altmann and V. Mehrmann and B. Unger},
-      year={2021},
-      eprint={2012.01949},
-      archivePrefix={arXiv},
-      primaryClass={math.DS}
-}
+```@bibliography
+Pages = ["PoroModel.md"]
+Canonical = false
 ```

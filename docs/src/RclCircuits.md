@@ -2,7 +2,7 @@
 
 ## Description
 
-This benchmark creates linear, time-invariant pH-DAE models for simple electric circuits consisting of ideal voltage sources, resistors, inductors and capacitors. The modelling of such circuits is descibed in [Freund2011](#References).
+This benchmark creates linear, time-invariant pH-DAE models for simple electric circuits consisting of ideal voltage sources, resistors, inductors and capacitors. The modelling of such circuits is descibed in [Fre11](@cite).
 
 ![Mass-spring-damper chain system](./assets/rcl_circuit.png)
 
@@ -60,17 +60,7 @@ setup_DAE2_RCL_LadderNetwork_sparse()
 ```
 
 ## References
-```LaTeX
-@InCollection{Freund2011,
-  author    = {Roland W. Freund},
-  title     = {The {SPRIM} Algorithm for Structure-Preserving Order Reduction of General {RCL} Circuits},
-  booktitle = {Model Reduction for Circuit Simulation},
-  series 	= {Lect. Notes Electr. Eng.},
-  year      = {2011},
-  publisher = {Springer, Dordrecht},
-  volume 	= {74},
-  chapter 	= {2},
-  editor 	= {P. Benner and M. Hinze and E.~J.~W. ter Maten},
-  pages 	= {25--52},
-}
+```@bibliography
+Pages = ["RclCircuits.md"]
+Canonical = false
 ```

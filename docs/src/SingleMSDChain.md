@@ -2,7 +2,7 @@
 
 ## Description
 
-This benchmark is a model for a mass-spring-damper chain. It is presented in [GPBS2012](#References).
+This benchmark is a model for a mass-spring-damper chain. It is presented in [GPBS12](@cite).
 
 ![Mass-spring-damper chain system](./assets/MSD_Chain.png)
 
@@ -102,14 +102,7 @@ generate_MSD_plant
 
 
 ## References
-```LaTeX
-@article{GPBS2012,
-	title = {Structure-preserving tangential interpolation for model reduction of port-{Hamiltonian} systems},
-	volume = {48},
-	number = {9},
-	journal = {Automatica J. IFAC},
-	author = {Gugercin, S. and Polyuga, R. V. and Beattie, C. and van der Schaft, A.},
-	year = {2012},
-	pages = {1963--1974},
-}
+```@bibliography
+Pages = ["SingleMSDChain.md"]
+Canonical = false
 ```
