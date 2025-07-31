@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Contribution · PortHamiltonianBenchmarkSystems.jl</title><meta name="title" content="Contribution · PortHamiltonianBenchmarkSystems.jl"/><meta property="og:title" content="Contribution · PortHamiltonianBenchmarkSystems.jl"/><meta property="twitter:title" content="Contribution · PortHamiltonianBenchmarkSystems.jl"/><meta name="description" content="Documentation for PortHamiltonianBenchmarkSystems.jl."/><meta property="og:description" content="Documentation for PortHamiltonianBenchmarkSystems.jl."/><meta property="twitter:description" content="Documentation for PortHamiltonianBenchmarkSystems.jl."/><meta property="og:url" content="https://Algopaul.github.io/PortHamiltonianBenchmarkSystems.jl/Contribution/"/><meta property="twitter:url" content="https://Algopaul.github.io/PortHamiltonianBenchmarkSystems.jl/Contribution/"/><link rel="canonical" href="https://Algopaul.github.io/PortHamiltonianBenchmarkSystems.jl/Contribution/"/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../"><img class="docs-light-only" src="../assets/logo.svg" alt="PortHamiltonianBenchmarkSystems.jl logo"/><img class="docs-dark-only" src="../assets/logo-dark.svg" alt="PortHamiltonianBenchmarkSystems.jl logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../">PortHamiltonianBenchmarkSystems.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li class="is-active"><a class="tocitem" href>Contribution</a><ul class="internal"><li><a class="tocitem" href="#Modus-Operandi"><span>Modus Operandi</span></a></li><li><a class="tocitem" href="#Code"><span>Code</span></a></li><li><a class="tocitem" href="#Tests"><span>Tests</span></a></li><li><a class="tocitem" href="#Documentation"><span>Documentation</span></a></li></ul></li><li><span class="tocitem">Benchmark Systems</span><ul><li><a class="tocitem" href="../SingleMSDChain/">Single MSD Chain</a></li><li><a class="tocitem" href="../PoroModel/">Poroelastic Network Model</a></li><li><a class="tocitem" href="../RclCircuits/">RCL Ladder Network</a></li><li><a class="tocitem" href="../DampedWaveNet/">Damped Wave Net</a></li><li><a class="tocitem" href="../Elasticity2DAFW/">Planar Elasticity (Work in Progress)</a></li><li><a class="tocitem" href="../HeatModel/">Heat equation with Neumann boundary control</a></li><li><a class="tocitem" href="../LosslessWave/">The lossless wave equation with Neumann boundary control</a></li></ul></li><li><a class="tocitem" href="../References/">References</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Contribution</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Contribution</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/blob/main/docs/src/Contribution.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Contribution"><a class="docs-heading-anchor" href="#Contribution">Contribution</a><a id="Contribution-1"></a><a class="docs-heading-anchor-permalink" href="#Contribution" title="Permalink"></a></h1><h2 id="Modus-Operandi"><a class="docs-heading-anchor" href="#Modus-Operandi">Modus Operandi</a><a id="Modus-Operandi-1"></a><a class="docs-heading-anchor-permalink" href="#Modus-Operandi" title="Permalink"></a></h2><p>This benchmark collection is driven by the active support of the port-Hamiltonian community. If your research has lead to port-Hamiltonian models that may be relevant for this collection, we would be happy to include them. If you wish to contribute to the project directly, please consult this page, fork our <a href="https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/">Git repository</a> and issue a pull request. Alternatively, feel free to contact us via <a href="mailto:schwerdt@math.tu-berlin.de">e-mail</a> to discuss our potential collaboration. We are happy to receive reference implementations in other languages and reimplement them in Julia for this package.</p><p>All entries in the collection consist of code for generating the system matrices, a comprehensive set of tests and a documentation page. Exact instructions for each of these parts are provided in the sections below. Some of the design choices may still be subject to change, but efforts are currently being made to settle on a final structure. Any subsequently required changes to community contributions will be handled by us.</p><h2 id="Code"><a class="docs-heading-anchor" href="#Code">Code</a><a id="Code-1"></a><a class="docs-heading-anchor-permalink" href="#Code" title="Permalink"></a></h2><p>This package consists of a single module, containing the following five elements:</p><ul><li><code>PHSystem</code>: parametric composite type for storing system matrices in standard port-Hamiltonian form,</li><li><code>&lt;System&gt;Config</code>: (parametric) composite type for storing parameter sets for some system,</li><li><code>&lt;System&gt;Config(id::String)</code>: external constructor returing default <code>&lt;System&gt;Config</code> instances, based on some <code>id</code>,</li><li><code>construct_system(config::&lt;System&gt;Config)</code>: method returning system matrices in &quot;natural&quot; form, based on some <code>&lt;System&gt;Config</code> instance,</li><li><code>PHSystem(config::&lt;System&gt;Config)</code>: external constructor returning <code>PHSystem</code> instances, based on some <code>&lt;System&gt;Config</code> instance.</li></ul><p>The last four elements are repeated for each benchmark system and are stored together in <code>/src/&lt;System&gt;.jl</code>, along with their respective docstrings in Markdown format. All <code>&lt;System&gt;.jl</code> files are included in <code>/src/PortHamiltonianBenchmarkSystems.jl</code>.</p><p>To contribute to the code, simply add a file based on the example below at <code>/src/&lt;System&gt;.jl</code> and add a corresponding <code>include</code> statement to <code>/src/PortHamiltonianBenchmarkSystems.jl</code>. Some best practices for more complex systems are also given below.</p><details><summary>Code Example</summary><p><pre><code class="language-julia hljs">export RandLinConfig
+
+&quot;&quot;&quot;
+Composite type describing a linear port-Hamiltonian system, where matrices ``J,\ R,\ G`` are random dense matrices of the correct structure (R positive semi-definite, J, G skew symmetric) with mean 0 and variance 1.
+# Arguments
+- n_x: number of state variables
+- n_p: number of input and output ports
+&quot;&quot;&quot;
+struct RandLinConfig
+    n_x::UInt64
+    n_p::UInt64
+end
+
+&quot;&quot;&quot;
+Method for constructing the system matries in &quot;natural&quot; form.
+# Arguments
+- `config`: `RandLinConfig` instance
+# Output
+- `system`: Named tuple containing the system matrices in &#39;natural&#39; form
+&quot;&quot;&quot;
+function construct_system(config::RandLinConfig)
+    M1 = rand(config.n_x, config.n_x)
+    M2 = rand(config.n_x, config.n_x)
+    M3 = rand(config.n_x, config.n_p)
+
+    J = (M1 - M1&#39;)/sqrt(2)
+    R = (M2 * M2&#39;)/sqrt(config.n_x)
+    G = (M3 - M3&#39;)/sqrt(2)
+
+    return (J = J, R = R, G = G)
+end
+
+function PHSystem(config::RandLinConfig)
+    J, R, G = construct_system(config)
+
+    E = sparse(1.0I,size(J)...)
+    Q = sparse(1.0I,size(J)...)
+    P = spzeros(size(G)...)
+    N = spzeros(config.n_p, config.n_p)
+    S = spzeros(size(N)...)
+
+    return PHSystem(E, J, R, Q, G, P, S, N)
+end</code></pre></details><p><details><summary>Best Practices</summary><p><p>While it may seem unnecessary in a simple case like this, it is important to include an internal constructor in <code>&lt;System&gt;Config</code>, to perform input validation:</p><pre><code class="language-julia hljs">struct RandLinConfig
+    n_x::UInt64
+    n_p::UInt64
+
+    RandLinConfig(n_x::UInt64, n_p::UInt64)
+        @assert n_x &gt; 0 &quot;Number of state variables must be larger than 0&quot;
+        @assert n_p &gt; 0 &quot;Number of ports must be larger than 0&quot;
+        return new(n_x, n_p)
+    end
+end</code></pre><p>Similarly, while it does not make much sense to save default configurations for this random system, in reality one should provide a few default parameter sets. Once some adequate parameter sets have been determined and implemented in the form shown below, we will store them as MAT-files on our <a href="https://zenodo.org/">Zenodo</a> and update the code to retrieve them as Julia <a href="https://docs.julialang.org/en/v1/stdlib/Artifacts/">artifacts</a> when needed.</p><pre><code class="language-julia hljs">&quot;&quot;&quot;
+Constructor for retrieving default `RandLinConfig` instances.
+# Arguments
+- `id`: identifier for default parameter set
+# Output
+- `system`: `RandLinConfig` instance
+&quot;&quot;&quot;
+function RandLinConfig(id::String)
+    Random.seed!(0)
+
+    if id == &quot;A&quot;
+        return RandLinConfig(5, 3)
+    elseif id == &quot;B&quot;
+        return RandLinConfig(6, 2)
+    elseif id == &quot;C&quot;
+        return RandLinConfig(7, 4)
+    else
+        error(&quot;Invalid id!&quot;)
+    end
+end</code></pre></details><h2 id="Tests"><a class="docs-heading-anchor" href="#Tests">Tests</a><a id="Tests-1"></a><a class="docs-heading-anchor-permalink" href="#Tests" title="Permalink"></a></h2><p>To guarantee that all merged code is in a working state, automatic test pipelines have been set up for this repository. The test are run through GitHub Actions, using the Julia <a href="https://docs.julialang.org/en/v1/stdlib/Test/">Test</a> module. </p><p>Every benchmark model has its own <code>/test/&lt;System&gt;Tests.jl</code> file, which is included in <code>/test/runtests.jl</code>. While the goal is to achieve near total code coverage, it is not necessary to &#39;test everything&#39;. We suggest to at least test the following for a variety of configurations:</p><ul><li>System matrix sizes,</li><li>System transfer functions,</li><li>Correspondence between &#39;natural&#39; and port-Hamiltonian system matrices.</li></ul><p>To contribute to the tests, add a file based on the example below at <code>/test/&lt;System&gt;Tests.jl</code> and add a corresponding <code>include</code> statement to <code>/test/runtests.jl</code>.</p><details><summary>Test Example</summary><p><pre><code class="language-julia hljs">@testset &quot;RandLin&quot; begin
+    ids = [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;]
+
+    for id in ids
+        config = RandLinConfig(id)
+        J, R, G = construct_system(config)
+        sys = PHSystem(config)
+
+        #System matrix sizes
+        @test size(J) == (n_x, n_x)
+        @test size(R) == (n_x, n_x)
+        @test size(G) == (n_x, n_p)
+
+        #Correspondence between &quot;natural&quot; and pH form
+        @test sys.E == sparse(1.0I,size(J)...)
+        @test (sys.S, sys.N) .== spzeros(config.n_p, config.n_p)
+        @test (sys.J - sys.R) * sys.Q == J - R
+        @test (sys.G - sys.P) == G
+        @test (sys.G + sys.P)&#39; == G&#39;
+    end
+end</code></pre></details><h2 id="Documentation"><a class="docs-heading-anchor" href="#Documentation">Documentation</a><a id="Documentation-1"></a><a class="docs-heading-anchor-permalink" href="#Documentation" title="Permalink"></a></h2><p>The documentation for this package is built using <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a>. The <code>/docs/make.jl</code> script uses the Markdown files in <code>/docs/src</code> and the images in <code>/docs/src/assets</code> to build a documentation webpage in <code>/docs/build</code>. Equations are rendered using <a href="https://katex.org/"><span>$\KaTeX$</span></a>, which is invoked in Markdown by the <code>math</code> environment. The webpage can be built and deployed locally by running the commands below in the Julia REPL:</p><pre><code class="language-julia hljs">using LiveServer
+include(&quot;/docs/make.jl&quot;)
+serve(dir=&quot;/docs/build&quot;)</code></pre><p>Each benchmark system is documented in a separate file, containing the following sections:</p><ul><li>Description: mathematical description of the model,</li><li>Derivation: detailed description of the conversion from mathematical model to port-Hamiltonian system,</li><li>Interface: section importing the docstrings from the corresponding <code>&lt;System&gt;.jl</code> file,</li><li>References: reference section in <a href="http://www.bibtex.org/">BibTeX</a> format.</li></ul><p>To contribute to the documentation, add a file based on the example below at <code>/docs/src/&lt;System&gt;.md</code> and add <code>&quot;&lt;System&gt;.md&quot;</code> to the <code>&quot;Benchmark Systems&quot;</code> list in <code>/docs/make.jl</code>. Please refer to the current &quot;Benchmark Systems&quot; pages for stylistic reference.</p><details><summary>Documentation Example</summary><p><pre><code class="language-markdown hljs"># Random Linear pH-System
+
+## Description
+This benchmark is a linear port-Hamiltonian system of the form:
+```math
+\begin{align*}
+    E\dot{x} &amp;= (J-R)Qx + (G-P)u,\\
+    y &amp;= (G+P)^HQx + (S+N)u,
+\end{align*}
+```
+where ``E,Q=I``, ``P,S,N=0`` and ``J,\ R,\ G`` are random dense matrices of the correct structure (R positive semi-definite, J, G skew symmetric) with mean 0 and variance 1 [Sabbadini2022](#References).
+
+## Derivation
+This system is in discrete, port-Hamiltonian form a priori.
+
+## Interface
+```@docs
+RandLinConfig
+```
+```@docs
+RandLinConfig(id::String)
+```
+```@docs
+construct_system(config::RandLinConfig)
+```
+
+## References
+```LaTeX
+@article{Sabbadini2022,
+  title = &quot;On random port-Hamiltonian Systems&quot;,
+  journal = &quot;We publish anything&quot;
+}
+```</code></pre></details></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../SingleMSDChain/">Single MSD Chain »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.14.1 on <span class="colophon-date" title="Thursday 31 July 2025 12:33">Thursday 31 July 2025</span>. Using Julia version 1.11.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
