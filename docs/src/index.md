@@ -11,12 +11,15 @@
 
 ## Installation and Usage
 
-To install PortHamiltonianBenchmarkSystems, run the following commands in the [Julia REPL](https://docs.julialang.org/en/v1/stdlib/REPL/):
+Install with the Julia package manager [Pkg](https://pkgdocs.julialang.org/):
 ```julia
-using Pkg
-Pkg.add(url="https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/")
+pkg> add PortHamiltonianBenchmarkSystems # Press ']' to enter the Pkg REPL mode.
 ```
-To generate one of the systems, e.g. a mass-spring-damper chain with the parameters from [Gugercin2012](https://doi.org/10.1016/j.automatica.2012.05.052), type:
+or in the [Julia REPL](https://docs.julialang.org/en/v1/stdlib/REPL/):
+```julia
+julia> using Pkg; Pkg.add("PortHamiltonianBenchmarkSystems")
+```
+To generate one of the systems, e.g. a mass-spring-damper chain with the parameters from [GPBS12](@cite), type:
 ```julia
 using PortHamiltonianBenchmarkSystems
 config = SingleMSDConfig("Gugercin")
