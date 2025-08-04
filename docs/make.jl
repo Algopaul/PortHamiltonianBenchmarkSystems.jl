@@ -18,7 +18,7 @@ makedocs(;
         "Home" => "index.md",
         "Contribution" => "Contribution.md",
         "Benchmark Systems" =>
-            ["SingleMSDChain.md", "PoroModel.md", "RclCircuits.md", "DampedWaveNet.md", "Elasticity2DAFW.md", "HeatModel.md", "LosslessWave.md"],
+            ["SingleMSDChain.md", "PoroModel.md", "RCLLadderODE.md", "RclCircuits.md", "DampedWaveNet.md", "Elasticity2DAFW.md", "HeatModel.md", "LosslessWave.md"],
         "References" => "References.md",
     ],
     plugins=[bib],

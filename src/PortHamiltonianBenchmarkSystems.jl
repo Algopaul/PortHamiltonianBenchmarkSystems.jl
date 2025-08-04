@@ -5,7 +5,6 @@ using SparseArrays
 
 abstract type BenchmarkConfig end
 
-
 struct PHSystem{TE,TJ,TR,TQ,TG,TP,TS,TN}
     E::TE
     J::TJ
@@ -46,6 +45,7 @@ include("./DampedWaveNet.jl")
 include("./Elasticity2DAFW.jl")
 include("./HeatModel.jl")
 include("./LosslessWaveModel.jl")
+include("./RCLLadderODE.jl")
 
 export PHSystem, construct_system
 end

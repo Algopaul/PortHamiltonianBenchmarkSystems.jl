@@ -1,10 +1,10 @@
-# RCL Ladder Network
+# RCL Ladder Network (DAE)
 
 ## Description
 
-This benchmark creates linear, time-invariant pH-DAE models for simple electric circuits consisting of ideal voltage sources, resistors, inductors and capacitors. The modelling of such circuits is descibed in [Fre11](@cite).
+This benchmark creates linear, time-invariant pH-DAE models for simple electric circuits consisting of ideal voltage sources, resistors, inductors and capacitors. The modelling of such circuits is described in [Fre11](@cite).
 
-![Mass-spring-damper chain system](./assets/rcl_circuit.png)
+![RCL circuit](./assets/rcl_circuit.png)
 
 Modeling of such electric circuits with directed graphs leads to systems of the following form:
 ```math
