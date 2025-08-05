@@ -1,7 +1,7 @@
 name = "PortHamiltonianBenchmarkSystems"
 uuid = "a30e1a9a-10b8-4bba-9e65-ab6e41f71348"
 authors = ["Algopaul <72927083+Algopaul@users.noreply.github.com> and contributors"]
-version = "0.1.0"
+version = "0.2.0"
 
 [deps]
 BlockArrays = "8e7c35d0-a365-5155-bbbb-fb81a777f24e"
