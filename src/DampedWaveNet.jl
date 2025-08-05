@@ -110,9 +110,9 @@ function construct_system(config::DampedWaveNetConfig)
     A = spzeros(n_x, n_x)
     B = spzeros(n_x, n_b)
 
-    Es = PseudoBlockArray(E, [n_p, n_m, n_im + n_bm], [n_p, n_m, n_im + n_bm])
-    As = PseudoBlockArray(A, [n_p, n_m, n_im, n_bm], [n_p, n_m, n_im, n_bm])
-    Bs = PseudoBlockArray(B, [n_p, n_m, n_im, n_bm], [n_bp, n_bm])
+    Es = BlockedArray(E, [n_p, n_m, n_im + n_bm], [n_p, n_m, n_im + n_bm])
+    As = BlockedArray(A, [n_p, n_m, n_im, n_bm], [n_p, n_m, n_im, n_bm])
+    Bs = BlockedArray(B, [n_p, n_m, n_im, n_bm], [n_bp, n_bm])
 
     E11 = view(Es, Block(1, 1))
     E22 = view(Es, Block(2, 2))
@@ -184,4 +184,3 @@ function PHSystem(config::DampedWaveNetConfig)
 
     return PHSystem(E, J, R, Q, G, P, S, N)
 end
-
