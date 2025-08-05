@@ -155,4 +155,4 @@ function generate_MSD_plant(n_cells)
     return (A, B, C, D, nz, nw)
 end
 
-export SingleMSDConfig, gugercin_pH_msd_chain, generate_MSD_plant
+export SingleMSDConfig, generate_MSD_plant

@@ -10,13 +10,21 @@ LazyArtifacts = "4af54fe1-eca0-43a8-85a7-787d91b784e3"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 MAT = "23992714-dd62-5051-b70f-ba57cb901cac"
 SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
-BlockArrays = "0.16"
+Aqua = "0.8"
+BlockArrays = "1"
 IterTools = "1"
+LazyArtifacts = "1"
+LinearAlgebra = "^1.6"
 MAT = "0.10"
-julia = "1.10"
+SparseArrays = "1"
+Test = "1"
+julia = "^1.6"
 
 [extras]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Aqua", "Test"]

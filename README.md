@@ -1,8 +1,10 @@
 # PortHamiltonianBenchmarkSystems.jl
 
-[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://algopaul.github.io/PortHamiltonianBenchmarkSystems.jl/dev)
-[![Coverage Status](http://codecov.io/github/Algopaul/PortHamiltonianBenchmarkSystems.jl/coverage.svg?branch=main)](http://codecov.io/github/Algopaul/PortHamiltonianBenchmarkSystems.jl?branch=main)
-![CI](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/actions/workflows/CI.yml/badge.svg)
+[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://algopaul.github.io/PortHamiltonianBenchmarkSystems.jl/stable/)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://algopaul.github.io/PortHamiltonianBenchmarkSystems.jl/dev/)
+[![Build Status](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/actions/workflows/CI.yml/badge.svg)](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/actions/workflows/CI.yml)
+[![codecov](http://codecov.io/github/Algopaul/PortHamiltonianBenchmarkSystems.jl/coverage.svg?branch=main)](http://codecov.io/github/Algopaul/PortHamiltonianBenchmarkSystems.jl?branch=main)
+[![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
 [PortHamiltonianBenchmarkSystems](https://github.com/Algopaul/PortHamiltonianBenchmarkSystems.jl/) is a collection of port-Hamiltonian systems, that can be used as benchmarks for simulation, control, and model-order reduction algorithms. We feature constructors for a wide range of linear, nonlinear, ODE, and DAE systems, as well as several default parameter sets for each. Detailed descriptions and derivations of the featured systems can be found in the [documentation](https://algopaul.github.io/PortHamiltonianBenchmarkSystems.jl/).
 
