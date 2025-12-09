@@ -82,7 +82,7 @@ H (generic function with 1 method)
 The parameters can be specified as follows
 ```jldoctest; output = false
 using LinearAlgebra, PortHamiltonianBenchmarkSystems
-config = SingleMSDConfig(n_cells=50, io_dim = 2, m = 1.0, k = 4.0, c = 4.0)
+config = SingleMSDConfig(n_cells=50, io_dim = 2, m = 4.0, k = 4.0, c = 1.0)
 J, R, Q, B = construct_system(config)
 H(s) = B'*Q*((s*I-(J-R)*Q)\B)
 
