@@ -176,7 +176,7 @@ B_g \end{bmatrix}.
 ## Parameters
 For this benchmark, the domain ``\Omega = [0,1]^2`` with ``d=2`` has been chosen 
 and the volume-distributed forces ``\widehat{f}`` and injection ``\widehat{g}`` are 
-spatially independent resulting in two inputs, i.\,e., ``B \in \R^{n \times m}`` 
+spatially independent resulting in two inputs, i.e., ``B \in \R^{n \times m}`` 
 with ``m = 2``. Moreover, different discretization levels are available,  
 resulting in systems with state-space dimensions ``n=320``, ``n = 980``, and ``n = 
 1805``. These discretizations have been obtained using the `python` 
