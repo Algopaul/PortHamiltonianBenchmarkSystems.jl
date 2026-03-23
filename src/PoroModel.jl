@@ -7,6 +7,7 @@ This struct configures port Hamiltonian poroelasticity systems described in
     Network Models
 # Arguments
 - `n`: System dimension (can only be either: 320, 980, or 1805). Default = 980.
+- `m`: Number of inputs/outputs (can only be 1 or 2). Default = 1.
 - `rho`: density. Default = `1e-3`.
 - `alpha`: Biot-Willis fluid-solid coupling coefficient. Default = 0.79.
 - `bm`: Biot-Modulus. Default = `1/7.8e3`.
@@ -15,6 +16,7 @@ This struct configures port Hamiltonian poroelasticity systems described in
 """
 struct PoroElasticityConfig <: BenchmarkConfig
     n::Int
+    m::Int
     rho::Float64
     alpha::Float64
     bm::Float64
@@ -22,6 +24,7 @@ struct PoroElasticityConfig <: BenchmarkConfig
     eta::Float64
     function PoroElasticityConfig(;
         n::Int = 980,
+        m::Int = 1,
         rho::Float64 = 1e-3,
         alpha::Float64 = 0.79,
         bm::Float64 = 1 / 7.80e3,
@@ -29,16 +32,17 @@ struct PoroElasticityConfig <: BenchmarkConfig
         eta::Float64 = 1e-4,
     ) where {}
         @assert n in [320, 980, 1805] "n must be one of 320, 980, or 1805"
+        @assert m in [1, 2] "m must be 1 or 2 for poroelasticity model"
         @assert rho > 0 "rho must be positive"
         @assert alpha > 0 "alpha must be positive"
         @assert bm > 0 "bm must be positive"
         @assert kappanu > 0 "kappanu must be positive"
-        return new(n, rho, alpha, bm, kappanu, eta)
+        return new(n, m, rho, alpha, bm, kappanu, eta)
     end
 end
 
 function construct_system(config::PoroElasticityConfig)
-    (; n, rho, alpha, bm, kappanu, eta) = config
+    (; n, m, rho, alpha, bm, kappanu, eta) = config
     Y, D, M, K, Bp, Bf, A = load_poro_raw_data(n = n)
     Y = rho * sparse(Y)
     D = alpha * sparse(D)
@@ -48,15 +52,24 @@ function construct_system(config::PoroElasticityConfig)
     Bp = Bp'
     Bf = Bf'
     n = size(A, 1)
-    m = size(M, 1)
-    E = [Y spzeros(n, n + m); spzeros(n, n) A spzeros(n, m); spzeros(m, n + n) M]
-    J = [spzeros(n, n) -A D'; A spzeros(n, n + m); -D spzeros(m, n + m)]
-    R = [spzeros(n, 2 * n + m); spzeros(n, 2 * n + m); spzeros(m, 2 * n) K] + eta * I
-    G = [zeros(n, 1); Bf; Bp]
+    
+    l = size(M, 1)
+    E = [Y spzeros(n, n + l); spzeros(n, n) A spzeros(n, l); spzeros(l, n + n) M]
+    J = [spzeros(n, n) -A D'; A spzeros(n, n + l); -D spzeros(l, n + l)]
+    R = [spzeros(n, 2 * n + l); spzeros(n, 2 * n + l); spzeros(l, 2 * n) K] + eta * I
+    
+    if m == 1
+        G = [zeros(n, 1); Bf; Bp]
+    elseif m == 2
+        G = [Bf zeros(n,1); zeros(n,2); zeros(l,1) Bp];
+    else
+        error("m must be 1 or 2 for poroelasticity model")
+    end
+
     return (E = E, J = J, R = R, G = G)
 end
 
-function load_poro_raw_data(; n = 980, force_download = false)
+function load_poro_raw_data(; n = 980)
     poro_data = artifact"ph-poromodelsbasedata"
     matfile = joinpath(poro_data, "PH-PoroModelsBaseData/poro-n$n.mat")
     dd = matread(matfile)
@@ -74,7 +87,7 @@ function PHSystem(config::PoroElasticityConfig)
 end
 
 """
-    poro_elasticity_model(; n = 980, rho = 1e-3, alpha = 0.79, M = 1/7.80e3, kappanu = 633.33, eta = 1e-4)
+    poro_elasticity_model(; n = 980, m = 1, rho = 1e-3, alpha = 0.79, bm = 1/7.80e3, kappanu = 633.33, eta = 1e-4)
 
 This function returns a port-Hamiltonian model of linear poroelasticity in a
 bounded Lipschitz domain as described in
@@ -82,6 +95,7 @@ bounded Lipschitz domain as described in
     Network Models
 # Arguments
 - `n`: System dimension (can only be either: 320, 980, or 1805). Default = 980.
+- `m`: Number of inputs/outputs (can only be 1 or 2). Default = 1.
 - `rho`: density. Default = `1e-3`.
 - `alpha`: Biot-Willis fluid-solid coupling coefficient. Default = 0.79.
 - `bm`: Biot-Modulus. Default = `1/7.8e3`.
@@ -92,13 +106,14 @@ bounded Lipschitz domain as described in
 """
 function poro_elasticity_model(;
     n = 980,
+    m = 1,
     rho = 1e-3,
     alpha = 0.79,
     bm = 1 / 7.80e3,
     kappanu = 633.33,
     eta = 1e-4,
 )
-    config = PoroElasticityConfig(n=n, rho=rho, alpha=alpha, bm=bm, kappanu=kappanu, eta=eta)
+    config = PoroElasticityConfig(n=n, m=m, rho=rho, alpha=alpha, bm=bm, kappanu=kappanu, eta=eta)
     return construct_system(config)
 end
 
